@@ -1,7 +1,6 @@
 import binascii
 import random
 import os.path
-<<<<<<< HEAD
 import hashlib
 import settings
 
