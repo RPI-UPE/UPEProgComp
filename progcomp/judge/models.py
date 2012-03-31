@@ -15,3 +15,4 @@ class Result(models.Model):
     submission  = models.OneToOneField(Submission)
     status      = models.CharField(max_length=16)
     created     = models.DateTimeField(auto_now_add=True)
+    diff        = models.FileField(upload_to='diffs/%Y-%m-%d',blank=True)
