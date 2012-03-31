@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+ 	    <p>By signing up for this contest you agree that UPE can include your name and username in a contest result released 
+to our competition sponsors.</p>           
+            <p>By uploading a resume you give UPE the rights to provide the resume to our competition sponsors.  You can chose not
+to upload a resume if you wish.</p>
+
+<form class="form-horizontal" action="{% url register %}" enctype="multipart/form-data" method="post"> {% csrf_token %}
+                <div class="row field-wrapper">
+                    <table class="table table-condensed span4">
+{% include "_form.html" %}
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td><input type="submit" value="Register" /></td>
+                        </tr>
+                    </table>
+                </div>
+            </form>
+{% endblock %}

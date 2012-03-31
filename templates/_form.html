@@ -1,0 +1,14 @@
+{% for field in form %}
+                        <tr>
+                            <td class="label">{{ field.label_tag }}</td>
+                            <td class="field">{{ field }}</td>
+                        </tr>
+                        {% if field.errors %}
+                        <tr>
+                            <td colspan="2" class="errors">{{ field.errors }}</td>
+                        </tr>
+                        {% endif %}
+{% endfor %}
+{% for error in form.non_field_errors %}
+<tr><td class="error" colspan="2">{{error|escape}}</td></tr>
+{% endfor %}

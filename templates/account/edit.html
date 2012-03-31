@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+            <form action="{% url editprofile %}" enctype="multipart/form-data" method="post"> {% csrf_token %}
+                <div class="field-wrapper">
+                    <table>
+{% include "_form.html" %}
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td><input type="submit" value="Save Changes" /></td>
+                        </tr>
+                    </table>
+                </div>
+            </form>
+{% endblock %}

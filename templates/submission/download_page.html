@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+            <p>Please pick the problem number that you wish to attempt to solve.</p>
+            <ol>
+                {% for problem in problems %}
+                    <li><a href="{% url submit %}?problem_id={{problem.id}}">{{problem.name}}</a></li>
+                {% endfor %}
+            </ol>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Contest Home</h2>
+
+<p>This is your contest homepage.  From here you can see the status of all
+submissions you have made.  Additionally, you can upload a new copy of your
+resume, and submit solutions to the contest</p>
+
+<h3>Your Profile</h3>
+<p>Your stated graduation date is {{ user.profile.grad|date:"F, Y" }}.
+
+<!--{% if user.profile.resume %}The resume you uploaded is
+<a href="{{ user.profile.resume.url }}">here</a>.{% else %}You have not uploaded
+a resume.{% endif %}</p>
+-->
+
+<p>You can edit your profile <a href="{% url editprofile %}">here</a>.</p>
+
+<h3>Submit Solutions</h3>
+<p>Go to <a href="{% url download %}">the submission page</a> to submit solutions
+to the contest.</p>
+
+<h3>Submitted Solutions</h3>
+
+{% if submissions %}
+    <table>
+        <tr>
+            <th>Time Submitted</th>
+            <th>Problem Title</th>
+            <th>Status</th>
+        </tr>
+    {% for submission in submissions %}
+        <tr>
+            <td>{{ submission.submitted|date:"Y-m-d H:i" }}</td>
+            <td>{{ submission.attempt.problem|escape }}</td>
+            {% if submission.result.status %}
+                <td>{{ submission.result.status|escape }}</td>
+            {% else %}
+                <td>Not Graded</td>
+            {% endif %}
+        </tr>
+    {% endfor %}
+    </table>
+{% else %}
+    <p>You have submitted nothing yet</p>
+{% endif %}
+{% endblock %}

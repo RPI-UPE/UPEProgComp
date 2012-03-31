@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+            <form action="{% url login %}" method="post"> {% csrf_token %}
+                <div class="field-wrapper">
+                    <table>
+{% include "_form.html" %}
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td><input type="submit" value="Login" /></td>
+                        </tr>
+                    </table>
+                    <input type="hidden" name="next" value="{{next}}" />
+                </div>
+            </form>
+{% endblock %}

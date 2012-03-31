@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <p>Upload the output from running your program on the following code.</p>
+    <pre>{{ test_data }}</pre>
+    <form action="{% url submit %}" enctype="multipart/form-data" method="post">
+        <div class="field-wrapper">
+            <table>
+                {% include "_form.html" %}
+                <tr>
+                    <td>&nbsp;</td>
+                    <td><input type="submit" value="Submit" /></td>
+                </tr>
+            </table>
+        </div>
+    </form>
+    <p>The end time is {{end}}.</p>
+    
+{% endblock %}
