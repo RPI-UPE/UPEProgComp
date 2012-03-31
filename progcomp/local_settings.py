@@ -41,10 +41,10 @@ MEDIA_ROOT = '../media/'
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
 
-MEDIA_URL = 'http://127.0.0.1:8000/media/'
+MEDIA_URL = 'http://127.0.0.1:8000/media'
 
 STATIC_ROOT = '../static/'
-STATIC_URL = '/css_static/'
+STATIC_URL = '/css_static'
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
