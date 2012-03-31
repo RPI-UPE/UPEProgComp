@@ -6,6 +6,7 @@ import settings
 
 from settings import GRADE_DIR
 from settings import MEDIA_ROOT
+from settings import USERS_ROOT
 
 
 key = int('a',16);
