@@ -40,7 +40,7 @@ def create_compiled_output(problem_name, selected):
 
 
 def user_grade_dir_name(username):
-    return hashlib.md5(username).hex_digest()[0:5] + username
+    return hashlib.md5(username).hexdigest()[0:5] + username
 
 if __name__ == '__main__':
     print(decode(encode('hello world')))
