@@ -25,7 +25,10 @@ def create_test_input(problem_name='test',username='test',number_in_problem=100)
     if(os.path.exists(GRADE_DIR+problem_name)):
         selected_number = chose(number_in_problem)
         grade_dir_name = user_grade_dir_name(username)
-        os.symlink(GRADE_DIR+problem_name+'/%d'%selected_number+'_in.txt',MEDIA_ROOT+grade_dir_name+'/'+problem_name+'.txt')
+        target_symlink = USERS_ROOT+'/'+grade_dir_name+'/'+problem_name+'.txt'
+        if (os.path.lexists(target_symlink)):
+            os.unlink(target_symlink)
+        os.symlink(GRADE_DIR+problem_name+'/%d'%selected_number+'_in.txt', target_symlink)
         
         problem_html = '/media/'+grade_dir_name+'/'+problem_name+'.txt'
         return (selected_number,problem_html)

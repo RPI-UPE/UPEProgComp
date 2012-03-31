@@ -64,14 +64,16 @@ def submit(request, template='submission/submission_form.html'):
         newAttempt = Attempt()
         newAttempt.person = request.user.profile
         newAttempt.problem = Problem.objects.get(pk = problem_id)
-        result = create_test_input(newAttempt.problem.slug,newAttempt.problem.number_in_problem,newAttempt.problem.number_test)
+        # create_test_input() returns tuple (problem_number, url)
+        result = create_test_input(newAttempt.problem.slug, request.user.username, newAttempt.problem.number_in_problem)
         newAttempt.inputCases = result[0]
         newAttempt.startTime = datetime.datetime.now()
         newAttempt.save()
+        input_path = result[1]
 
         form = SubmissionForm()
 
-    return render_to_response(template, {'form': form, 'test_data' : result[1]},
+    return render_to_response(template, {'form': form, 'input_path': input_path},
             context_instance=RequestContext(request))
 
 @is_registered

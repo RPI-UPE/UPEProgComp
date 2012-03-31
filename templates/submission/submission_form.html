@@ -3,7 +3,7 @@
 {% block content %}
 
     <p>Upload the output from running your program on the following code.</p>
-    <pre>{{ test_data }}</pre>
+    <a href="{{ input_path }}">Download Input File</a>
     <form action="{% url submit %}" enctype="multipart/form-data" method="post">
         <div class="field-wrapper">
             <table>
