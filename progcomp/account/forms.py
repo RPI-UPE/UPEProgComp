@@ -48,7 +48,7 @@ class RegistrationForm(UserCreationForm):
             profile.resume = path[len(settings.MEDIA_ROOT):]
         profile.save()
 
-        dir_name = settings.GRADE_DIR + user_grade_dir_name(user.username)
+        dir_name = settings.USERS_ROOT + user_grade_dir_name(user.username)
         if not os.path.isdir(dir_name):
             os.mkdir(dir_name)
 
