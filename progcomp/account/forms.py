@@ -50,7 +50,7 @@ class RegistrationForm(UserCreationForm):
 
         dir_name = settings.GRADE_DIR + user_grade_dir_name(user.username)
         if not os.path.isdir(dir_name):
-            os.mkdir()
+            os.mkdir(dir_name)
 
         return user
 
