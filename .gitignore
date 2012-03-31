@@ -1,3 +1,4 @@
 *.pyc
+*.db
 media/output_file/*
 media/sources/*
