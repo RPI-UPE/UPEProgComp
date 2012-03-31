@@ -1,3 +1,4 @@
+
 # Django settings for progcomp project.
 
 DEBUG = True
@@ -125,4 +126,6 @@ GRAD_DATES = [
 
 DEFAULT_FROM_EMAIL = 'no-reply@progcomp.upe.cs.rpi.edu'
 
-#from local_settings import *
+import os
+if os.path.isfile('local_settings.py'):
+  from local_settings import *
