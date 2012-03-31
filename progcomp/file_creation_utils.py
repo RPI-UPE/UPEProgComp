@@ -1,11 +1,13 @@
 import binascii
 import random
 import os.path
+import hashlib
+import settings
+
+from settings import GRADE_DIR
 
 
 key = int('a',16);
-
-GRADE_DIR = '/home/progcomp/progcomp/grader/'
 
 
 def encode(message,k=key):
@@ -54,6 +56,9 @@ def create_compiled_output(problem_name, problem_set):
     else:
         raise Error('Invalid Problem Name')
 
+
+def user_grade_dir_name(username):
+    return hashlib.md5(username).hex_digest()[0:5] + username
 
 if __name__ == '__main__':
     print(decode(encode('hello world')))

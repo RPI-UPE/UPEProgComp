@@ -124,6 +124,8 @@ GRAD_DATES = [
         datetime.datetime(2017, 12, 1)
 ]
 
+GRADE_DIR = '/home/progcomp/progcomp/grader/'
+
 DEFAULT_FROM_EMAIL = 'no-reply@progcomp.upe.cs.rpi.edu'
 
 import os

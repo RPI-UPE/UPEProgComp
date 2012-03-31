@@ -6,6 +6,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.conf import settings
 
+from file_creation_utils import user_grade_dir_name
+
 from progcomp.account.models import Profile
 from progcomp.utils import handle_upload_file
 
@@ -45,6 +47,11 @@ class RegistrationForm(UserCreationForm):
             path = handle_upload_file(resume, user.username, profile.first_name, profile.last_name, udir)
             profile.resume = path[len(settings.MEDIA_ROOT):]
         profile.save()
+
+        dir_name = settings.GRADE_DIR + user_grade_dir_name(user.username)
+        if not os.path.isdir(dir_name):
+            os.mkdir()
+
         return user
 
     def clean_grad(self):
