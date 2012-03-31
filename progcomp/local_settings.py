@@ -36,6 +36,7 @@ SITE_ID = 1
 USE_I18N = True
 
 MEDIA_ROOT = '../media/'
+USERS_ROOT = MEDIA_ROOT+'users/'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
