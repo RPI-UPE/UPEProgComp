@@ -8,7 +8,7 @@ class Attempt(models.Model):
     person = models.ForeignKey(Profile)
     problem = models.ForeignKey(Problem)
     startTime = models.DateTimeField(auto_now_add=True)
-    inputCases = models.CharField(max_length = 300)
+    inputCases = models.IntegerField()
 
     def __str__(self):
         return "%s %s %s"%(str(self.person),str(self.problem),str(self.startTime))
