@@ -11,7 +11,7 @@ class GradingAdmin(admin.ModelAdmin):
 
 class ResultAdmin(admin.ModelAdmin):
 
-    list_display = ('created', 'submission', 'status')
+    list_display = ('created', 'submission', 'status', 'diff')
 
 
 admin.site.register(Grading, GradingAdmin)
