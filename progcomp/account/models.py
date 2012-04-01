@@ -9,7 +9,7 @@ class Profile(models.Model):
     first_name = models.CharField(max_length = 20)
     last_name = models.CharField(max_length = 20)
     grad   = models.DateField()
-    resume = models.FileField(upload_to='resumes/%Y-%m-%d', blank=True)
+    resume = models.FileField(upload_to='resumes', blank=True)
 
     def __str__(self):
         return str(self.user)

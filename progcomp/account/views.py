@@ -53,7 +53,6 @@ def index(request, template='account/index.html'):
 
 @is_registered
 def edit_profile(request, template='account/edit.html'):
-    context = {}
     if request.method == 'POST':
         form = ProfileForm(request.POST, request.FILES)
         if form.is_valid():
@@ -68,11 +67,6 @@ def edit_profile(request, template='account/edit.html'):
             return HttpResponseRedirect(reverse('profile'))
     else:
         form = ProfileForm(instance=request.user)
-        # Get resume info
-        context['has_resume'] = str(request.user.profile.resume) != ""
-        context['resume_filename'] = str(request.user.profile.resume).replace("resumes/", "")
-        context['resume_url'] = os.path.join("/", settings.MEDIA_ROOT, str(request.user.profile.resume))
 
-    context['form'] = form
-    return render_to_response(template, context,
+    return render_to_response(template, {'form': form},
             context_instance=RequestContext(request))

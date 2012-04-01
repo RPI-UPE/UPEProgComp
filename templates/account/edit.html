@@ -5,15 +5,15 @@
                 <div class="field-wrapper">
                     <table>
 {% include "_form.html" %}
-{% if has_resume %}
+{% if user.profile.resume %}
                         <tr>
                             <td>&nbsp;</td>
-                            <td>Your current resume: <a href="{{ resume_url }}">{{ resume_filename }}</a></td>
+                            <td>The resume you uploaded is <a href="{{ user.profile.resume.url }}">here</a>.</td>
                         </tr>
 {% else %}
                         <tr>
                             <td>&nbsp;</td>
-                            <td>You have not submitted a resume yet.</td>
+                            <td>You have not uploaded a resume.</td>
                         </tr>
 {% endif %}
                         <tr>
