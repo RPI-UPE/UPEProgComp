@@ -7,6 +7,7 @@ import settings
 from settings import GRADE_DIR
 from settings import MEDIA_ROOT
 from settings import USERS_ROOT
+from settings import USERS_URL
 
 
 key = int('a',16);
@@ -26,12 +27,12 @@ def create_test_input(problem_name='test',username='test',number_in_problem=100)
     if(os.path.exists(GRADE_DIR+problem_name)):
         selected_number = chose(number_in_problem)
         grade_dir_name = user_grade_dir_name(username)
-        target_symlink = USERS_ROOT+grade_dir_name+'/'+problem_name+'.txt'
+        target_symlink = USERS_ROOT+grade_dir_name+'/'+problem_name+'.in'
         if (os.path.lexists(target_symlink)):
             os.unlink(target_symlink)
         os.link(GRADE_DIR+problem_name+'/%d'%selected_number+'_in.txt', target_symlink)
         
-        problem_html = USERS_ROOT+grade_dir_name+'/'+problem_name+'.txt'
+        problem_html = USERS_URL+grade_dir_name+'/'+problem_name+'.in'
         return (selected_number,problem_html)
     else:
         raise Exception('Invalid Problem Name')
