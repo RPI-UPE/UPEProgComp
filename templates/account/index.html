@@ -23,6 +23,7 @@ to the contest.</p>
 <h3>Submitted Solutions</h3>
 
 {% if submissions %}
+{% load prettytimes_tags %}
     <table>
         <tr>
             <th>Time Submitted</th>
@@ -31,7 +32,7 @@ to the contest.</p>
         </tr>
     {% for submission in submissions %}
         <tr>
-            <td>{{ submission.submitted|date:"Y-m-d H:i" }}</td>
+            <td>{{ submission.submitted|relative_time }}</td>
             <td>{{ submission.attempt.problem|escape }}</td>
             {% if submission.result.status %}
                 <td>
