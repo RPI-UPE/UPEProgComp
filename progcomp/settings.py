@@ -43,7 +43,7 @@ USERS_ROOT = MEDIA_ROOT+'users/'
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
 
 MEDIA_URL = 'http://stonelinks.org/media/'
-
+USERS_URL = MEDIA_URL+'users'
 STATIC_URL = 'http://stonelinks.org/static/'
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
