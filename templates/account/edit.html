@@ -5,6 +5,17 @@
                 <div class="field-wrapper">
                     <table>
 {% include "_form.html" %}
+{% if has_resume %}
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>Your current resume: <a href="{{ resume_url }}">{{ resume_filename }}</a></td>
+                        </tr>
+{% else %}
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>You have not submitted a resume yet.</td>
+                        </tr>
+{% endif %}
                         <tr>
                             <td>&nbsp;</td>
                             <td><input type="submit" value="Save Changes" /></td>

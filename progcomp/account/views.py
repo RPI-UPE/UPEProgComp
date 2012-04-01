@@ -53,6 +53,7 @@ def index(request, template='account/index.html'):
 
 @is_registered
 def edit_profile(request, template='account/edit.html'):
+    context = {}
     if request.method == 'POST':
         form = ProfileForm(request.POST, request.FILES)
         if form.is_valid():
@@ -61,11 +62,17 @@ def edit_profile(request, template='account/edit.html'):
             if resume is not None:
                 udir = os.path.join(settings.MEDIA_ROOT, 'resumes/')
                 path = handle_upload_file(resume, request.user.username, request.user.profile.first_name,
-						request.user.profile.last_name, udir)
+                        request.user.profile.last_name, udir)
                 request.user.profile.resume = path[len(settings.MEDIA_ROOT):]
             request.user.profile.save()
             return HttpResponseRedirect(reverse('profile'))
     else:
         form = ProfileForm(instance=request.user)
-    return render_to_response(template, {'form': form},
+        # Get resume info
+        context['has_resume'] = str(request.user.profile.resume) != ""
+        context['resume_filename'] = str(request.user.profile.resume).replace("resumes/", "")
+        context['resume_url'] = os.path.join("/", settings.MEDIA_ROOT, str(request.user.profile.resume))
+
+    context['form'] = form
+    return render_to_response(template, context,
             context_instance=RequestContext(request))
