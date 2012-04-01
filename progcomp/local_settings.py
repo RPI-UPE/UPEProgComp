@@ -24,7 +24,7 @@ USERS_ROOT = MEDIA_ROOT+'users/'
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
 
-MEDIA_URL = 'http://127.0.0.1:8000/media'
+MEDIA_URL = 'http://127.0.0.1:8000/media/'
 USERS_URL = 'http://127.0.0.1:8000/media/users/'
 
 STATIC_ROOT = '../static/'
