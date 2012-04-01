@@ -10,7 +10,6 @@ urlpatterns = patterns('',
     url(r'^$', 'progcomp.views.index', name='home'),
     (r'^account/', include('account.urls')),
     (r'^submit/', include('progcomp.submission.urls')),
-    (r'^judge/', include('progcomp.judge.urls')),
     (r'^scoreboard/', include('progcomp.scoreboard.urls')),
 
     # Uncomment the admin/doc line below and add 'django.contrib.admindocs' 
