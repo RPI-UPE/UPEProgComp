@@ -23,7 +23,7 @@ present.
     $ cd progcomp
     $ python manage.py runserver
 
-The server can be accessed at <http://127.0.0.1/>.
+The server can be accessed at <http://127.0.0.1:8000/>.
 
 Administration
 --------------
