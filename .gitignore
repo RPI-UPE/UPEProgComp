@@ -2,3 +2,5 @@
 *.db
 media/*
 grader/*
+*~
+*.swp
