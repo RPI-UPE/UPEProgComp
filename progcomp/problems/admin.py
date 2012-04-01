@@ -6,7 +6,7 @@ from progcomp.problems.forms import ProblemForm
 
 class ProblemAdmin(admin.ModelAdmin):
 
-    list_display = ('slug', 'name','number_in_problem','number_test')
+    list_display = ('slug', 'name','number_in_problem')
     form = ProblemForm
 
 
