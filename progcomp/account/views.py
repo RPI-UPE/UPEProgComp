@@ -60,7 +60,8 @@ def edit_profile(request, template='account/edit.html'):
             resume = form.cleaned_data['resume']
             if resume is not None:
                 udir = os.path.join(settings.MEDIA_ROOT, 'resumes/')
-                path = handle_upload_file(resume, udir)
+                path = handle_upload_file(resume, request.user.username, request.user.profile.first_name,
+						request.user.profile.last_name, udir)
                 request.user.profile.resume = path[len(settings.MEDIA_ROOT):]
             request.user.profile.save()
             return HttpResponseRedirect(reverse('profile'))
