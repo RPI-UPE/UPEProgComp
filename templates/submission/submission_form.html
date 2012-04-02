@@ -6,14 +6,14 @@
     <p>Upload the output from running your program on the input found below. You have
     {{ max_time_display }} to complete the upload before you must try again.</p>
     <div id="timer" data-time-dur="{{ max_time }}"></div>
-    <a href="{{ input_path }}">Download Input File</a>
+    <p><a class="btn" href="{{ input_path }}">Download Input File</a></p>
     <form action="{% url submit %}" enctype="multipart/form-data" method="post">
         <div class="field-wrapper">
             <table>
                 {% include "_form.html" %}
                 <tr>
                     <td>&nbsp;</td>
-                    <td><input type="submit" value="Submit" /></td>
+                    <td><input class="btn btn-primary" type="submit" value="Submit" /></td>
                 </tr>
             </table>
         </div>

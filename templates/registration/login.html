@@ -7,7 +7,10 @@
 {% include "_form.html" %}
                         <tr>
                             <td>&nbsp;</td>
-                            <td><input type="submit" value="Login" /></td>
+                            <td>
+                                <input class="btn btn-primary" type="submit" value="Login" />
+                                <a class="btn" href="{% url pw_reset %}">Reset Password</a>
+                            </td>
                         </tr>
                     </table>
                     <input type="hidden" name="next" value="{{next}}" />

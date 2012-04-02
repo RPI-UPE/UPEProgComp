@@ -1,26 +1,30 @@
 {% load prettytimes_tags %}
-<table>
-    <tr>
-        <th>Time Submitted</th>
-        <th>Problem Title</th>
-        <th>Status</th>
-    </tr>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Time Submitted</th>
+            <th>Problem Title</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
     {% for submission in submissions %}
-    <tr>
-        <td>{{ submission.submitted|relative_time }}</td>
-        <td>{{ submission.attempt.problem|escape }}</td>
-        {% if submission.result.status %}
-            <td>
-            {% if submission.result.status == 'failed' %}
-            <a href = {{submission.result.diff.url}}>
-            {{ submission.result.status|escape }}</a>
+        <tr>
+            <td>{{ submission.submitted|relative_time }}</td>
+            <td>{{ submission.attempt.problem|escape }}</td>
+            {% if submission.result.status %}
+                <td>
+                {% if submission.result.status == 'failed' %}
+                <a href = {{submission.result.diff.url}}>
+                {{ submission.result.status|escape }}</a>
+                {% else %}
+                {{ submission.result.status|escape }}
+                {% endif %}
+                </td>
             {% else %}
-            {{ submission.result.status|escape }}
+                <td>Not Graded</td>
             {% endif %}
-            </td>
-        {% else %}
-            <td>Not Graded</td>
-        {% endif %}
-    </tr>
+        </tr>
     {% endfor %}
+    </tbody>
 </table>

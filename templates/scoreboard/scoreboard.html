@@ -3,19 +3,23 @@
 {% block content %}
 <h2>Scoreboard</h2>
 {% if scoreboard %}
-<table>
-    <tr>
-        <th>User</th>
-        <th>Number of Submissions</th>
-        <th>Longest Submission</th>
-    </tr>
-{% for user, num, dt in scoreboard %}
-    <tr>
-        <td>{{ user.username|escape }}</td>
-        <td>{{ num|escape }}</td>
-        <td>{{ dt }}</td>
-    </tr>
-{% endfor %}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>User</th>
+            <th>Number of Submissions</th>
+            <th>Longest Submission</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for user, num, dt in scoreboard %}
+        <tr>
+            <td>{{ user.username|escape }}</td>
+            <td>{{ num|escape }}</td>
+            <td>{{ dt }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
 </table>
 {% else %}
 <p>No submissions qualify.</p>
