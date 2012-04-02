@@ -39,8 +39,7 @@ class Command(BaseCommand):
                 calculated_result.submission = current_submission
 			    
                 if(expected_output != output):
-                    #### I DON'T KNOW IF THIS WORKS
-                    myfile = ContentFile(diff.make_table(expected_output,output,'expected','given',True,3))
+                    myfile = ContentFile(diff.make_file(expected_output,output,'expected','given',True,3))
                     
                     calculated_result.diff.save(attempt.problem.slug+'_%d'%attempt.inputCases+'.html',myfile)
                     calculated_result.status = 'failed'
