@@ -1,25 +1,23 @@
 {% extends "base.html" %}
 
 {% block content %}
-{% for scoreboard in scoreboards %}
-    <h2>{{ scoreboard|escape }}</h2>
-    {% if scoreboard.users %}
-    <table>
-        <tr>
-            <th>User</th>
-            <th>Number of Submissions</th>
-            <th>Last Submission</th>
-        </tr>
-    {% for user, num, dt in scoreboard.users %}
-        <tr>
-            <td>{{ user.username|escape}} <!--{{user.first_name}} {{user.last_name}}--></td>
-            <td>{{ num|escape }}</td>
-            <td>{{ dt|date:"H:i" }}</td>
-        </tr>
-    {% endfor %}
-    </table>
-    {% else %}
-    <p>No submissions qualify.</p>
-    {% endif %}
+<h2>Scoreboard</h2>
+{% if scoreboard %}
+<table>
+    <tr>
+        <th>User</th>
+        <th>Number of Submissions</th>
+        <th>Longest Submission</th>
+    </tr>
+{% for user, num, dt in scoreboard %}
+    <tr>
+        <td>{{ user.username|escape }}</td>
+        <td>{{ num|escape }}</td>
+        <td>{{ dt }}</td>
+    </tr>
 {% endfor %}
+</table>
+{% else %}
+<p>No submissions qualify.</p>
+{% endif %}
 {% endblock %}
