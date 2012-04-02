@@ -25,6 +25,15 @@ present.
 
 The server can be accessed at <http://127.0.0.1:8000/>.
 
+Running the Grader
+------------------
+Submissions are not graded by the application. The grader daemon can be started
+in the same way the server is and runs in the background alongside it
+occasionally querying the database to check for new submissions.
+
+    $ cd progcomp
+    $ python manage.py grade_submissions
+
 Administration
 --------------
 Point your browser to <http://127.0.0.1:8000/admin/>
