@@ -14,7 +14,6 @@ class Attempt(models.Model):
         return "%s %s %s"%(str(self.person),str(self.problem),str(self.startTime))
         
 class Submission(models.Model):
-
     registrant = models.ForeignKey(Profile)
     attempt = models.ForeignKey(Attempt)
     submitted  = models.DateTimeField(auto_now_add=True)
@@ -24,3 +23,8 @@ class Submission(models.Model):
     def __str__(self):
         return '%s:%s' % (str(self.registrant), str(self.attempt.problem))
 
+    @staticmethod
+    def user_summary(profile):
+        return Submission.objects.all() \
+                    .filter(registrant=profile) \
+                    .order_by('submitted').reverse()

@@ -23,32 +23,7 @@ to the contest.</p>
 <h3>Submitted Solutions</h3>
 
 {% if submissions %}
-{% load prettytimes_tags %}
-    <table>
-        <tr>
-            <th>Time Submitted</th>
-            <th>Problem Title</th>
-            <th>Status</th>
-        </tr>
-    {% for submission in submissions %}
-        <tr>
-            <td>{{ submission.submitted|relative_time }}</td>
-            <td>{{ submission.attempt.problem|escape }}</td>
-            {% if submission.result.status %}
-                <td>
-                {% if submission.result.status == 'failed' %}
-                <a href = {{submission.result.diff.url}}>
-                {{ submission.result.status|escape }}</a>
-                {% else %}
-                {{ submission.result.status|escape }}
-                {% endif %}
-                </td>
-            {% else %}
-                <td>Not Graded</td>
-            {% endif %}
-        </tr>
-    {% endfor %}
-    </table>
+    {% include "_submitted.html" %}
 {% else %}
     <p>You have submitted nothing yet</p>
 {% endif %}

@@ -42,10 +42,7 @@ def failure(request, template='account/failure.html'):
 @is_registered
 def index(request, template='account/index.html'):
     context = {}
-    s = Submission.objects.all()
-    s = s.filter(registrant=request.user.profile)
-    s = s.order_by('submitted').reverse()
-    context['submissions'] = s
+    context['submissions'] = Submission.user_summary(request.user.profile)
     context['is_started'] = settings.START < datetime.datetime.now()
     return render_to_response(template, context,
             context_instance=RequestContext(request))

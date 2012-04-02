@@ -24,8 +24,11 @@ from django.conf import settings
 @during_competition
 def download(request, template = 'submission/download_page.html'):
     if request.method == 'GET':
-        problems = Problem.objects.values('id', 'name')
-        return render_to_response( template, {'problems' : problems}, context_instance=RequestContext(request))
+        context = {}
+        context['submissions'] = Submission.user_summary(request.user.profile)
+        context['problems'] = Problem.objects.values('id', 'name')
+        return render_to_response( template, context,
+                context_instance=RequestContext(request))
 
     else:
         # This shouldn't happen.
