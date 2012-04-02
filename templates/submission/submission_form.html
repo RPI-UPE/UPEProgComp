@@ -2,7 +2,10 @@
 
 {% block content %}
 
-    <p>Upload the output from running your program on the following code.</p>
+    <h3>{{ problem_name }}</h3>
+    <p>Upload the output from running your program on the input found below. You have
+    {{ max_time_display }} to complete the upload before you must try again.</p>
+    <div id="timer" data-time-dur="{{ max_time }}"></div>
     <a href="{{ input_path }}">Download Input File</a>
     <form action="{% url submit %}" enctype="multipart/form-data" method="post">
         <div class="field-wrapper">
@@ -15,6 +18,5 @@
             </table>
         </div>
     </form>
-    <p>The end time is {{end}}.</p>
     
 {% endblock %}

@@ -62,6 +62,7 @@ def submit(request, template='submission/submission_form.html'):
         else:
             return HttpResponseRedirect(reverse('submit-failure'))
     else:
+        context = {}
         problem_id = request.GET.get('problem_id', -1)
 
         newAttempt = Attempt()
@@ -72,12 +73,14 @@ def submit(request, template='submission/submission_form.html'):
         newAttempt.inputCases = result[0]
         newAttempt.startTime = datetime.datetime.now()
         newAttempt.save()
-        input_path = result[1]
 
-        form = SubmissionForm()
+        context['input_path'] = result[1]
+        context['form'] = SubmissionForm()
+        context['problem_name'] = newAttempt.problem.name
+        context['max_time'] = settings.ATTEMPT_DURATION
+        context['max_time_display'] = "%d:%02d" % (settings.ATTEMPT_DURATION/60, settings.ATTEMPT_DURATION%60)
 
-    return render_to_response(template, {'form': form, 'input_path': input_path},
-            context_instance=RequestContext(request))
+    return render_to_response(template, context, context_instance=RequestContext(request))
 
 @is_registered
 @during_competition
