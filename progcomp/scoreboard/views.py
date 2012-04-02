@@ -30,9 +30,9 @@ def scoreboard(request, template='scoreboard/scoreboard.html'):
     for user, problems in users.items():
         number_submitted = len(problems.keys())
         max_time = max(problems.values())
-        diff_time = (max_time - settings.START).seconds
-        time_fmt = "%d:%02d:%02d" % (diff_time/3600, (diff_time/60)%60, diff_time%60)
-        ranks.append( (number_submitted, time_fmt, user) )
+        #diff_time = (max_time - settings.START).seconds
+        #time_fmt = "%d:%02d:%02d" % (diff_time/3600, (diff_time/60)%60, diff_time%60)
+        ranks.append( (number_submitted, max_time, user) )
     def comp(lhs, rhs):
         if lhs[0] == rhs[0]:
             return cmp(lhs[1], rhs[1])

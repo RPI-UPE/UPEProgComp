@@ -3,12 +3,13 @@
 {% block content %}
 <h2>Scoreboard</h2>
 {% if scoreboard %}
+{% load prettytimes_tags %}
 <table class="table table-striped">
     <thead>
         <tr>
             <th>User</th>
             <th>Number of Submissions</th>
-            <th>Longest Submission</th>
+            <th>Last Submission</th>
         </tr>
     </thead>
     <tbody>
@@ -16,7 +17,7 @@
         <tr>
             <td>{{ user.username|escape }}</td>
             <td>{{ num|escape }}</td>
-            <td>{{ dt }}</td>
+            <td>{{ dt|relative_time }}</td>
         </tr>
     {% endfor %}
     </tbody>
