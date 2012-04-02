@@ -10,14 +10,26 @@
             <th>User</th>
             <th>Number of Submissions</th>
             <th>Last Submission</th>
+            <th></th>
+            {% for problem in problems %}
+            <th>{{ problem.name }}</th>
+            {% endfor %}
         </tr>
     </thead>
     <tbody>
-    {% for user, num, dt in scoreboard %}
+    {% for user, num, dt, solns in scoreboard %}
         <tr>
             <td>{{ user.username|escape }}</td>
             <td>{{ num|escape }}</td>
             <td>{{ dt|relative_time }}</td>
+            <td></td>
+            {% for soln in solns %}
+                {% if soln %}
+                <td>{{ soln }}</td>
+                {% else %}
+                <td></td>
+                {% endif %}
+            {% endfor %}
         </tr>
     {% endfor %}
     </tbody>
