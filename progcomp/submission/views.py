@@ -38,7 +38,7 @@ def download(request, template = 'submission/download_page.html'):
 @is_registered
 @during_competition
 @transaction.commit_on_success
-def submit(request, template='submission/submission_form.html'):
+def submit(request, problem_id='-1', template='submission/submission_form.html'):
     if request.method == 'POST':
         form = SubmissionForm(request.POST, request.FILES)
         
@@ -63,11 +63,12 @@ def submit(request, template='submission/submission_form.html'):
             return HttpResponseRedirect(reverse('submit-failure'))
     else:
         context = {}
-        problem_id = request.GET.get('problem_id', -1)
 
         newAttempt = Attempt()
         newAttempt.person = request.user.profile
         newAttempt.problem = Problem.objects.get(pk = problem_id)
+        if not newAttempt.problem:
+            raise Exception("Invalid problem id")
         # create_test_input() returns tuple (problem_number, url)
         result = create_test_input(newAttempt.problem.slug, request.user.username, newAttempt.problem.number_in_problem)
         newAttempt.inputCases = result[0]
