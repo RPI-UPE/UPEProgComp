@@ -8,6 +8,7 @@ from django.conf import settings
 
 urlpatterns = patterns('',
     url(r'^$', 'progcomp.views.index', name='home'),
+    url(r'^user/(.*)$', 'progcomp.views.user', name='userdir'),
     (r'^account/', include('account.urls')),
     (r'^submit/', include('progcomp.submission.urls')),
     (r'^scoreboard/', include('progcomp.scoreboard.urls')),
