@@ -12,6 +12,9 @@
         return Math.floor(t / 60) + ":" + (s < 10 ? "0" : "") + s;
     }; 
 
+    if (!$("#timer").size())
+        return;
+
     // Update bar and time
     timer = window.setInterval(function(){
         var passed = Math.round((Date.now() - now) / 1000),
