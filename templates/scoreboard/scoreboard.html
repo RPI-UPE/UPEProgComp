@@ -21,7 +21,7 @@
         <tr>
             <td>{{ user.username|escape }}</td>
             <td>{{ num|escape }}</td>
-            <td><abbr title='{{ dt|date:"Y-m-d h:i:s.u" }}'>{{ dt|relative_time }}</abbr></td>
+            <td><abbr title='{{ dt|date:"Y-m-d H:i:s.u" }}'>{{ dt|relative_time }}</abbr></td>
             <td></td>
             {% for soln in solns %}
                 {% if soln %}
