@@ -24,7 +24,7 @@
                 {% if submission.result %}
                     <td>Grade Error</td>
                 {% else %}
-                    <td>Not Graded</td>
+                    <td data-loading="{{ submission.attempt.id }}">Not Graded</td>
                 {% endif %}
             {% endif %}
         </tr>
