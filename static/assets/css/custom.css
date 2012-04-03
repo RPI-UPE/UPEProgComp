@@ -7,3 +7,6 @@
 	padding: 5px;
 }
 
+abbr {
+	text-transform: none;
+}
