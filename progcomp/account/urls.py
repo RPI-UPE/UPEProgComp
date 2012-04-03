@@ -3,8 +3,6 @@ from django.conf.urls.defaults import *
 
 urlpatterns = patterns('account.views',
     url(r'register/$', 'register', name='register'),
-    url(r'register/success/$', 'success', name='register-success'),
-    url(r'register/failure/$', 'failure', name='register-failure'),
     url(r'^edit/$', 'edit_profile', name='editprofile'),
     url(r'^$', 'index', name='profile'),
 )

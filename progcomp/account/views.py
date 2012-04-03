@@ -1,6 +1,8 @@
 import datetime
 import os
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.http import HttpResponseRedirect
@@ -19,25 +21,20 @@ from progcomp.account.models import is_registered
 @transaction.commit_on_success
 def register(request, template='account/register.html'):
     if Profile.objects.count() > settings.MAX_REGISTRATIONS:
-        return HttpResponseRedirect(reverse('register-failure'))
+        messages.error(request, "There were some errors in creating your account.")
+        form = RegistrationForm()
     if request.method == 'POST':
         form = RegistrationForm(request.POST, request.FILES)
         if form.is_valid():
             user = form.save()
-            return HttpResponseRedirect(reverse('register-success'))
+            messages.success(request, "Account created successfully. You are now logged in.")
+            new_user = authenticate(username=request.POST['username'], password=request.POST['password1'])
+            login(request, new_user)
+            return HttpResponseRedirect(reverse('profile'))
     else:
         form = RegistrationForm()
     return render_to_response(template, {'form': form},
             context_instance=RequestContext(request))
-
-
-def success(request, template='account/success.html'):
-    return render_to_response(template, context_instance=RequestContext(request))
-
-
-def failure(request, template='account/failure.html'):
-    return render_to_response(template, context_instance=RequestContext(request))
-
 
 @is_registered
 def index(request, template='account/index.html'):
@@ -61,6 +58,7 @@ def edit_profile(request, template='account/edit.html'):
                         request.user.profile.last_name, udir)
                 request.user.profile.resume = path[len(settings.MEDIA_ROOT):]
             request.user.profile.save()
+            messages.success(request, "Profile saved.")
             return HttpResponseRedirect(reverse('profile'))
     else:
         form = ProfileForm(instance=request.user)

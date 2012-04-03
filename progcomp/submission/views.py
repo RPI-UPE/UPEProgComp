@@ -1,6 +1,7 @@
 import os
 from django.shortcuts import render_to_response
 from django.template import RequestContext
+from django.contrib import messages
 from django.db import transaction
 from django.conf import settings
 from django.core.urlresolvers import reverse
@@ -52,15 +53,18 @@ def submit(request, problem_id='-1', template='submission/submission_form.html')
             
             total_seconds = (timediff.microseconds + (timediff.seconds + timediff.days * 24 * 3600) * 10**6) / 10**6
             if total_seconds > settings.ATTEMPT_DURATION:
-                return HttpResponseRedirect(reverse('too_late'))
+                messages.error(request, "Time limit exceeded. Please download a new input file and submit your new output.")
+                return HttpResponseRedirect(reverse('submit', args=[someAttempt[0].problem.id]))
 
             submission = form.save(commit=False)
             submission.registrant = request.user.profile
             submission.attempt = someAttempt[0]
             submission.save()
-            return HttpResponseRedirect(reverse('submit-success'))
+            messages.success(request, "Submission received. It will be graded shortly.")
+            return HttpResponseRedirect(reverse('download'))
         else:
-            return HttpResponseRedirect(reverse('submit-failure'))
+            messages.error(request, "Error submitting files. Please make sure you are uploading a source and output file and that neither are empty.")
+            return HttpResponseRedirect(reverse('submit', args=[someAttempt[0].problem.id]))
     else:
         context = {}
 
@@ -82,19 +86,3 @@ def submit(request, problem_id='-1', template='submission/submission_form.html')
         context['max_time_display'] = "%d:%02d" % (settings.ATTEMPT_DURATION/60, settings.ATTEMPT_DURATION%60)
 
     return render_to_response(template, context, context_instance=RequestContext(request))
-
-@is_registered
-@during_competition
-def success(request, template='submission/success.html'):
-    return render_to_response(template,
-            context_instance=RequestContext(request))
-
-def failure(request, template='submission/failure.html'):
-    return render_to_response(template,
-            context_instance=RequestContext(request))
-
-@is_registered
-@during_competition
-def too_late(request, template = 'submission/too_late.html'):
-    return render_to_response(template,
-            context_instance=RequestContext(request))

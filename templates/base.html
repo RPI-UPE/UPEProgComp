@@ -55,7 +55,10 @@
     </div>
 	<div class = "container">
 		<div class = "row">
-		        <div id="bd" class="span8" style="margin-left:10px">
+			<div id="bd" class="span8" style="margin-left:10px">
+				{% for message in messages %}
+				<div class="alert alert-{{ message.tags }}">{{ message }}</div>
+				{% endfor %}
 		       	    {% block content %}
 	        	    {% endblock %}
 			</div>
