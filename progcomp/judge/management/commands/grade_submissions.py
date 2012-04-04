@@ -16,7 +16,7 @@ class Command(BaseCommand):
     can_import_settings = True
     help = 'Starts the grading service, that grades new submissions every thirty seconds.'
 
-    def compute_diff(self, expected, given, context=3):
+    def compute_diff(self, expected, given, context=2):
         # Note: both inputs are assumed stripped of whitespace and blank lines
         # Collect points of error
         errors = deque([n for n, line in enumerate(expected) if n >= len(given) or expected[n] != given[n]])
@@ -26,8 +26,9 @@ class Command(BaseCommand):
             # Clear error that we've already copied
             if n > errors[0] + context:
                 errors.popleft()
+                if len(errors) == 0: break
             # Append line if part of error
-            if n > errors[0] - context or n < errors[0] + context:
+            if n >= errors[0] - context and n <= errors[0] + context:
                 diff.append((n, line, n < len(given) and given[n] or "<end of file>"))
 
         return diff
@@ -54,7 +55,7 @@ class Command(BaseCommand):
 			    
                 if(expected_output != output):
                     # myfile = ContentFile(diff.make_file(expected_output,output,'expected','given',True,3))
-                    myfile = ContentFile('\n'.join(['\t'.join(map(lambda a:str(a),a)) for a in self.compute_diff(expected_output, output)]))
+                    myfile = ContentFile('\n'.join(['\t'.join([a[1]!=a[2] and "-" or " "]+map(lambda a:str(a),a)) for a in self.compute_diff(expected_output, output)]))
                     
                     calculated_result.diff.save(attempt.problem.slug+'_%d'%attempt.inputCases+'.txt',myfile)
                     calculated_result.status = 'failed'
