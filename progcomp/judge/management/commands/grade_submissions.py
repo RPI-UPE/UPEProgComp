@@ -18,8 +18,15 @@ class Command(BaseCommand):
 
     def compute_diff(self, expected, given, context=2):
         # Note: both inputs are assumed stripped of whitespace and blank lines
+        # Make sure that no excess output is given on either side
+        while len(given) < len(expected):
+            given.append(None)
+        while len(expected) < len(given):
+            expected.append(None)
+
         # Collect points of error
-        errors = deque([n for n, line in enumerate(expected) if n >= len(given) or expected[n] != given[n]])
+        errors = deque([n for n, line in enumerate(expected) if expected[n] != given[n]])
+
         # Collect lines with context
         diff = []
         for n, line in enumerate(expected):
@@ -29,7 +36,7 @@ class Command(BaseCommand):
                 if len(errors) == 0: break
             # Append line if part of error
             if n >= errors[0] - context and n <= errors[0] + context:
-                diff.append((n, line, n < len(given) and given[n] or "<end of file>"))
+                diff.append((n, line, given[n]))
 
         return diff
 
