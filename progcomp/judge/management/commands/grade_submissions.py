@@ -10,15 +10,29 @@ from django.conf import settings
 from django.core.files.base import ContentFile
 from django.db.models.fields.files import FieldFile
 
-import difflib
+from collections import deque
 
 class Command(BaseCommand):
-
     can_import_settings = True
     help = 'Starts the grading service, that grades new submissions every thirty seconds.'
 
+    def compute_diff(self, expected, given, context=3):
+        # Note: both inputs are assumed stripped of whitespace and blank lines
+        # Collect points of error
+        errors = deque([n for n, line in enumerate(expected) if n >= len(given) or expected[n] != given[n]])
+        # Collect lines with context
+        diff = []
+        for n, line in enumerate(expected):
+            # Clear error that we've already copied
+            if n > errors[0] + context:
+                errors.popleft()
+            # Append line if part of error
+            if n > errors[0] - context or n < errors[0] + context:
+                diff.append((n, line, n < len(given) and given[n] or "<end of file>"))
+
+        return diff
+
     def handle(self, *args, **options):
-        diff = difflib.HtmlDiff()
         while True:
 
             S = Submission.objects.filter(result=None)
@@ -39,9 +53,10 @@ class Command(BaseCommand):
                 calculated_result.submission = current_submission
 			    
                 if(expected_output != output):
-                    myfile = ContentFile(diff.make_file(expected_output,output,'expected','given',True,3))
+                    # myfile = ContentFile(diff.make_file(expected_output,output,'expected','given',True,3))
+                    myfile = ContentFile('\n'.join(['\t'.join(map(lambda a:str(a),a)) for a in self.compute_diff(expected_output, output)]))
                     
-                    calculated_result.diff.save(attempt.problem.slug+'_%d'%attempt.inputCases+'.html',myfile)
+                    calculated_result.diff.save(attempt.problem.slug+'_%d'%attempt.inputCases+'.txt',myfile)
                     calculated_result.status = 'failed'
                 else:
                     calculated_result.status = 'success' 
