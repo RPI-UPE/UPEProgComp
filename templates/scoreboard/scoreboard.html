@@ -7,10 +7,10 @@
 <table class="table table-striped">
     <thead>
         <tr>
+            <th><abbr title="Rank">#</abbr></th>
             <th>User</th>
-            <th>Number of Submissions</th>
+            <th>Correct Submissions</th>
             <th>Last Submission</th>
-            <th></th>
             {% for problem in problems %}
             <th>{{ problem.name }}</th>
             {% endfor %}
@@ -19,10 +19,10 @@
     <tbody>
     {% for user, num, dt, solns in scoreboard %}
         <tr>
+            <td>{{ forloop.counter }}</td>
             <td>{{ user.username|escape }}</td>
             <td>{{ num|escape }}</td>
             <td><abbr title='{{ dt|date:"Y-m-d H:i:s.u" }}'>{{ dt|relative_time }}</abbr></td>
-            <td></td>
             {% for soln in solns %}
                 {% if soln %}
                 <td>{{ soln }}</td>
