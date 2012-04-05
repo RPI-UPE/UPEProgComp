@@ -25,9 +25,19 @@ from django.conf import settings
 @during_competition
 def download(request, template = 'submission/download_page.html'):
     if request.method == 'GET':
+        problems = Problem.objects.all()
+        submissions = Submission.user_summary(request.user.profile)
+
+        correct = set()
+        for sub in submissions:
+            if sub.result.status == 'success':
+                correct.add(sub.attempt.problem.slug)
+
+        problems = [(p.id, p.name, p.slug in correct) for p in problems]
+
         context = {}
-        context['submissions'] = Submission.user_summary(request.user.profile)
-        context['problems'] = Problem.objects.values('id', 'name')
+        context['submissions'] = submissions
+        context['problems'] = problems
         return render_to_response( template, context,
                 context_instance=RequestContext(request))
 

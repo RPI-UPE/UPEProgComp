@@ -4,8 +4,8 @@
     <h2>Problem Submission</h2>
     <p>Please pick the problem number that you wish to attempt to solve.</p>
     <ol>
-        {% for problem in problems %}
-            <li><a href="{% url submit problem.id %}">{{problem.name}}</a></li>
+        {% for id, name, completed in problems %}
+            <li><a href="{% url submit id %}">{{ name }}</a> {% if completed %}<i class="icon-ok"></i>{% endif %}</li>
         {% endfor %}
     </ol>
 
