@@ -1,4 +1,5 @@
 import filecmp
+import datetime
 
 from time import sleep
 from collections import deque
@@ -48,6 +49,7 @@ class Command(BaseCommand):
     #   regrade [<slug>] - remove and regrade all failed results for the given
     #                      problem, or all results if no slug is provided
     def handle(self, *args, **options):
+        # Parse arguments
         if len(args) > 0 and args[0] == "regrade":
             where = { 'status': 'failed' }
             if len(args) > 1:
@@ -59,6 +61,13 @@ class Command(BaseCommand):
             except:
                 pass
 
+        # Setup colored logging
+        log = {
+            'success': '\033[32m%s\033[0m',
+            'failed': '%s',
+        }
+
+        # Begin processing
         while True:
 
             S = Submission.objects.filter(result=None)
@@ -84,9 +93,12 @@ class Command(BaseCommand):
                     myfile = ContentFile(str(content))
                     
                     calculated_result.diff.save(attempt.problem.slug+'_%d'%attempt.inputCases+'.html', myfile)
-                    calculated_result.status = 'failed'
+                    status = 'failed'
                 else:
-                    calculated_result.status = 'success' 
+                    status = 'success'
                 
+                calculated_result.status = status
                 calculated_result.save()
+                print log[status] % ("[%s] Graded %s by %s: %s" % (datetime.datetime.now().strftime("%d/%b/%Y %H:%M:%S"),
+                        attempt.problem.slug, attempt.person, status))
             sleep(1)
