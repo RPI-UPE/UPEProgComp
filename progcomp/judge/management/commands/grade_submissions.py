@@ -1,6 +1,7 @@
 import filecmp
 
 from time import sleep
+from collections import deque
 
 from django.core.management.base import BaseCommand, CommandError
 from progcomp.submission.models import *
@@ -11,7 +12,7 @@ from django.core.files.base import ContentFile
 from django.db.models.fields.files import FieldFile
 from django.template import loader
 
-from collections import deque
+from progcomp.judge.models import Result
 
 class Command(BaseCommand):
     can_import_settings = True
@@ -43,7 +44,21 @@ class Command(BaseCommand):
 
         return diff
 
+    # Arguments:
+    #   regrade [<slug>] - remove and regrade all failed results for the given
+    #                      problem, or all results if no slug is provided
     def handle(self, *args, **options):
+        if len(args) > 0 and args[0] == "regrade":
+            where = { 'status': 'failed' }
+            if len(args) > 1:
+                where['submission__attempt__problem__slug'] = args[1]
+            try:
+                res = Result.objects.all().filter(**where)
+                print "Deleting %d results" % len(res)
+                res.delete()
+            except:
+                pass
+
         while True:
 
             S = Submission.objects.filter(result=None)
