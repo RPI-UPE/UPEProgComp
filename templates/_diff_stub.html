@@ -1,14 +1,30 @@
 <table>
-	<tr>
-		<td>#</td>
-		<td>Expected</td>
-		<td>Given</td>
-	</tr>
-	{% for n, expected, given in diffs %}
-	<tr{% if expected != given %} class="error"{% endif %}>
-		<td>{{ n }}</td>
-		<td>{{ expected }}</td>
-		<td>{{ given }}</td>
-	</tr>
-	{% endfor %}
+	<thead>
+		<tr>
+			<th><abbr title="Line number">#</abbr></th>
+			<th>Expected</th>
+			<th>Given</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for n, expected, given in diffs %}
+		<tr{% if expected != given %} class="error"{% endif %}>
+			<td>{{ n }}</td>
+			<td>
+				{% if expected == None %}
+					<abbr class="eof" title="End of file">&lt;EOF&gt;</abbr>
+				{% else %}
+					{{ expected }}
+				{% endif %}
+			</td>
+			<td>
+				{% if given == None %}
+					<abbr class="eof" title="End of file">&lt;EOF&gt;</abbr>
+				{% else %}
+					{{ given }}
+				{% endif %}
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
 </table>
