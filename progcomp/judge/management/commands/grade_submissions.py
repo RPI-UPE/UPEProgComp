@@ -20,7 +20,7 @@ class Command(BaseCommand):
     # compute_diff() takes two arrays and returns an array with errors in matching
     # returns: list of tuples for relevant lines in the form (line_no, expected, given)
     # Note: both inputs are assumed stripped of whitespace and blank lines
-    def compute_diff(self, expected, given, context=2):
+    def compute_diff(self, expected, given, context=2, errors=3):
         # Make sure that no excess output is given on either side
         while len(given) < len(expected):
             given.append(None)
@@ -28,7 +28,7 @@ class Command(BaseCommand):
             expected.append(None)
 
         # Collect points of error
-        errors = deque([n for n, line in enumerate(expected) if expected[n] != given[n]])
+        errors = deque([n for n, line in enumerate(expected) if expected[n] != given[n]][:errors])
 
         # Collect lines with context
         diff = []
