@@ -2,21 +2,22 @@
 
 {% block content %}
 
-    <h3>{{ problem_name }}</h3>
-    <p>Upload the output from running your program on the input found below. You have
-    {{ max_time_display }} to complete the upload before you must try again.</p>
-    <div id="timer" data-time-dur="{{ max_time }}"></div>
-    <p><a class="btn" href="{{ input_path }}">Download Input File</a></p>
-    <form action="{% url submit %}" enctype="multipart/form-data" method="post">
-        <div class="field-wrapper">
-            <table>
-                {% include "_form.html" %}
-                <tr>
-                    <td>&nbsp;</td>
-                    <td><input class="btn btn-primary" type="submit" value="Submit" /></td>
-                </tr>
-            </table>
-        </div>
-    </form>
+<form class="form-horizontal" action="{% url submit %}" enctype="multipart/form-data" method="post">
+    <fieldset>
+        <legend>{{ problem_name }}</legend>
+        <p>Upload the output from running your program on the input found below. You have
+        {{ max_time_display }} to complete the upload before you must try again.</p>
+        <div id="timer" data-time-dur="{{ max_time }}"></div>
+        <p>
+            <a class="btn btn-primary" href="{{ input_path }}">Download Input File</a>
+            <a class="btn" href="{{ input_path }}">View Input File (NYI)</a>
+        </p>
+    </fieldset>
+    <fieldset>
+        <legend>Submission</legend>
+        {% include "_form.html" %}
+        <div class="form-actions"><input class="btn btn-primary" type="submit" value="Submit" /></div>
+    </fieldset>
+</form>
     
 {% endblock %}

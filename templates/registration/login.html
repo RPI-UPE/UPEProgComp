@@ -1,19 +1,15 @@
 {% extends "base.html" %}
 
 {% block content %}
-            <form action="{% url login %}" method="post"> {% csrf_token %}
-                <div class="field-wrapper">
-                    <table>
+<form class="form-horizontal" action="{% url login %}" method="post"> {% csrf_token %}
+    <fieldset>
+        <legend>Login</legend>
 {% include "_form.html" %}
-                        <tr>
-                            <td>&nbsp;</td>
-                            <td>
-                                <input class="btn btn-primary" type="submit" value="Login" />
-                                <a class="btn" href="{% url pw_reset %}">Reset Password</a>
-                            </td>
-                        </tr>
-                    </table>
-                    <input type="hidden" name="next" value="{{next}}" />
-                </div>
-            </form>
+        <div class="form-actions">
+            <input class="btn btn-primary" type="submit" value="Login" />
+            <a class="btn" href="{% url pw_reset %}">Reset Password</a>
+        </div>
+        <input type="hidden" name="next" value="{{next}}" />
+    </fieldset>
+</form>
 {% endblock %}
