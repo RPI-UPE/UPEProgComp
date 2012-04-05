@@ -1,0 +1,14 @@
+<table>
+	<tr>
+		<td>#</td>
+		<td>Expected</td>
+		<td>Given</td>
+	</tr>
+	{% for n, expected, given in diffs %}
+	<tr{% if expected != given %} class="error"{% endif %}>
+		<td>{{ n }}</td>
+		<td>{{ expected }}</td>
+		<td>{{ given }}</td>
+	</tr>
+	{% endfor %}
+</table>

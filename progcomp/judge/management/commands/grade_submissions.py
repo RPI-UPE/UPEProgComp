@@ -9,6 +9,7 @@ from progcomp.file_creation_utils import create_compiled_output
 from django.conf import settings
 from django.core.files.base import ContentFile
 from django.db.models.fields.files import FieldFile
+from django.template import loader
 
 from collections import deque
 
@@ -16,8 +17,10 @@ class Command(BaseCommand):
     can_import_settings = True
     help = 'Starts the grading service, that grades new submissions every thirty seconds.'
 
+    # compute_diff() takes two arrays and returns an array with errors in matching
+    # returns: list of tuples for relevant lines in the form (line_no, expected, given)
+    # Note: both inputs are assumed stripped of whitespace and blank lines
     def compute_diff(self, expected, given, context=2):
-        # Note: both inputs are assumed stripped of whitespace and blank lines
         # Make sure that no excess output is given on either side
         while len(given) < len(expected):
             given.append(None)
@@ -61,13 +64,14 @@ class Command(BaseCommand):
                 calculated_result.submission = current_submission
 			    
                 if(expected_output != output):
-                    # myfile = ContentFile(diff.make_file(expected_output,output,'expected','given',True,3))
-                    myfile = ContentFile('\n'.join(['\t'.join([a[1]!=a[2] and "-" or " "]+map(lambda a:str(a),a)) for a in self.compute_diff(expected_output, output)]))
+                    # Create diff file - We must convert to string because writing original type will give characters
+                    content = loader.render_to_string('_diff_stub.html', {'diffs': self.compute_diff(expected_output, output)})
+                    myfile = ContentFile(str(content))
                     
-                    calculated_result.diff.save(attempt.problem.slug+'_%d'%attempt.inputCases+'.txt',myfile)
+                    calculated_result.diff.save(attempt.problem.slug+'_%d'%attempt.inputCases+'.html', myfile)
                     calculated_result.status = 'failed'
                 else:
                     calculated_result.status = 'success' 
                 
                 calculated_result.save()
-            sleep(5)
+            sleep(1)
