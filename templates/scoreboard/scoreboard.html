@@ -17,10 +17,10 @@
         </tr>
     </thead>
     <tbody>
-    {% for user, num, dt, solns in scoreboard %}
-        <tr>
+    {% for u, num, dt, solns in scoreboard %}
+        <tr{% if u == user %} class="mine"{% endif %}>
             <td>{{ forloop.counter }}</td>
-            <td>{{ user.username|escape }}</td>
+            <td>{{ u.username|escape }}</td>
             <td>{{ num|escape }}</td>
             <td><abbr title='{{ dt|date:"Y-m-d H:i:s.u" }}'>{{ dt|relative_time }}</abbr></td>
             {% for soln in solns %}
