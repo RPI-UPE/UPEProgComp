@@ -11,7 +11,7 @@ from django.conf import settings
 from file_creation_utils import user_grade_dir_name
 from progcomp.account.models import Profile
 
-grad_dates = map(lambda x: (x, x.strftime('%Y-%m')), settings.GRAD_DATES)
+grad_dates = map(lambda x: (x.date(), x.strftime('%Y-%m')), settings.GRAD_DATES)
 
 # Profile form for adding or updating profile-specific entitites
 class ProfileForm(forms.ModelForm):
