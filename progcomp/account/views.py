@@ -47,18 +47,9 @@ def edit_profile(request, template='account/edit.html'):
         form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
         if form.is_valid():
             form.save()
-            # request.user.profile.grad = form.cleaned_data['grad']
-            # resume = form.cleaned_data['resume']
-            # if resume is not None:
-            #     udir = os.path.join(settings.MEDIA_ROOT, 'resumes/')
-            #     path = handle_upload_file(resume, request.user.username, request.user.profile.first_name,
-            #             request.user.profile.last_name, udir)
-            #     request.user.profile.resume = path[len(settings.MEDIA_ROOT):]
-            # request.user.profile.save()
             messages.success(request, "Profile saved.")
             return HttpResponseRedirect(reverse('profile'))
     else:
-        # raise Exception(ProfileForm().Meta)
         form = ProfileForm(instance=request.user.profile)
 
     return render_to_response(template, {'form': form},
