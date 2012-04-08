@@ -2,6 +2,7 @@
 # Django settings for progcomp project.
 
 DEBUG = True
+USING_NGINX = False
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (

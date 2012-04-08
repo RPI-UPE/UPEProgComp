@@ -9,7 +9,6 @@ from settings import MEDIA_ROOT
 from settings import USERS_ROOT
 from settings import USERS_URL
 
-
 import logging
 
 logger = logging.getLogger(__name__)
@@ -30,10 +29,10 @@ def chose(k):
 def create_test_input(problem_name='test',username='test',number_in_problem=100):
     if(os.path.exists(GRADE_DIR+problem_name)):
         selected_number = chose(number_in_problem)
-        grade_dir_name = user_grade_dir_name(username)
-        target_symlink = USERS_ROOT+grade_dir_name+'/'+problem_name+'.in'
+        grade_dir_name = user_directory(username, 'input')
+        target_symlink = os.path.join(grade_dir_name, problem_name+'.in')
         
-        link_name = GRADE_DIR+problem_name+'/%d'%selected_number+'.in' 
+        link_name = os.path.join(GRADE_DIR, problem_name, str(selected_number)+'.in')
         
         logging.info('%s --> %s'%(link_name, target_symlink))
         
@@ -42,8 +41,7 @@ def create_test_input(problem_name='test',username='test',number_in_problem=100)
         
         os.link(link_name, target_symlink)
         
-        problem_html = USERS_URL+grade_dir_name+'/'+problem_name+'.in'
-        return (selected_number,problem_html)
+        return selected_number
     else:
         raise Exception('Invalid Problem Name')
 
@@ -53,9 +51,16 @@ def create_compiled_output(problem_name, selected):
     else:
         raise Exception('Invalid Problem Name')
 
+def user_directory(username, subdir=''):
+    if username == '':
+        raise Exception('Invalid user directory')
+    path = os.path.join(MEDIA_ROOT, 'users', username, subdir)
 
-def user_grade_dir_name(username):
-    return hashlib.md5(username).hexdigest()[0:5] + username
+    # Make sure directory is accessible
+    if not os.path.exists(path):
+        os.makedirs(path)
+
+    return path
 
 if __name__ == '__main__':
     print(decode(encode('hello world')))

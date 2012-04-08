@@ -8,7 +8,6 @@ from django.forms.widgets import FileInput
 from django.contrib.auth.forms import UserCreationForm
 from django.conf import settings
 
-from file_creation_utils import user_grade_dir_name
 from progcomp.account.models import Profile
 
 grad_dates = map(lambda x: (x.date(), x.strftime('%Y-%m')), settings.GRAD_DATES)
@@ -90,11 +89,6 @@ class RegistrationForm(UserCreationForm):
         # Link the user to the profile and commit that
         self.profile.instance.user = user
         self.profile.save(commit=True)
-
-        # Create user's directory
-        dir_name = settings.USERS_ROOT + user_grade_dir_name(user.username)
-        if not os.path.isdir(dir_name):
-            os.mkdir(dir_name)
 
         return user
 
