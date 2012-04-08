@@ -10,7 +10,6 @@ from django.http import HttpResponseRedirect
 from progcomp.submission.forms import SubmissionForm
 from progcomp.submission.models import Submission
 from progcomp.submission.models import Attempt
-from progcomp.utils import handle_upload_file
 
 from progcomp.account.models import is_registered
 from progcomp.decorators import during_competition

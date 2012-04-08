@@ -10,7 +10,6 @@ from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.db import transaction
 
-from progcomp.utils import handle_upload_file
 from progcomp.account.forms import RegistrationForm
 from progcomp.account.forms import ProfileForm
 from progcomp.account.models import Profile

@@ -1,3 +1,4 @@
+import os
 import filecmp
 import datetime
 
@@ -92,6 +93,13 @@ class Command(BaseCommand):
                     content = loader.render_to_string('_diff_stub.html', {'diffs': self.compute_diff(expected_output, output)})
                     myfile = ContentFile(str(content))
                     
+                    # Remove diff file if one was created
+                    path = calculated_result.diff.field.generate_filename(calculated_result)
+                    if os.path.exists(path):
+                        os.remove(path)
+
+                    # if os.path.exists(calculated_result
+
                     calculated_result.diff.save(attempt.problem.slug+'_%d'%attempt.inputCases+'.html', myfile)
                     status = 'failed'
                 else:

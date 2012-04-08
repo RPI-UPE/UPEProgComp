@@ -7,24 +7,19 @@ from django.utils.safestring import mark_safe
 from progcomp.judge.models import Result
 from progcomp.account.models import is_registered
 from progcomp.utils import serve_file
-from progcomp.file_creation_utils import user_grade_dir_name
+from progcomp.file_creation_utils import user_directory
 
 from settings import MEDIA_ROOT
 
 @is_registered
 def diff(request, diffid, tiny=False, template='judge/diff.html'):
-    try:
-        diff = Result.objects.get(id=diffid, submission__registrant=request.user.profile)
-    except Result.DoesNotExist:
-        diff = None
+    # Get user dir
+    userdir = user_directory(request.user.username, 'diff')
 
-    # If we didn't find the diff record or the diff file
-    # Do this in two steps because we don't know if diff.diff is available
-    if not diff or not diff.diff:
-        raise Exception("Invalid diff")
-    path = os.path.join(MEDIA_ROOT, str(diff.diff))
-    if not os.path.exists(path):
-        raise Exception("Invalid diff")
+    # Check to make sure path is clean and exists
+    path = os.path.join(userdir, diffid)
+    if not path.startswith(userdir) or not os.path.exists(path):
+        raise Exception("Invalid diff id")
 
     # If we are using the tiny flag, we can just return the file directly
     if tiny:
@@ -40,7 +35,7 @@ def diff(request, diffid, tiny=False, template='judge/diff.html'):
 @is_registered
 def input(request, slug, direct=False):
     # Get user dir
-    userdir = os.path.join(MEDIA_ROOT, 'users/', user_grade_dir_name(request.user.username))
+    userdir = user_directory(request.user.username, 'input')
 
     # Check to make sure path is clean and exists
     path = os.path.join(userdir, slug + '.in')
