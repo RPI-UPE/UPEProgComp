@@ -96,7 +96,6 @@ RESUME_TYPES = ['text/plain', 'application/pdf']
 LOGIN_REDIRECT_URL = '/account/'
 LOGIN_URL = '/account/login/'
 LOGOUT_URL = '/account/logout/'
-MAX_REGISTRATIONS = 60
 
 import datetime
 START = datetime.datetime(2012, 3, 31, 12, 10)

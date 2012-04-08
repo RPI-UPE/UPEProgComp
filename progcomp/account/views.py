@@ -19,9 +19,6 @@ from progcomp.account.models import is_registered
 
 @transaction.commit_on_success
 def register(request, template='account/register.html'):
-    if Profile.objects.count() > settings.MAX_REGISTRATIONS:
-        messages.error(request, "There were some errors in creating your account.")
-        form = RegistrationForm()
     if request.method == 'POST':
         form = RegistrationForm(request.POST, request.FILES)
         if form.is_valid():
