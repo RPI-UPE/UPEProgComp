@@ -61,3 +61,49 @@
                 .css('clear', 'left')
         );
 })(jQuery);
+
+/* -----------------------------------------------------------------------------
+ * Fetching diffs with AJAX
+ * -------------------------------------------------------------------------- */
+(function($){
+    $("#submissions").on('click', 'a.failed', function(event){
+        event.preventDefault();
+        var self = this;
+        var link = $(this).attr('href');
+        var row = $(this).closest("tr");
+
+        if ($(this).data('fetched')) {
+            // Remove and stop
+            if ($(this).data('open')) {
+                $(this).data('open', false);
+                row.next().hide();
+            } else {
+                $(this).data('open', true);
+                row.next().show();
+            }
+            return;
+        }
+
+        // Try loading tiny with js
+        $.get(
+            link + 'tiny',
+            function(response){
+                $(self).data('fetched', true);
+                $(self).data('open', true);
+                row.after(
+                    $("<tr>").append(
+                        $("<td>")
+                            .attr('colspan', row[0].cells.length)
+                            .html(response)
+                    )
+                );
+            },
+            'html'
+        )
+        .error(function(){
+            // If there was an error trying to fetch it, just redirect the
+            // browser instead
+            document.location.href = link;
+        });
+    });
+})(jQuery);

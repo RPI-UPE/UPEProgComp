@@ -1,5 +1,5 @@
 {% load prettytimes_tags %}
-<table class="table table-striped">
+<table id="submissions" class="table table-striped">
     <thead>
         <tr>
             <th>Time Submitted</th>
@@ -15,7 +15,7 @@
             {% if submission.result.status %}
                 <td>
                 {% if submission.result.status == 'failed' %}
-                    <a href={% url diff submission.result.id %}>{{ submission.result.status|escape|capfirst }}</a>
+                    <a class='failed' href={% url diff submission.result.id %}>{{ submission.result.status|escape|capfirst }}</a>
                 {% else %}
                     {{ submission.result.status|escape|capfirst }}
                 {% endif %}
