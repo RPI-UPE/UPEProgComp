@@ -25,7 +25,7 @@ class ProfileForm(forms.ModelForm):
     # Convert text into date
     def clean_grad(self):
         d = self.cleaned_data['grad']
-        return datetime.datetime.strptime(d, '%Y-%m-%d %H:%M:%S').date()
+        return datetime.datetime.strptime(d, '%Y-%m-%d').date()
 
     # We will clean resume here since we need to get instance information
     def clean(self):
