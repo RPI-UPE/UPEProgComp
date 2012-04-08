@@ -37,7 +37,7 @@ def diff(request, diffid, tiny=False, template='judge/diff.html'):
     return render_to_response(template, {'diff_content': diff_content},
             context_instance=RequestContext(request))
 
-    @is_registered
+@is_registered
 def input(request, slug, direct=False):
     # Get user dir
     userdir = os.path.join(MEDIA_ROOT, 'users/', user_grade_dir_name(request.user.username))

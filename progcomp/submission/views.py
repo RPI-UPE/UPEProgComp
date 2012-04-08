@@ -83,13 +83,13 @@ def submit(request, problem_id='-1', template='submission/submission_form.html')
         newAttempt.problem = Problem.objects.get(pk = problem_id)
         if not newAttempt.problem:
             raise Exception("Invalid problem id")
-        # create_test_input() returns tuple (problem_number, url)
-        result = create_test_input(newAttempt.problem.slug, request.user.username, newAttempt.problem.number_in_problem)
-        newAttempt.inputCases = result[0]
+        input_number = create_test_input(newAttempt.problem.slug, request.user.username, newAttempt.problem.number_in_problem)
+        newAttempt.inputCases = input_number
         newAttempt.startTime = datetime.datetime.now()
         newAttempt.save()
 
-        context['input_path'] = result[1]
+        context['input_path'] = reverse('input_direct', args=(newAttempt.problem.slug,))
+        context['input_path_view'] = reverse('input', args=(newAttempt.problem.slug,))
         context['form'] = SubmissionForm()
         context['problem_name'] = newAttempt.problem.name
         context['max_time'] = settings.ATTEMPT_DURATION

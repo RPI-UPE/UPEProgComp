@@ -42,8 +42,7 @@ def create_test_input(problem_name='test',username='test',number_in_problem=100)
         
         os.link(link_name, target_symlink)
         
-        problem_html = USERS_URL+grade_dir_name+'/'+problem_name+'.in'
-        return (selected_number,problem_html)
+        return selected_number
     else:
         raise Exception('Invalid Problem Name')
 
