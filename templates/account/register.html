@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 
+{% block nav-register %}
+class="active"
+{% endblock %}
+
 {% block content %}
 <form class="form-horizontal" action="{% url register %}" enctype="multipart/form-data" method="post"> {% csrf_token %}
     <fieldset>

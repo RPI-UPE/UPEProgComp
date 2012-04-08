@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 
+{% block nav-download %}
+class="active"
+{% endblock %}
+
 {% block content %}
 
 <form class="form-horizontal" action="{% url submit %}" enctype="multipart/form-data" method="post">
