@@ -21,7 +21,11 @@
                 {% endif %}
                 </td>
             {% else %}
-                <td>Not Graded</td>
+                {% if submission.result %}
+                    <td>Grade Error</td>
+                {% else %}
+                    <td>Not Graded</td>
+                {% endif %}
             {% endif %}
         </tr>
     {% endfor %}

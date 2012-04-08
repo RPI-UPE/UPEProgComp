@@ -30,8 +30,13 @@ def download(request, template = 'submission/download_page.html'):
 
         correct = set()
         for sub in submissions:
-            if sub.result.status == 'success':
-                correct.add(sub.attempt.problem.slug)
+            # Because we don't know if there is a result yet, and it is not a
+            # member of the Submission model, we need to use a try-except block
+            try:
+                if sub.result.status == 'success':
+                    correct.add(sub.attempt.problem.slug)
+            except:
+                pass
 
         problems = [(p.id, p.name, p.slug in correct) for p in problems]
 

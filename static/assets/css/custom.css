@@ -10,3 +10,15 @@
 abbr {
 	text-transform: none;
 }
+
+tr.mine > td {
+    background-color: rgba(47, 150, 180, 0.2) !important;
+}
+
+ol#problem-list {
+    font-size: 16px;
+    margin: 0 0 40px 30px;
+}
+ol#problem-list > li {
+    line-height: 20px;
+}

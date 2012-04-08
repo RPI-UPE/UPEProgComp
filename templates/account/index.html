@@ -20,11 +20,11 @@ a resume.{% endif %}</p>
 <p>Go to <a href="{% url download %}">the submission page</a> to submit solutions
 to the contest.</p>
 
-<h3>Submitted Solutions</h3>
-
+<h3>Your Recent Submissions</h3>
 {% if submissions %}
     {% include "_submitted.html" %}
 {% else %}
     <p>You have submitted nothing yet</p>
 {% endif %}
+<p><a class='btn' href="{% url download %}">View full submission history</a></p>
 {% endblock %}

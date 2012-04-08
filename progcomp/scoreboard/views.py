@@ -38,7 +38,7 @@ def scoreboard(request, template='scoreboard/scoreboard.html'):
     def comp(lhs, rhs):
         if lhs[0] == rhs[0]:
             return cmp(lhs[1], rhs[1])
-        return cmp(lhs[0], rhs[0])
+        return -cmp(lhs[0], rhs[0])
     ranks.sort(comp)
 
     # Given a user id, return a list of times said user completed each 

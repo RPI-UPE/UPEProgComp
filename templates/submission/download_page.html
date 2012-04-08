@@ -3,13 +3,13 @@
 {% block content %}
     <h2>Problem Submission</h2>
     <p>Please pick the problem number that you wish to attempt to solve.</p>
-    <ol>
+    <ol id="problem-list">
         {% for id, name, completed in problems %}
             <li><a href="{% url submit id %}">{{ name }}</a> {% if completed %}<i class="icon-ok"></i>{% endif %}</li>
         {% endfor %}
     </ol>
 
-    <h3>Recently Submitted</h3>
+    <h3>Submitted Solutions</h3>
     {% if submissions %}
         {% include "_submitted.html" %}
     {% else %}
