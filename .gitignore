@@ -4,3 +4,4 @@ media/*
 grader/*
 *~
 *.swp
+error_log.txt

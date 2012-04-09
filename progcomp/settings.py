@@ -89,6 +89,25 @@ INSTALLED_APPS = (
     'progcomp',
 )
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'error_handler': {
+            'level': 'ERROR',
+            'class': 'log.ErrorHandler'
+        },
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['error_handler'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    },
+}
+LOG_FILE = "../error_log.txt"
+
 AUTH_PROFILE_MODULE = "register.Profile"
 
 RESUME_TYPES = ['text/plain', 'application/pdf']
