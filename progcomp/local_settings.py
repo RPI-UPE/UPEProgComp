@@ -29,7 +29,7 @@ USERS_ROOT = MEDIA_ROOT+'users/'
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
 
 MEDIA_URL = 'http://127.0.0.1:8000/media/'
-USERS_URL = 'http://127.0.0.1:8000/media/users/'
+USERS_URL = '/user/'
 
 STATIC_ROOT = '../static/'
 STATIC_URL = '/static'

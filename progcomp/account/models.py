@@ -5,6 +5,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import user_passes_test
 
+from settings import USERS_URL
+
 # Passed to FileField() to dynamically set resume filenames
 def get_resume_path(instance, filename=None):
     resume = instance.resume.file
@@ -21,6 +23,10 @@ class Profile(models.Model):
 
     def __str__(self):
         return str(self.user)
+
+    def _get_resume_path(self):
+        return USERS_URL + os.path.basename(self.resume.name)
+    resume_url = property(_get_resume_path)
 
 
 is_registered = user_passes_test(lambda u:
