@@ -5,7 +5,6 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.utils.safestring import mark_safe
 
-from progcomp.judge.models import Result
 from progcomp.account.models import is_registered
 from progcomp.utils import serve_file
 from progcomp.file_creation_utils import user_directory

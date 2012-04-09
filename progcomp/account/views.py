@@ -1,7 +1,6 @@
 import datetime
-import os
+
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.shortcuts import render_to_response
 from django.template import RequestContext
@@ -12,7 +11,6 @@ from django.db import transaction
 
 from progcomp.account.forms import RegistrationForm
 from progcomp.account.forms import ProfileForm
-from progcomp.account.models import Profile
 from progcomp.submission.models import Submission
 from progcomp.account.models import is_registered
 

@@ -1,8 +1,6 @@
 import binascii
 import random
 import os.path
-import hashlib
-import settings
 
 from settings import GRADE_DIR
 from settings import MEDIA_ROOT

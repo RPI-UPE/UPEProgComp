@@ -1,20 +1,16 @@
 import os
-import filecmp
 import datetime
-
 from time import sleep
 from collections import deque
 
-from django.core.management.base import BaseCommand, CommandError
-from progcomp.submission.models import *
-from progcomp.judge.models import *
-from progcomp.file_creation_utils import create_compiled_output
+from django.core.management.base import BaseCommand
 from django.conf import settings
 from django.core.files.base import ContentFile
-from django.db.models.fields.files import FieldFile
 from django.template import loader
 
 from progcomp.judge.models import Result
+from progcomp.submission.models import Submission
+from progcomp.file_creation_utils import create_compiled_output
 
 class Command(BaseCommand):
     can_import_settings = True

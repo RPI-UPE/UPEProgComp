@@ -1,7 +1,5 @@
-from django.core.management.base import BaseCommand, CommandError
-from progcomp.submission.models import *
-from progcomp.judge.models import *
-from progcomp.account.models import *
+from django.core.management.base import BaseCommand
+from progcomp.account.models import Profile
 from django.contrib.auth.models import User
 
 

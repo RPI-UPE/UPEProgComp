@@ -1,4 +1,3 @@
-import os
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.contrib import messages
@@ -8,17 +7,11 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 
 from progcomp.submission.forms import SubmissionForm
-from progcomp.submission.models import Submission
-from progcomp.submission.models import Attempt
-
+from progcomp.submission.models import Submission, Attempt
+from progcomp.problems.models import Problem
 from progcomp.account.models import is_registered
 from progcomp.decorators import during_competition
-from progcomp.file_creation_utils import *
 
-from progcomp.problems.models import *
-
-import datetime
-from django.conf import settings
 
 @is_registered
 @during_competition

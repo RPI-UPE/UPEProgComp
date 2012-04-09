@@ -1,7 +1,6 @@
 import datetime
 
 from django.db import models
-from django.conf import settings
 
 from progcomp.account.models import Profile
 from progcomp.problems.models import Problem

@@ -1,8 +1,5 @@
 import datetime
-import base64
 from django.conf import settings
-from django.contrib.auth import authenticate
-from django.http import HttpResponse
 
 from progcomp.views import notyet
 
