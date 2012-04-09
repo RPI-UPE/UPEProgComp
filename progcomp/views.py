@@ -11,11 +11,10 @@ def index(request, template='frontpage/index.html'):
 
 
 def notyet(request, template='frontpage/notyet.html'):
-    context = {}
-    context['start'] = start = settings.START
-    context['end']   = end   = settings.END
-    context['now']   = now   = datetime.datetime.now()
-    if start <= now and now < end:
-        return HttpResponseRedirect(reverse('profile'))
+    context = {
+        'start': settings.START,
+        'end'  : settings.END,
+        'now'  : datetime.datetime.now(),
+    }
     return render_to_response(template, context,
             context_instance=RequestContext(request))
