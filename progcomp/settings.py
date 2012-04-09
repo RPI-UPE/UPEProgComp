@@ -159,3 +159,11 @@ AUTH_PROFILE_MODULE = "register.Profile"
 import os
 if os.path.isfile('settings_server.py'):
   from local_settings import *
+
+# Post-import commands
+# Include debug_toolbar if debug mode is enabled
+if DEBUG:
+    INSTALLED_APPS += ('progcomp.debug_toolbar',)
+    MIDDLEWARE_CLASSES += ('debug_toolbar.middleware.DebugToolbarMiddleware',)
+    INTERNAL_IPS = ('127.0.0.1',)
+
