@@ -32,7 +32,7 @@ MEDIA_URL = 'http://127.0.0.1:8000/media/'
 USERS_URL = 'http://127.0.0.1:8000/media/users/'
 
 STATIC_ROOT = '../static/'
-STATIC_URL = '/css_static'
+STATIC_URL = '/static'
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.

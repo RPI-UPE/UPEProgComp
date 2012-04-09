@@ -21,12 +21,8 @@ urlpatterns = patterns('',
     (r'^admin/', include(admin.site.urls)),
 )
 
-urlpatterns += patterns('django.views.generic.simple',
-    url(r'^vanguard/$', 'direct_to_template', {'template': 'vanguard.html'}),
-)
-
 urlpatterns += patterns('',
-    url(r'^media/(?P<path>.*)$','django.views.static.serve', {'document_root': settings.MEDIA_ROOT, 'show_indexes':True}),
-    url(r'^css_static/(?P<path>.*)$','django.views.static.serve', {'document_root': settings.STATIC_ROOT,'show_indexes':True}),
+    # This should be handled in production by nginx
+    url(r'^static/(?P<path>.*)$','django.views.static.serve', {'document_root': settings.STATIC_ROOT,'show_indexes': True}),
 )
 
