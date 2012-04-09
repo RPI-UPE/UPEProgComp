@@ -1,8 +1,5 @@
 {% extends "base.html" %}
-
-{% block nav-login %}
-class="active"
-{% endblock %}
+{% block nav-login %} class="active"{% endblock %}
 
 {% block content %}
 <form class="form-horizontal" action="{% url login %}" method="post"> {% csrf_token %}

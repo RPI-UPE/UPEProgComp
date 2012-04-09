@@ -36,17 +36,17 @@
           <a class="brand" href="{% url home %}">UPE Programming Competition</a>
           <div class="nav-collapse">
             <ul class="nav">
-              <li {% block nav-home %} {% endblock %}><a href="{% url home %}">Home</a></li>
+              <li{% block nav-home %}{% endblock %}><a href="{% url home %}">Home</a></li>
 {% if user.is_authenticated %}
-                <li{% block nav-profile %} {% endblock %}><a href="{% url profile %}">Profile</a></li>
-                <li {% block nav-download %} {% endblock %}><a href="{% url download %}">Submission Page</a></li>
-		            <li {% block nav-scoreboard %} {% endblock %}><a href="{% url scoreboard %}">Standings</a></li>
+                <li{% block nav-profile %}{% endblock %}><a href="{% url profile %}">Profile</a></li>
+                <li{% block nav-download %}{% endblock %}><a href="{% url download %}">Submission Page</a></li>
+                <li{% block nav-scoreboard %}{% endblock %}><a href="{% url scoreboard %}">Standings</a></li>
                 <li><a href="{% url logout %}">Logout</a></li>
-                <li {% block nav-pw_change %} {% endblock %}><a href="{% url pw_change %}">Change Password</a></li>
+                <li{% block nav-pw_change %}{% endblock %}><a href="{% url pw_change %}">Change Password</a></li>
 {% else %}
-                <li {% block nav-register %} {% endblock %}><a href="{% url register %}">Register</a></li>
-                <li {% block nav-login %} {% endblock %}><a href="{% url login %}">Login</a></li>
-                <li {% block nav-reset_pw %} {% endblock %}><a href="{% url pw_reset %}">Reset Password</a></li>
+                <li{% block nav-register %}{% endblock %}><a href="{% url register %}">Register</a></li>
+                <li{% block nav-login %}{% endblock %}><a href="{% url login %}">Login</a></li>
+                <li{% block nav-reset_pw %}{% endblock %}><a href="{% url pw_reset %}">Reset Password</a></li>
 {% endif %}
             </ul>
           </div><!--/.nav-collapse -->
