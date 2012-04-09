@@ -3,7 +3,8 @@
  * -------------------------------------------------------------------------- */
 (function($){
     var time, bar, timer, 
-        max_time = $("#timer").attr('data-time-dur')
+        elapsed_time = parseInt($("#timer").attr('data-time-elapsed')),
+        max_time = parseInt($("#timer").attr('data-time-max')),
         now = Date.now(),
         state = 'start';
 
@@ -16,14 +17,17 @@
         return;
 
     // Update bar and time
-    timer = window.setInterval(function(){
-        var passed = Math.round((Date.now() - now) / 1000),
+    var recalc = function(){
+        var passed = Math.round((Date.now() - now + elapsed_time*1000) / 1000),
             perc   = passed/max_time;
 
         time.text(strtime(max_time - passed));
         bar.width(((1 - perc) * 100) + "%");
 
-        if (state == 'start' && perc > 0.75) {
+        if (state == 'start' && perc > 0.5) {
+            state = 'mid';
+            $("#refresh").removeClass("disabled");
+        } else if (state == 'mid' && perc > 0.75) {
             state = 'warn';
             bar.parent().removeClass('progress-info')
                .addClass('progress-danger');
@@ -33,11 +37,14 @@
             window.clearInterval(timer);
             time.css('font-color', 'red');
         }
-    }, 1000);
+    };
+
+    timer = window.setInterval(recalc, 1000);
 
     // Build bar and text since those without javascript will have no benefit
     // seeing it
     $("#timer")
+        .text("")
         .append(time = 
             $("<div>")
                 .text(strtime(max_time))
@@ -60,6 +67,8 @@
             $("<div>")
                 .css('clear', 'left')
         );
+
+    recalc(); // Fire immediately
 })(jQuery);
 
 /* -----------------------------------------------------------------------------

@@ -57,46 +57,65 @@ def submit(request, problem_id='-1', template='submission/submission_form.html')
     if request.method == 'POST':
         form = SubmissionForm(request.POST, request.FILES)
         
-        #temp = form['problem'].value()
-        #_problem = Problem.objects.get(id=temp)
-        someAttempt = Attempt.objects.filter(person = request.user.profile).order_by('-startTime')
+        # Check if there is an available attempt within the time limit
+        try:
+            recent_attempt = Attempt.objects.filter(person=request.user.profile, problem__id=problem_id, submission=None).latest('startTime')
+        except Attempt.DoesNotExist:
+            recent_attempt = None
 
-        timediff = datetime.datetime.now() - someAttempt[0].startTime
-
-        if form.is_valid():
-            
-            total_seconds = (timediff.microseconds + (timediff.seconds + timediff.days * 24 * 3600) * 10**6) / 10**6
-            if total_seconds > settings.ATTEMPT_DURATION:
+        if recent_attempt and form.is_valid():
+            if recent_attempt.time_since() > settings.ATTEMPT_DURATION:
                 messages.error(request, "Time limit exceeded. Please download a new input file and submit your new output.")
-                return HttpResponseRedirect(reverse('submit', args=[someAttempt[0].problem.id]))
+                return HttpResponseRedirect(reverse('submit', args=[recent_attempt.problem.id]))
 
             submission = form.save(commit=False)
             submission.registrant = request.user.profile
-            submission.attempt = someAttempt[0]
+            submission.attempt = recent_attempt
             submission.save()
             messages.success(request, "Submission received. It will be graded shortly.")
             return HttpResponseRedirect(reverse('download'))
         else:
             messages.error(request, "Error submitting files. Please make sure you are uploading a source and output file and that neither are empty.")
-            return HttpResponseRedirect(reverse('submit', args=[someAttempt[0].problem.id]))
+            return HttpResponseRedirect(reverse('submit', args=[recent_attempt.problem.id]))
     else:
         context = {}
 
-        newAttempt = Attempt()
-        newAttempt.person = request.user.profile
-        newAttempt.problem = Problem.objects.get(pk = problem_id)
-        if not newAttempt.problem:
-            raise Exception("Invalid problem id")
-        input_number = create_test_input(newAttempt.problem.slug, request.user.username, newAttempt.problem.number_in_problem)
-        newAttempt.inputCases = input_number
-        newAttempt.startTime = datetime.datetime.now()
-        newAttempt.save()
+        # Check if there is an available attempt within the time limit
+        try:
+            recent_attempt = Attempt.objects.filter(person=request.user.profile, problem__id=problem_id, submission=None).latest('startTime')
+            total_seconds = recent_attempt.time_since()
+        except Attempt.DoesNotExist:
+            recent_attempt = None
 
-        context['input_path'] = reverse('input_direct', args=(newAttempt.problem.slug,))
-        context['input_path_view'] = reverse('input', args=(newAttempt.problem.slug,))
+        if recent_attempt and total_seconds < settings.ATTEMPT_DURATION:
+            current_attempt = recent_attempt
+        else:
+            # Create new attempt
+            total_seconds = 0
+            current_attempt = Attempt.create(request.user, problem_id)
+            current_attempt.save()
+
+        context['input_path'] = reverse('input_direct', args=(current_attempt.problem.slug,))
+        context['input_path_view'] = reverse('input', args=(current_attempt.problem.slug,))
         context['form'] = SubmissionForm()
-        context['problem_name'] = newAttempt.problem.name
-        context['max_time'] = settings.ATTEMPT_DURATION
+        context['problem_name'] = current_attempt.problem.name
+        context['problem_id'] = current_attempt.problem.id
         context['max_time_display'] = "%d:%02d" % (settings.ATTEMPT_DURATION/60, settings.ATTEMPT_DURATION%60)
+        context['max_time'] = settings.ATTEMPT_DURATION
+        context['elapsed_time'] = total_seconds
+        context['remaining_time'] = settings.ATTEMPT_DURATION - total_seconds
+        context['refresh_time'] = settings.ATTEMPT_DURATION / 2
 
     return render_to_response(template, context, context_instance=RequestContext(request))
+
+def refresh(request, problem_id='-1', template='submission/submission_form.html'):
+    # Check if we are under half time remaining
+    try:
+        recent_attempt = Attempt.objects.filter(person=request.user.profile, problem__id=problem_id, submission=None).latest('startTime')
+        if recent_attempt.time_since() >= settings.ATTEMPT_DURATION / 2:
+            # Force-create a most-recent problem
+            Attempt.create(request.user, problem_id).save()
+    except:
+        pass
+
+    return HttpResponseRedirect(reverse('submit', args=[problem_id]))

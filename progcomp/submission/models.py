@@ -1,8 +1,11 @@
+import datetime
+
 from django.db import models
 from django.conf import settings
 
 from progcomp.account.models import Profile
 from progcomp.problems.models import Problem
+from progcomp.file_creation_utils import create_test_input
 
 class Attempt(models.Model):
     person = models.ForeignKey(Profile)
@@ -12,6 +15,22 @@ class Attempt(models.Model):
 
     def __str__(self):
         return "%s %s %s"%(str(self.person),str(self.problem),str(self.startTime))
+
+    @staticmethod
+    def create(user, problem_id):
+        new = Attempt( person = user.profile,
+                       startTime = datetime.datetime.now())
+        try:
+            new.problem = Problem.objects.get(pk=problem_id)
+            new.inputCases = create_test_input(new.problem.slug, user.username, new.problem.number_in_problem)
+        except Problem.DoesNotExist:
+            raise Exception("Invalid problem id")
+
+        return new
+
+    def time_since(self):
+        timediff = datetime.datetime.now() - self.startTime
+        return (timediff.microseconds + (timediff.seconds + timediff.days * 24 * 3600) * 10**6) / 10**6
         
 class Submission(models.Model):
     registrant = models.ForeignKey(Profile)
