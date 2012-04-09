@@ -89,24 +89,37 @@ INSTALLED_APPS = (
     'progcomp',
 )
 
+LOG_FILE = "../error_log.txt"
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'formatters': {
+        'error_fmt': {
+            'format' : '\n%(asctime)s %(levelname)-8s %(message)s',
+        },
+    },
     'handlers': {
         'error_handler': {
-            'level': 'ERROR',
-            'class': 'log.ErrorHandler'
+            'class': 'logging.handlers.RotatingFileHandler',#'log.ErrorHandler'
+            'maxBytes': 2**30, # 1 GB
+            'filename': LOG_FILE,
+            'formatter': 'error_fmt',
         },
     },
     'loggers': {
         'django.request': {
             'handlers': ['error_handler'],
-            'level': 'ERROR',
             'propagate': True,
         },
     },
 }
-LOG_FILE = "../error_log.txt"
+import re
+IGNORABLE_404_URLS = (
+    re.compile(r'^/apple-touch-icon.*\.png$'),
+    re.compile(r'^/favicon\.ico$'),
+    re.compile(r'^/robots\.txt$'),
+)
+
 
 AUTH_PROFILE_MODULE = "register.Profile"
 
