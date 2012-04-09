@@ -1,0 +1,80 @@
+# Django settings for progcomp project: rename to settings_server.py
+# Any values set in here will override default values found in settings.py
+
+# Make this unique, and don't share it with anybody.
+# IMPORTANT: Change this immediately
+SECRET_KEY = '6(_q&p0gss%6ddr1(+mm+fxbsd(4o+54tmmv^b82pb+58(j+r@'
+
+# DEBUG should always be False in a production environment
+# This controls whether detailed error messages are output to the user, which
+# may contain sensitive information.
+DEBUG = True
+TEMPLATE_DEBUG = DEBUG
+
+# USING_NGINX is a flag used by the 'user' controller to decide whether to use
+# header information to let nginx send file contents to the browser or to use
+# Django's static.serve. This should be true in a production environment if
+# nginx is installed.
+USING_NGINX = True
+
+# Configure the database engine and login information
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',  # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'. 
+        'NAME': '../database/progcomp.db',       # Or path to database file if using sqlite3.                           
+        'USER': '',                              # Not used with sqlite3.
+        'PASSWORD': '',                          # Not used with sqlite3.
+        'HOST': '',                              # Set to empty string for localhost. Not used with sqlite3.            
+        'PORT': '',                              # Set to empty string for default. Not used with sqlite3.              
+    },
+}
+
+
+# Path configuration
+# MEDIA_ROOT sets the directory where uploaded files will be stored
+# MEDIA_URL is not used in current implementation, as direct access to the media
+# directoy from the client is denied
+MEDIA_ROOT = '../media/'
+
+# USERS_ROOT contains folders for each user created and stores diffs and input
+# sets for their use. USERS_URL is the relative or absolute URI that Django will
+# use to read the users directory (see progcomp/urls.py). THIS IS NOT THE
+# DIRECTORY ITSELF.
+USERS_ROOT = MEDIA_ROOT+'users/'
+USERS_URL = '/user/'
+
+# STATIC_ROOT and STATIC_URL describe where the static files (css, js, images,
+# etc.) are stored and how they should be accessed via the browser,
+# respectively. Check progcomp/urls.py for forwarding information regarding the
+# latter.
+STATIC_ROOT = '../static/'
+STATIC_URL = '/static'
+
+# Path on server to the directory containing templates. Make sure that the below
+# is in tuple form, i.e., TEMPLATE_DIRS = ('path',)
+TEMPLATE_DIRS = ('../templates',)
+
+# File to log all server errors and 404 errors to; when LOG_FILE_MAX_SIZE is
+# reached (in bytes), it is moved to a backup as <name>.1 and a new file is
+# created. Only two files will exist at any given time.
+LOG_FILE = "../error_log.txt"
+LOG_FILE_MAXSIZE = 2**30 # 1 GB
+
+# URL redirects for user class
+LOGIN_REDIRECT_URL = '/account/'
+LOGIN_URL = '/account/login/'
+LOGOUT_URL = '/account/logout/'
+
+# Location of inputs and outputs
+GRADE_DIR = '../grader/'
+
+# Emails sent from the server come from here
+DEFAULT_FROM_EMAIL = 'no-reply@progcomp.upe.cs.rpi.edu'
+
+# Amount of time a person has to upload the result of attempt, in seconds.
+ATTEMPT_DURATION = 120
+
+# Start and end times of competition
+# Format: (year, month, day, hour, minute)
+START = datetime.datetime(2012, 3, 31, 12, 10)
+END   = START + datetime.timedelta(hours=2)
