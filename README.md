@@ -15,6 +15,9 @@ separate profile once the server is running.
     $ cd progcomp
     $ python manage.py syncdb
 
+Additionally, once the database is created you must add problems that are placed
+in the grader folder via the administration panel (see below).
+
 Running the Server
 ------------------
 The local configuration file `local_settings.py` is used automatically if
@@ -48,9 +51,10 @@ Directories
   * resumes: PDF/text files of users' resumes, referenced by database
   * sources: Problem results submitted by users with output, referenced by
     database
-  * users: Contains hashed directory for each user via which problem inputs will
-    be hardlinked from /grader. May also contain diffs from solutions.
+  * users: Directories for each user
+    * inputs: A specifically assigned input file from problems will be
+      hardlinked to this directory
+    * diff: Contains diffs of all failed executions
 * progcomp: Project source
-* public:
 * static: Static content served, e.g., javascript, css, images
 * templates: HTML files loaded by Django's templater
