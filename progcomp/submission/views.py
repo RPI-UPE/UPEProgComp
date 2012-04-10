@@ -35,6 +35,7 @@ def download(request, template = 'submission/download_page.html'):
         context = {}
         context['submissions'] = submissions
         context['problems'] = problems
+        context['time_left'] = settings.END
         return render_to_response( template, context,
                 context_instance=RequestContext(request))
 
