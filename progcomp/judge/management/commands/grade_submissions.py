@@ -67,7 +67,9 @@ class Command(BaseCommand):
         # Begin processing
         while True:
 
-            S = Submission.objects.filter(result=None)
+            S = Submission.objects \
+                    .select_related('attempt', 'attempt__problem', 'result') \
+                    .filter(result=None)
 
             for current_submission in S:
                 attempt = current_submission.attempt
