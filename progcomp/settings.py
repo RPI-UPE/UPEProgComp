@@ -157,8 +157,8 @@ SITE_ID = 1
 AUTH_PROFILE_MODULE = "register.Profile"
 
 import os
-if os.path.isfile('local_settings.py'):
-  from local_settings import *
+if os.path.isfile('settings_server.py'):
+  from settings_server import *
 
 # Post-import commands
 # Include debug_toolbar if debug mode is enabled
