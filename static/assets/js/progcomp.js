@@ -116,3 +116,76 @@
         });
     });
 })(jQuery);
+
+/* -----------------------------------------------------------------------------
+ * Sort function for tables
+ * -------------------------------------------------------------------------- */
+(function($){
+    var sort = {col: null, dir: 0};
+
+    // Returns true if a should be placed higher than b
+    var cmp = function(a, b) {
+        return (a.value == b.value) || (a.value > b.value) ^ sort.dir;
+    };
+
+    // Generic; mutates array
+    var mergesort = function(arr, i, j) {
+        // Initial call
+        if (i == undefined || j == undefined)
+            return mergesort(arr, 0, arr.length);
+
+        // Base case
+        if (i >= j - 1)
+            return;
+
+        // Break in half
+        var part = Math.ceil((i+j)/2);
+        mergesort(arr, i, part);
+        mergesort(arr, part, j);
+
+        // Merge
+        var store = [];
+        for (var pi=i, pj=part; pi < part || pj < j;)
+            if (pi < part && (pj >= j || cmp(arr[pi], arr[pj])))
+                store.push(arr[pi++]);
+            else if (pj < j)
+                store.push(arr[pj++]);
+        for (var k = i; k < j; k++)
+            arr[k] = store[k - i];
+    };
+
+    $("table.sortable").each(function(){
+        var def = $(this).find("th[data-sort]");
+        var tbl = this;
+        if (def.length > 0) {
+            sort.col = def[0];
+            sort.dir = def.attr('data-sort') == "desc" ? 0 : 1;
+        }
+
+        $(this).find('th').each(function(){
+            $(this)
+                .css('cursor', 'pointer')
+                .append($("<i>").addClass("icon-chevron-down").css('visibility', 'hidden'));
+        });
+        $(this).on('click', 'th', function(){
+            if (this != sort.col) {
+                $(tbl).find("th > i").css('visibility', 'hidden');
+                sort.col = this;
+                sort.dir = 0;
+            } else {
+                sort.dir = 1 - sort.dir;
+            }
+            $(this).find("i").removeClass().addClass("icon-chevron-" + (sort.dir > 0 ? "up" : "down")).css('visibility', 'visible');
+            var col = this.cellIndex;
+
+            // sort items via stable sort
+            var rows = $(tbl).find("tbody>tr").map(function(_, tr){
+                var cell = $(tr.cells[col]).text();
+                return { row: tr, value: parseFloat(cell) || cell };
+            });
+            mergesort(rows);
+            for (var i = 0; i < rows.length; i++)
+                $(tbl).find("tbody").append(rows[i].row);
+        });
+    });
+})(jQuery);
