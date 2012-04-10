@@ -175,7 +175,7 @@ AUTH_PROFILE_MODULE = "register.Profile"
 
 import os
 if os.path.isfile('settings_server.py'):
-  from progcomp.settings_server import *
+  from settings_server import *
 
 # Post-import commands
 # Include debug_toolbar if debug mode is enabled
