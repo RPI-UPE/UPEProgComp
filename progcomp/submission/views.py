@@ -18,7 +18,7 @@ from progcomp.decorators import during_competition
 def download(request, template = 'submission/download_page.html'):
     if request.method == 'GET':
         problems = Problem.objects.all()
-        submissions = Submission.user_summary(request.user.profile)
+        submissions = Submission.user_summary(request.user)
 
         correct = set()
         for sub in submissions:
