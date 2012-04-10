@@ -21,6 +21,11 @@ urlpatterns = patterns('',
     (r'^admin/', include(admin.site.urls)),
 )
 
+if settings.DEBUG:
+    urlpatterns += patterns('',
+        (r'^stats/', include('progcomp.stats.urls')),
+    )
+
 urlpatterns += patterns('',
     # This should be handled in production by nginx
     url(r'^static/(?P<path>.*)$','django.views.static.serve', {'document_root': settings.STATIC_ROOT,'show_indexes': True}),

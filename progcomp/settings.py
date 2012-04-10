@@ -1,10 +1,18 @@
 # Django settings for progcomp project.
 # These values should be satisfactory for a local testing environment
 # See settings_server.py.example for additional documentation
+import re
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 USING_NGINX = False
+
+PROFILER = True
+PROFILER_FILTERS = (
+    re.compile(r'.*stats$'),
+    re.compile(r'^django\.views\.static\.serve'),
+    re.compile(r'^debug_toolbar.*'),
+)
 
 DATABASES = {
     'default': {
@@ -59,6 +67,16 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.app_directories.load_template_source',
 )
 
+# These are used to make some context globally accessible
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.debug',
+    'django.core.context_processors.media',
+    'django.core.context_processors.static',
+    'django.contrib.messages.context_processors.messages',
+    'progcomp.context_processors.profiler',
+)
+
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -107,7 +125,6 @@ LOGGING = {
         },
     },
 }
-import re
 IGNORABLE_404_URLS = (
     re.compile(r'^/apple-touch-icon.*\.png$'),
     re.compile(r'^/favicon\.ico$'),
@@ -166,4 +183,7 @@ if DEBUG:
     INSTALLED_APPS += ('progcomp.debug_toolbar',)
     MIDDLEWARE_CLASSES += ('debug_toolbar.middleware.DebugToolbarMiddleware',)
     INTERNAL_IPS = ('127.0.0.1',)
+
+    INSTALLED_APPS += ('progcomp.stats',)
+    MIDDLEWARE_CLASSES += ('progcomp.stats.middleware.ProfilingMiddleware',)
 
