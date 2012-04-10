@@ -1,4 +1,4 @@
 from django.conf import settings
 
 def profiler(context):
-    return {'PROFILER': settings.PROFILER}
+    return {'PROFILER': settings.PROFILER, 'DEBUG': settings.DEBUG}

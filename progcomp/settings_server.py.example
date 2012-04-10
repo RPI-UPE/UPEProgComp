@@ -17,6 +17,10 @@ TEMPLATE_DEBUG = DEBUG
 # nginx is installed.
 USING_NGINX = True
 
+# The profiler can be enabled here, but it also requires debug mode to view the
+# results page. Be warned that it requires a bit of overhead to log information.
+PROFILER = False
+
 # Configure the database engine and login information
 DATABASES = {
     'default': {

@@ -8,6 +8,7 @@ from progcomp.decorators import if_setting
 from progcomp.stats.models import Report
 
 @if_setting('PROFILER')
+@if_setting('DEBUG')
 def index(request):
     stats = [r for r in sorted(Report.objects.all(), key=lambda x: -x.time)]
 
@@ -23,6 +24,7 @@ def index(request):
 
 
 @if_setting('PROFILER')
+@if_setting('DEBUG')
 def reset(request):
     Report.objects.all().delete()
     messages.info(request, "All data cleared")
