@@ -43,6 +43,7 @@ class Submission(models.Model):
 
     @staticmethod
     def user_summary(profile):
-        return Submission.objects.all() \
-                    .filter(registrant=profile) \
+        return Submission.objects \
+                    .select_related('attempt', 'attempt__problem', 'result__submission') \
+                    .filter(registrant__user=profile) \
                     .order_by('submitted').reverse()

@@ -52,7 +52,7 @@ def scoreboard(request, template='scoreboard/scoreboard.html'):
         return map(lambda y: y and "%d:%02d:%02d" % (y/3600, (y/60)%60, y%60), solns)
 
     # Get information (fname, lname) for each user, map user object over id
-    profiles = Profile.objects.in_bulk(map(lambda x: x[2], ranks))
+    profiles = Profile.objects.select_related('user').in_bulk(map(lambda x: x[2], ranks))
     context['scoreboard'] = map(lambda y: (profiles[y[2]].user, y[0], y[1], user_solns(y[2])), ranks)
     context['is_ended'] = datetime.datetime.now() > settings.END
     context['problems'] = problem_set
