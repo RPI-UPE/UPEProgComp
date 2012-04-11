@@ -99,6 +99,8 @@ INSTALLED_APPS = (
     'progcomp',
 )
 
+INTERNAL_IPS = ()
+
 LOG_FILE = "../error_log.txt"
 LOG_FILE_MAXSIZE = 2**30 # 1 GB
 LOGGING = {
@@ -182,8 +184,9 @@ if os.path.isfile('settings_server.py'):
 if DEBUG:
     INSTALLED_APPS += ('progcomp.debug_toolbar',)
     MIDDLEWARE_CLASSES += ('debug_toolbar.middleware.DebugToolbarMiddleware',)
-    INTERNAL_IPS = ('127.0.0.1',)
+    INTERNAL_IPS += ('127.0.0.1',)
 
+if PROFILER:
     INSTALLED_APPS += ('progcomp.stats',)
     MIDDLEWARE_CLASSES += ('progcomp.stats.middleware.ProfilingMiddleware',)
 
