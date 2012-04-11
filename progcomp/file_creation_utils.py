@@ -27,8 +27,7 @@ def chose(k):
 def create_test_input(problem_name='test',username='test',number_in_problem=100):
     if(os.path.exists(GRADE_DIR+problem_name)):
         selected_number = chose(number_in_problem)
-        grade_dir_name = user_directory(username, 'input')
-        target_symlink = os.path.join(grade_dir_name, problem_name+'.in')
+        target_symlink = os.path.join(MEDIA_ROOT, user_directory(username, 'input'), problem_name+'.in')
         
         link_name = os.path.join(GRADE_DIR, problem_name, str(selected_number)+'.in')
         
@@ -52,7 +51,7 @@ def create_compiled_output(problem_name, selected):
 def user_directory(username, subdir=''):
     if username == '':
         raise Exception('Invalid user directory')
-    path = os.path.join(MEDIA_ROOT, 'users', username, subdir)
+    path = os.path.join('users', username, subdir)
 
     # Make sure directory is accessible
     if not os.path.exists(path):
