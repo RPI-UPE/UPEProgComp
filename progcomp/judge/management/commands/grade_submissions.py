@@ -67,7 +67,7 @@ class Command(BaseCommand):
 
         # Setup stat reporting
         stats = None
-        STATS_INTERVAL = 1
+        COMMIT_DELTA = 5
         if settings.PROFILER:
             try:
                 stats = Report.objects.get(view='grade_submissions', method='CONSOLE')
@@ -75,7 +75,8 @@ class Command(BaseCommand):
                 pass
         if not stats:
             stats = Report(view='grade_submissions', method='CONSOLE', calls=0, time=0)
-        next_commit = stats.calls + STATS_INTERVAL
+        next_commit = {'calls': stats.calls + 1,
+                       'time': datetime.datetime.now() + datetime.timedelta(seconds=COMMIT_DELTA) }
 
         # Begin processing
         while True:
@@ -127,7 +128,8 @@ class Command(BaseCommand):
 
             # Commit profiler every 5 graded if we are running profiler
             if settings.PROFILER:
-                if stats.calls >= next_commit:
+                if stats.calls >= next_commit['calls'] and datetime.datetime.now() >= next_commit['time']:
                     stats.save()
-                    next_commit = stats.calls + STATS_INTERVAL
+                    next_commit['calls'] = stats.calls + 1
+                    next_commit['time']  = datetime.datetime.now() + datetime.timedelta(seconds=COMMIT_DELTA)
             sleep(1)
