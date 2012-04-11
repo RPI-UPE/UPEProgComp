@@ -28,7 +28,7 @@ DATABASES = {
 
 
 MEDIA_ROOT = '../media/'
-MEDIA_URL  =  None   # Direct access to media should be prohibited
+MEDIA_URL  =  '/media/'   # This is necessary for nginx to forward from
 
 USERS_ROOT = MEDIA_ROOT+'users/'
 USERS_URL = '/user/' # Django will handle user requests through this URI

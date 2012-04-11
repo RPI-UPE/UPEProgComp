@@ -51,7 +51,8 @@ def resume(request, filename):
     basepath = 'resumes/'
     # Check to make sure path is clean and exists
     path = os.path.join(basepath, filename)
-    if not path.startswith(basepath) or basepath.count('/') != path.count('/') or not os.path.lexists(path):
+    fs_path = os.path.join(MEDIA_ROOT, path)
+    if not path.startswith(basepath) or basepath.count('/') != path.count('/') or not os.path.exists(fs_path):
         raise Http404
 
     return serve_file(request, path, force_download=False)

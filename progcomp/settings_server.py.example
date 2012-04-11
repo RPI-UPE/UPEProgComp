@@ -36,9 +36,10 @@ DATABASES = {
 
 # Path configuration
 # MEDIA_ROOT sets the directory where uploaded files will be stored
-# MEDIA_URL is not used in current implementation, as direct access to the media
-# directoy from the client is denied
+# MEDIA_URL is not used for direct access, but instead for passing paths to
+# nginx so that it can serve files from there
 MEDIA_ROOT = '../media/'
+MEDIA_URL  =  '/media/'
 
 # USERS_ROOT contains folders for each user created and stores diffs and input
 # sets for their use. USERS_URL is the relative or absolute URI that Django will
