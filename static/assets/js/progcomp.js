@@ -95,7 +95,7 @@
 
         // Try loading tiny with js
         $.get(
-            link + 'tiny',
+            link + 'tiny/',
             function(response){
                 $(self).data('fetched', true);
                 $(self).data('open', true);
