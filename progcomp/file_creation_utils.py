@@ -54,8 +54,9 @@ def user_directory(username, subdir=''):
     path = os.path.join('users', username, subdir)
 
     # Make sure directory is accessible
-    if not os.path.exists(path):
-        os.makedirs(path)
+    fs_path = os.path.join(MEDIA_ROOT)
+    if not os.path.exists(fs_path):
+        os.makedirs(fs_path)
 
     return path
 
