@@ -8,6 +8,7 @@ from django.conf import settings
 from django.core.files.base import ContentFile
 from django.template import loader
 
+from progcomp.stats.models import Report
 from progcomp.judge.models import Result
 from progcomp.submission.models import Submission
 from progcomp.file_creation_utils import create_compiled_output
@@ -64,14 +65,29 @@ class Command(BaseCommand):
             'failed': '%s',
         }
 
+        # Setup stat reporting
+        stats = None
+        STATS_INTERVAL = 1
+        if settings.PROFILER:
+            try:
+                stats = Report.objects.get(view='grade_submissions', method='CONSOLE')
+            except Report.DoesNotExist:
+                pass
+        if not stats:
+            stats = Report(view='grade_submissions', method='CONSOLE', calls=0, time=0)
+        next_commit = stats.calls + STATS_INTERVAL
+
         # Begin processing
         while True:
 
+            stats.start()
             S = Submission.objects \
                     .select_related('attempt', 'attempt__problem', 'result') \
                     .filter(result=None)
+            stats.end(increment=False)
 
             for current_submission in S:
+                stats.start()
                 attempt = current_submission.attempt
                 
                 with open(create_compiled_output(attempt.problem.slug,attempt.inputCases)) as tmpfile:
@@ -96,8 +112,6 @@ class Command(BaseCommand):
                     if os.path.exists(path):
                         os.remove(path)
 
-                    # if os.path.exists(calculated_result
-
                     calculated_result.diff.save(attempt.problem.slug+'_%d'%attempt.inputCases+'.html', myfile)
                     status = 'failed'
                 else:
@@ -107,4 +121,13 @@ class Command(BaseCommand):
                 calculated_result.save()
                 print log[status] % ("[%s] Graded %s by %s: %s" % (datetime.datetime.now().strftime("%d/%b/%Y %H:%M:%S"),
                         attempt.problem.slug, attempt.person, status))
+
+                # Increment profiler each iteration
+                stats.end()
+
+            # Commit profiler every 5 graded if we are running profiler
+            if settings.PROFILER:
+                if stats.calls >= next_commit:
+                    stats.save()
+                    next_commit = stats.calls + STATS_INTERVAL
             sleep(1)
