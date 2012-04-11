@@ -1,4 +1,5 @@
 import os.path
+import mimetypes
 
 from django.http import Http404
 from django.shortcuts import render_to_response
@@ -55,4 +56,5 @@ def resume(request, filename):
     if not path.startswith(basepath) or basepath.count('/') != path.count('/') or not os.path.exists(fs_path):
         raise Http404
 
-    return serve_file(request, path, force_download=False)
+    resume_type = mimetypes.guess_type(path)[0] or 'application/force-download'
+    return serve_file(request, path, force_download=False, content_type=resume_type)

@@ -1,4 +1,5 @@
 import os
+import mimetypes
 
 from django.utils.encoding import smart_str
 from django.http import HttpResponse
@@ -6,7 +7,7 @@ from django.views import static
 
 from settings import USING_NGINX, MEDIA_ROOT, MEDIA_URL
 
-def serve_file(request, path, force_download=False):
+def serve_file(request, path, force_download=False, content_type='text/plain'):
     # The filesystem path is in MEDIA_ROOT
     fs_path = os.path.join(MEDIA_ROOT, path)
     # Whereas nginx expects a URI in the header
@@ -29,7 +30,7 @@ def serve_file(request, path, force_download=False):
         response['Content-Type'] = 'application/force-download'
     else:
         # We can't set this to text/plain because we serve pdfs through here too
-        response['Content-Type'] = ''
+        response['Content-Type'] = content_type
 
     response['Cache-Control'] = 'no-cache'
     return response
