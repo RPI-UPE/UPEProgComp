@@ -21,7 +21,7 @@ urlpatterns = patterns('',
     (r'^admin/', include(admin.site.urls)),
 )
 
-if settings.DEBUG:
+if settings.PROFILER:
     urlpatterns += patterns('',
         (r'^stats/', include('progcomp.stats.urls')),
     )
