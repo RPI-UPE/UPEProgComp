@@ -61,7 +61,7 @@ class Navigation(FunkLoadTestCase):
             description="Get /submit/1")
         # /tmp/tmpswgrBv_funkload/watch0008.request
         
-        self.get("http://128.213.17.239:8000/user/input/foobaz.in",
+        self.get(server_url + "/user/input/foobaz.in",
             description="Get foobaz.in")
         # /tmp/tmpswgrBv_funkload/watch0009.request
         self.post(server_url + "/submit/", params=[
