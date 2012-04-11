@@ -1,5 +1,3 @@
-import time
-
 from django.core.urlresolvers import resolve
 from django.conf import settings
 
@@ -27,13 +25,12 @@ class ProfilingMiddleware:
         except Report.DoesNotExist:
             self.report = Report(view=view, method=method, calls=0, time=0)
 
-        self.report.calls += 1
-        self.startTime = time.time()
+        self.report.start()
         self.state = 'view'
 
     def process_response(self, request, response):
         if self.state == 'view' and self.report:
-            self.report.time += time.time() - self.startTime
+            self.report.end()
             self.report.save()
             self.state = 'new'
         return response
