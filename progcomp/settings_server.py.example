@@ -79,6 +79,6 @@ DEFAULT_FROM_EMAIL = 'no-reply@progcomp.upe.cs.rpi.edu'
 ATTEMPT_DURATION = 120
 
 # Start and end times of competition
-# Format: (year, month, day, hour, minute)
-START = datetime.datetime(2012, 3, 31, 12, 10)
+# Note that this is 24 hour clock
+START = datetime.datetime(year=2012, month=3, day=31, hour=12, minute=10)
 END   = START + datetime.timedelta(hours=2)

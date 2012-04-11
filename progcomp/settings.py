@@ -2,6 +2,7 @@
 # These values should be satisfactory for a local testing environment
 # See settings_server.py.example for additional documentation
 import re
+import datetime
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -138,8 +139,7 @@ RESUME_TYPES = ['text/plain', 'application/pdf']
 # Amount of time a person has to upload the result of attempt, in seconds.
 ATTEMPT_DURATION = 120
 
-# Competition time window
-import datetime
+# Competition time window; you should use datetime.datetime(...) in production
 START = datetime.datetime.now() - datetime.timedelta(hours=1)
 END   = datetime.datetime.now() + datetime.timedelta(hours=1)
 
