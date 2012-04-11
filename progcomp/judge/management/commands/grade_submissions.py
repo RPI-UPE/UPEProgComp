@@ -112,7 +112,7 @@ class Command(BaseCommand):
                     if os.path.exists(path):
                         os.remove(path)
 
-                    calculated_result.diff.save(attempt.problem.slug+'_%d'%attempt.inputCases+'.html', myfile)
+                    calculated_result.diff.save('', myfile)
                     status = 'failed'
                 else:
                     status = 'success'

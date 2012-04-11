@@ -15,7 +15,7 @@
             {% if submission.result.status %}
                 <td>
                 {% if submission.result.status == 'failed' %}
-                    <a class='failed' href={% url diff submission.result.id %}>{{ submission.result.status|escape|capfirst }}</a>
+                    <a class='failed' href={% url diff submission.id %}>{{ submission.result.status|escape|capfirst }}</a>
                 {% else %}
                     {{ submission.result.status|escape|capfirst }}
                 {% endif %}
