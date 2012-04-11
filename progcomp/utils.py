@@ -1,5 +1,4 @@
 import os
-import mimetypes
 
 from django.utils.encoding import smart_str
 from django.http import HttpResponse
