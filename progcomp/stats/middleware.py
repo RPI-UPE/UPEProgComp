@@ -20,11 +20,7 @@ class ProfilingMiddleware:
         if self.state != 'new' or not settings.PROFILER or self.check_filters(view):
             return
 
-        try:
-            self.report = Report.objects.get(view=view, method=method)
-        except Report.DoesNotExist:
-            self.report = Report(view=view, method=method, calls=0, time=0)
-
+        self.report = Report(view=view, method=method)
         self.report.start()
         self.state = 'view'
 

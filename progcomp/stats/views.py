@@ -9,7 +9,7 @@ from progcomp.stats.models import Report
 
 @if_setting('PROFILER')
 def index(request):
-    stats = [r for r in sorted(Report.objects.all(), key=lambda x: -x.time)]
+    stats = [r for r in sorted(Report.objects.all(), key=lambda x: -x.time) if r.calls > 0 and r.time > 0]
 
     if len(stats) > 0:
         total_calls, total_time = map(lambda t: sum(t), zip(*[(r.calls, r.time) for r in stats]))

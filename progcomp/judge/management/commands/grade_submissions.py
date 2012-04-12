@@ -68,13 +68,7 @@ class Command(BaseCommand):
         # Setup stat reporting
         stats = None
         COMMIT_DELTA = 5
-        if settings.PROFILER:
-            try:
-                stats = Report.objects.get(view='grade_submissions', method='CONSOLE')
-            except Report.DoesNotExist:
-                pass
-        if not stats:
-            stats = Report(view='grade_submissions', method='CONSOLE', calls=0, time=0)
+        stats = Report(view='grade_submissions', method='CONSOLE')
         next_commit = {'calls': stats.calls + 1,
                        'time': datetime.datetime.now() + datetime.timedelta(seconds=COMMIT_DELTA) }
 
