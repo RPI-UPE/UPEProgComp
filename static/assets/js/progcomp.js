@@ -75,37 +75,40 @@
  * Fetching diffs with AJAX
  * -------------------------------------------------------------------------- */
 (function($){
+    var toggle_row = function(diff_row, attempt_row) {
+        if (diff_row.parent().length == 0) {
+            // Append
+            attempt_row.after(diff_row);
+            attempt_row.find("td:first-child").attr('rowspan', '2');
+        } else {
+            // Remove
+            diff_row.remove();
+            attempt_row.find("td:first-child").attr('rowspan', '1');
+        }
+        return;
+    };
+
     $("#submissions").on('click', 'a.failed', function(event){
         event.preventDefault();
         var self = this;
         var link = $(this).attr('href');
         var row = $(this).closest("tr");
+        var diff = $(this).data('diff');
 
-        if ($(this).data('fetched')) {
-            // Remove and stop
-            if ($(this).data('open')) {
-                $(this).data('open', false);
-                row.next().hide();
-            } else {
-                $(this).data('open', true);
-                row.next().show();
-            }
-            return;
-        }
+        // If we already loaded once, just toggle
+        if (diff)
+            return toggle_row(diff, row);
 
         // Try loading tiny with js
         $.get(
             link + 'tiny/',
             function(response){
-                $(self).data('fetched', true);
-                $(self).data('open', true);
-                row.after(
-                    $("<tr>").append(
-                        $("<td>")
-                            .attr('colspan', row[0].cells.length)
-                            .html(response)
-                    )
-                );
+                var diff_row = $("<tr>").append(
+                                    $("<td>")
+                                        .attr('colspan', row[0].cells.length - 1)
+                                        .html(response));
+                $(self).data('diff', diff_row);
+                toggle_row(diff_row, row);
             },
             'html'
         )

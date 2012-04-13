@@ -18,9 +18,10 @@ class Command(BaseCommand):
     help = 'Starts the grading service, that grades new submissions every thirty seconds.'
 
     # compute_diff() takes two arrays and returns an array with errors in matching
-    # returns: list of tuples for relevant lines in the form (line_no, expected, given)
+    # returns: - list of tuples for relevant lines in the form (line_no, expected, given)
+    #          - number of errors truncated
     # Note: both inputs are assumed stripped of whitespace and blank lines
-    def compute_diff(self, expected, given, context=2, errors=3):
+    def compute_diff(self, expected, given, context=2, errors=2):
         # Make sure that no excess output is given on either side
         while len(given) < len(expected):
             given.append(None)
@@ -28,20 +29,22 @@ class Command(BaseCommand):
             expected.append(None)
 
         # Collect points of error
-        errors = deque([n for n, line in enumerate(expected) if expected[n] != given[n]][:errors])
+        errlist = [n for n, line in enumerate(expected) if expected[n] != given[n]]
+        err_ct = len(errlist)
+        errlist = deque(errlist[:errors])
 
         # Collect lines with context
         diff = []
         for n, line in enumerate(expected):
             # Clear error that we've already copied
-            if n > errors[0] + context:
-                errors.popleft()
-                if len(errors) == 0: break
+            if n > errlist[0] + context:
+                errlist.popleft()
+                if len(errlist) == 0: break
             # Append line if part of error
-            if n >= errors[0] - context and n <= errors[0] + context:
+            if n >= errlist[0] - context and n <= errlist[0] + context:
                 diff.append((n, line, given[n]))
 
-        return diff
+        return diff, err_ct - sum(1 for e in diff if e[1] != e[2])
 
     # Arguments:
     #   regrade [<slug>] - remove and regrade all failed results for the given
@@ -99,7 +102,8 @@ class Command(BaseCommand):
 			    
                 if(expected_output != output):
                     # Create diff file - We must convert to string because writing original type will give characters
-                    content = loader.render_to_string('_diff_stub.html', {'diffs': self.compute_diff(expected_output, output)})
+                    diffs, err_left = self.compute_diff(expected_output, output)
+                    content = loader.render_to_string('_diff_stub.html', {'diffs': diffs, 'err_left': err_left})
                     myfile = ContentFile(str(content))
                     
                     # Remove diff file if one was created

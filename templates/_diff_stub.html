@@ -1,4 +1,4 @@
-<table>
+<table class="diff table table-bordered table-condensed">
 	<thead>
 		<tr>
 			<th><abbr title="Line number">#</abbr></th>
@@ -12,19 +12,24 @@
 			<td>{{ n }}</td>
 			<td>
 				{% if expected == None %}
-					<abbr class="eof" title="End of file">&lt;EOF&gt;</abbr>
+					<span class="label label-important">End of File</span>
 				{% else %}
 					{{ expected }}
 				{% endif %}
 			</td>
 			<td>
 				{% if given == None %}
-					<abbr class="eof" title="End of file">&lt;EOF&gt;</abbr>
+					<span class="label label-important">End of File</span>
 				{% else %}
 					{{ given }}
 				{% endif %}
 			</td>
 		</tr>
 		{% endfor %}
+		{% if err_left > 0 %}
+		<tr>
+			<td colspan="3"><small>{{ err_left }} additional errors not shown.</small></td>
+		</tr>
+		{% endif %}
 	</tbody>
 </table>

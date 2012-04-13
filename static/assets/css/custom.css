@@ -22,3 +22,26 @@ ol#problem-list {
 ol#problem-list > li {
     line-height: 20px;
 }
+
+/* override bootstrap and fix nested table problem */
+.table-striped tbody tr:nth-child(odd) td, .table-striped tbody tr:nth-child(odd) th {
+  background-color: inherit;
+}
+.table-striped > tbody > tr:nth-child(odd) > td, .table-striped > tbody > tr:nth-child(odd) > th {
+  background-color: #f9f9f9;
+}
+table.diff > thead > tr {
+    background-color: #ccc;
+}
+table.diff > tbody > tr {
+    background-color: #fff;
+}
+table.diff tr.error {
+    background-color: #F2DEDE;
+    border-color: #EED3D7;
+    color: #B94A48;
+}
+table.diff small {
+    color: #999;
+    font-size: 11px;
+}
