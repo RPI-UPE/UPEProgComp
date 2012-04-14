@@ -88,14 +88,12 @@ class Command(BaseCommand):
                 stats.start()
                 attempt = current_submission.attempt
                 
-                with open(create_compiled_output(attempt.problem.slug,attempt.inputCases)) as tmpfile:
-                    expected_output = tmpfile.readlines()
-
-                with open(settings.MEDIA_ROOT+'/'+current_submission.output_file.name) as tmpfile:
-                    output = tmpfile.readlines()
-                
-                expected_output = [x.strip() for x in expected_output if x.strip() != ''] 
-                output = [x.strip() for x in output if x.strip() != ''] 
+                expected_output = [x.strip() for x in
+                                             open(create_compiled_output(attempt.problem.slug,attempt.inputCases))
+                                             if x.strip() != '']
+                output = [x.strip() for x in
+                                    open(settings.MEDIA_ROOT+'/'+current_submission.output_file.name)
+                                    if x.strip() != '']
 
                 calculated_result = Result()
                 calculated_result.submission = current_submission
