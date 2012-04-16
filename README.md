@@ -43,7 +43,8 @@ Point your browser to <http://127.0.0.1:8000/admin/>
 
 Directories
 -----------
-* database: Sqlite3 databases
+* conf: Sample configuration files for nginx and uWSGI
+* database: Sqlite3 databases for use in development
 * grader: Directories for each problem and their sets of inputs and expected
   outputs
 * media: Files to be transferred to and received from users
