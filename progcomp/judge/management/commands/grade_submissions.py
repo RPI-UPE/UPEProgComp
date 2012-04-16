@@ -89,34 +89,32 @@ class Command(BaseCommand):
                 calculated_result = Result()
                 calculated_result.submission = current_submission
 
-                # Read the output into an array
-                expected_output = [x.strip() for x in
-                                             open(create_compiled_output(attempt.problem.slug,attempt.inputCases))
-                                             if x.strip() != '']
-                try:
-                    # Make sure our output can be parsed as ASCII (i.e., they didn't upload an executable)
-                    output = [unicode(x.strip()) for x in
-                                                 open(settings.MEDIA_ROOT+'/'+current_submission.output_file.name)
-                                                 if x.strip() != '']
-                except UnicodeDecodeError:
-                    status = 'invalid file encoding'
+                with open(create_compiled_output(attempt.problem.slug, attempt.inputCases)) as expected_file:
+                    with open(os.path.join(settings.MEDIA_ROOT, current_submission.output_file.name)) as output_file:
+                        # Read the output into an array
+                        expected_output = [x.strip() for x in expected_file if x.strip() != '']
+                        try:
+                            # Make sure our output can be parsed as ASCII (i.e., they didn't upload an executable)
+                            output = [unicode(x.strip()) for x in output_file if x.strip() != '']
+                        except UnicodeDecodeError:
+                            status = 'invalid file encoding'
 
-                else:
-                    if expected_output != output:
-                        # Create diff file - We must convert to string because writing original type will give characters
-                        diffs, err_left = self.compute_diff(expected_output, output)
-                        content = loader.render_to_string('_diff_stub.html', {'diffs': diffs, 'err_left': err_left})
-                        myfile = ContentFile(str(content))
+                        else:
+                            if expected_output != output:
+                                # Create diff file - We must convert to string because writing original type will give characters
+                                diffs, err_left = self.compute_diff(expected_output, output)
+                                content = loader.render_to_string('_diff_stub.html', {'diffs': diffs, 'err_left': err_left})
+                                myfile = ContentFile(str(content))
 
-                        # Remove diff file if one was created
-                        path = calculated_result.diff.field.generate_filename(calculated_result)
-                        if os.path.exists(path):
-                            os.remove(path)
+                                # Remove diff file if one was created
+                                path = calculated_result.diff.field.generate_filename(calculated_result)
+                                if os.path.exists(path):
+                                    os.remove(path)
 
-                        calculated_result.diff.save('', myfile)
-                        status = 'failed'
-                    else:
-                        status = 'success'
+                                calculated_result.diff.save('', myfile)
+                                status = 'failed'
+                            else:
+                                status = 'success'
                 
                 calculated_result.status = status
                 calculated_result.save()
