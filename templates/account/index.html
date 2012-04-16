@@ -12,7 +12,7 @@ resume, and submit solutions to the contest</p>
 <p>Your stated graduation date is {{ user.profile.grad|date:"F, Y" }}.
 
 {% if user.profile.resume %}The resume you uploaded is
-<a href="{{ user.profile.resume_url }}">here</a>.{% else %}You have not uploaded
+<a href="{{ user.profile.resume_url }}" target="_blank">here</a>.{% else %}You have not uploaded
 a resume.{% endif %}</p>
 
 <p>You can edit your profile <a href="{% url editprofile %}">here</a>.</p>
