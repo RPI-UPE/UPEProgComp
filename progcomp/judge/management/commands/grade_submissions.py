@@ -42,7 +42,7 @@ class Command(BaseCommand):
                 if len(errlist) == 0: break
             # Append line if part of error
             if n >= errlist[0] - context and n <= errlist[0] + context:
-                diff.append((n, line, given[n]))
+                diff.append((n+1, line, given[n]))
 
         return diff, err_ct - sum(1 for e in diff if e[1] != e[2])
 
