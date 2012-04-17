@@ -1,5 +1,6 @@
 # Django settings for progcomp project: rename to settings_server.py
 # Any values set in here will override default values found in settings.py
+import datetime
 
 # Make this unique, and don't share it with anybody.
 # IMPORTANT: Change this immediately
