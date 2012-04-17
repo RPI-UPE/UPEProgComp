@@ -37,6 +37,16 @@ occasionally querying the database to check for new submissions.
     $ cd progcomp
     $ python manage.py grade_submissions
 
+You may also pass in an additional "regrade" command and an optional problem
+slug to go along with it.
+
+	$ python manage.py grade_submissions regrade
+	$ python manage.py grade_submissions regrade foobaz
+
+If no problem slug is specified, all failed attempts will be regraded. Note that
+in no case will successful attempts be regraded, but if they must be purged, you
+will need to do that through the administration panel (see below).
+
 Administration
 --------------
 Point your browser to <http://127.0.0.1:8000/admin/>
@@ -59,3 +69,4 @@ Directories
 * progcomp: Project source
 * static: Static content served, e.g., javascript, css, images
 * templates: HTML files loaded by Django's templater
+* test\_site: Configuration scripts for testing load with [FunkLoad](http://funkload.nuxeo.org/)
