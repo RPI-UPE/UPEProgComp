@@ -9,7 +9,7 @@ from settings import MEDIA_ROOT
 
 class Result(models.Model):
     submission  = models.OneToOneField(Submission)
-    status      = models.CharField(max_length=16)
+    status      = models.CharField(max_length=32)
     created     = models.DateTimeField(auto_now_add=True)
     diff        = models.FileField(upload_to=lambda x,f=None: os.path.join(MEDIA_ROOT,
                         user_directory(x.submission.registrant.user.username, 'diff'), str(x.submission.id)),
