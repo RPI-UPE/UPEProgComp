@@ -55,17 +55,17 @@ class Navigation(FunkLoadTestCase):
         self.get(server_url + "/submit/download",
             description="Get /submit/download")
         # /tmp/tmpswgrBv_funkload/watch0007.request
-        self.get(server_url + "/submit/1",
-            description="Get /submit/1")
+        self.get(server_url + "/submit/2/",
+            description="Get /submit/2/")
         # /tmp/tmpswgrBv_funkload/watch0008.request
         
         self.get(server_url+"/user/input/battleships.in",
             description="Get battleships.in")
         # /tmp/tmpswgrBv_funkload/watch0009.request
-        self.post(server_url + "/submit/1", params=[
+        self.post(server_url + "/submit/2/", params=[
             ['sourcecode', Upload("foobaz.in")],
             ['output_file', Upload("foobaz.in")]],
-            description="Post /submit/1/")
+            description="Post /submit/2/")
 
 
     def test_navigation(self):
