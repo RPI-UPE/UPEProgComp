@@ -129,6 +129,14 @@ LOGGING = {
         },
     },
 }
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'TIMEOUT': 60,
+    },
+}
+
 IGNORABLE_404_URLS = (
     re.compile(r'^/apple-touch-icon.*\.png$'),
     re.compile(r'^/favicon\.ico$'),

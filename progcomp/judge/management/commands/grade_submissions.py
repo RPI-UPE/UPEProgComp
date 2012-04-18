@@ -3,6 +3,7 @@ import datetime
 from time import sleep
 from collections import deque, defaultdict
 
+from django.core.cache import cache
 from django.core.management.base import BaseCommand
 from django.conf import settings
 from django.core.files.base import ContentFile

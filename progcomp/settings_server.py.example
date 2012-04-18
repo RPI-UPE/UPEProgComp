@@ -34,6 +34,16 @@ DATABASES = {
     },
 }
 
+# Configure the caching mechanism: comment this block out if you cannot setup Memcached
+# Note that there is no ability to invalidate the cache if you do not use
+# memcached, so the timeout will be defaulted to 60s
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': '127.0.0.1:11211', # Default memcached port
+        'TIMEOUT': 60 * 10,
+    },
+}
 
 # Path configuration
 # MEDIA_ROOT sets the directory where uploaded files will be stored
