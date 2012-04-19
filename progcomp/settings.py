@@ -98,6 +98,7 @@ INSTALLED_APPS = (
     'progcomp.judge',
     'progcomp.pretty_times',
     'progcomp',
+    'progcomp.stats',
 )
 
 INTERNAL_IPS = ()
@@ -187,6 +188,5 @@ if DEBUG:
     INTERNAL_IPS += ('127.0.0.1',)
 
 if PROFILER:
-    INSTALLED_APPS += ('progcomp.stats',)
     MIDDLEWARE_CLASSES += ('progcomp.stats.middleware.ProfilingMiddleware',)
 
