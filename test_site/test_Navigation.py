@@ -10,6 +10,8 @@ from funkload.FunkLoadTestCase import FunkLoadTestCase
 from webunit.utility import Upload
 from funkload.utils import Data
 import hashlib
+from funkload.utils import extract_token
+
 #from funkload.utils import xmlrpc_get_credential
 
 def user_grade_dir_name(username):
@@ -38,21 +40,17 @@ class Navigation(FunkLoadTestCase):
     def test_download_upload(self):
         server_url = self.server_url
         # /tmp/tmpswgrBv_funkload/watch0003.request
-        self.get(server_url + "/account/register/",
-            description="Get /account/register/")
-        user = lipsum.getUniqWord()
-        password = lipsum.getUniqWord()
-
-        self.post(server_url + "/account/register/", params=[
+        self.get(server_url + "/account/login/",
+            description="Get /account/login/")
+        user = 'test'
+        password = 'test'
+        csrftoken = extract_token(self.getBody(),'name=\'csrfmiddlewaretoken\' value=\'','\'')
+        print "%s\n"%csrftoken
+        self.post(server_url + "/account/login/", params=[
+            ['csrfmiddlewaretoken',csrftoken],
             ['username', user],
-            ['password1', password],
-            ['password2', password],
-            ['email', user+'@example.com'],
-            ['first_name', lipsum.getWord()],
-            ['last_name', lipsum.getWord()],
-            ['grad', '2011-12-01'],
-            ['resume', Upload("")]],
-            description="Post /account/register/")
+            ['password', password]],description="login")
+
         # /tmp/tmpswgrBv_funkload/watch0006.request
         self.get(server_url + "/submit/download",
             description="Get /submit/download")
@@ -61,47 +59,17 @@ class Navigation(FunkLoadTestCase):
             description="Get /submit/1")
         # /tmp/tmpswgrBv_funkload/watch0008.request
         
-        self.get(server_url + "/user/input/foobaz.in",
-            description="Get foobaz.in")
+        self.get(server_url+"/user/input/battleships.in",
+            description="Get battleships.in")
         # /tmp/tmpswgrBv_funkload/watch0009.request
-        self.post(server_url + "/submit/", params=[
+        self.post(server_url + "/submit/1", params=[
             ['sourcecode', Upload("foobaz.in")],
             ['output_file', Upload("foobaz.in")]],
-            description="Post /submit/")
+            description="Post /submit/1/")
 
 
     def test_navigation(self):
-        # The description should be set in the configuration file
-        server_url = self.server_url
-        # begin of test ---------------------------------------------
-
-        # /tmp/tmpy7Ii5Y_funkload/watch0002.request
-        self.get(server_url + "/account/register/",
-            description="Get /account/register/")
-        # /tmp/tmpy7Ii5Y_funkload/watch0003.request
-        user = lipsum.getUniqWord()
-        password = lipsum.getUniqWord()
-
-        self.post(server_url + "/account/register/", params=[
-            ['username', user],
-            ['password1', password],
-            ['password2', password],
-            ['email', user+'@example.com'],
-            ['first_name', lipsum.getWord()],
-            ['last_name', lipsum.getWord()],
-            ['grad', '2011-12-01'],
-            ['resume', Upload("")]],
-            description="Post /account/register/")
-        # /tmp/tmpy7Ii5Y_funkload/watch0005.request
-        self.get(server_url + "/submit/download",
-            description="Get /submit/download")
-        # /tmp/tmpy7Ii5Y_funkload/watch0006.request
-        self.get(server_url + "/scoreboard/",
-            description="Get /scoreboard/")
-        # /tmp/tmpy7Ii5Y_funkload/watch0007.request
-        self.get(server_url + "/account/logout/",
-            description="Get /account/logout/")
-
+        pass
         # end of test -----------------------------------------------
 
     
