@@ -213,7 +213,7 @@ var opts = { // Customize at http://fgnass.github.com/spin.js/
     left: 'auto' // Left position relative to parent in px
 };
 (function($){
-    var spinner, graders;
+    var spinner, graders, last_query;
 
     graders = $("td[data-loading]");
     if (!graders.size())
@@ -244,6 +244,7 @@ var opts = { // Customize at http://fgnass.github.com/spin.js/
         if (!graders.size())
             return;
 
+        last_query = Date.now();
         $.get(
             "/submit/json",
             {},
@@ -266,7 +267,12 @@ var opts = { // Customize at http://fgnass.github.com/spin.js/
                 }
 
                 // Follow up success with another timer
-                window.setTimeout(query, 3000);
+                // Stop if the response took more than 2s; we don't want to put
+                // additional burden on the server
+                if (Date.now() - last_query < 2000)
+                    window.setTimeout(query, 3000);
+                else
+                    graders.spin(false);
             },
             'json'
         )
