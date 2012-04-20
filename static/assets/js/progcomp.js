@@ -247,7 +247,7 @@ var opts = { // Customize at http://fgnass.github.com/spin.js/
         last_query = Date.now();
         $.get(
             "/submit/json",
-            {},
+            { submissions: graders.map(function(){ return $(this).attr('data-loading'); }).get().join(',') },
             function success(data){
                 for (var i in data) {
                     var attempt;
