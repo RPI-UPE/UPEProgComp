@@ -261,7 +261,7 @@ var opts = { // Customize at http://fgnass.github.com/spin.js/
                             attempt.text(data[i]);
                         } else {
                             // Failed and returned diff
-                            attempt.html("<a href='" + data[i] + "'>Failed</a>");
+                            attempt.html("<a class='failed' href='" + data[i] + "'>Failed</a>");
                         }
                     }
                 }

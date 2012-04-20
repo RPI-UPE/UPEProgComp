@@ -118,11 +118,12 @@ def refresh(request, problem_id='-1', template='submission/submission_form.html'
 @during_competition
 def json(request, template = 'submission/download_page.html'):
     import json
+    from django.template.defaultfilters import capfirst
     # The submission ids that we are looking for are sent via GET
     try:
         ids = map(lambda x: int(x), request.GET.get('submissions', '').split(','))
         graded = Submission.user_summary(request.user).filter(pk__in=ids).exclude(result=None)
-        graded = dict([(sub.id, sub.result.diff and sub.result.diff.url or sub.result.status) for sub in graded])
+        graded = dict([(sub.id, sub.result.diff and reverse('diff', args=[sub.id]) or capfirst(sub.result.status)) for sub in graded])
     except ValueError:
         # Invalid value for submissions, int() failed
         graded = {}
