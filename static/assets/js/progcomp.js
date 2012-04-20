@@ -213,7 +213,7 @@ var opts = { // Customize at http://fgnass.github.com/spin.js/
     left: 'auto' // Left position relative to parent in px
 };
 (function($){
-    var spinner, graders, timer;
+    var spinner, graders;
 
     graders = $("td[data-loading]");
     if (!graders.size())
@@ -222,7 +222,7 @@ var opts = { // Customize at http://fgnass.github.com/spin.js/
     $.fn.spin = function(opts) {
         this.each(function() {
             var $this = $(this),
-            data = $this.data();
+                data  = $this.data();
 
             if (data.spinner) {
                 data.spinner.stop();
@@ -239,12 +239,10 @@ var opts = { // Customize at http://fgnass.github.com/spin.js/
     graders.spin(opts);
 
     // Query every second until we are out
-    timer = window.setInterval(function(){
+    var query = function(){
         // Stop when we resolve every grader
-        if (!graders.size()) {
-            window.clearInterval(timer);
+        if (!graders.size())
             return;
-        }
 
         $.get(
             "/submit/json",
@@ -258,7 +256,7 @@ var opts = { // Customize at http://fgnass.github.com/spin.js/
                         graders = graders.not(attempt);
                         attempt.spin(false);
                         if (data[i].indexOf("diff") == -1) {
-                            // Succeeded
+                            // No diff means we display status as plain text
                             attempt.text(data[i]);
                         } else {
                             // Failed and returned diff
@@ -266,8 +264,18 @@ var opts = { // Customize at http://fgnass.github.com/spin.js/
                         }
                     }
                 }
+
+                // Follow up success with another timer
+                window.setTimeout(query, 3000);
             },
             'json'
-        );
-    }, 3000);
+        )
+        .error(function(a,b,c){
+            // Stop all spinners to let user know that further attempts will be halted
+            graders.spin(false);
+        });
+    };
+
+    // Set initial timer
+    window.setTimeout(query, 1000);
 })(jQuery);
