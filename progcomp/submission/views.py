@@ -119,6 +119,6 @@ def refresh(request, problem_id='-1', template='submission/submission_form.html'
 def json(request, template = 'submission/download_page.html'):
     import json
     graded = Submission.user_summary(request.user.profile).exclude(result=None)
-    graded = {sub.attempt.id: sub.result.diff and sub.result.diff.url or sub.result.status for sub in graded}
+    graded = dict([(sub.attempt.id, sub.result.diff and sub.result.diff.url or sub.result.status) for sub in graded])
     response = json.dumps(graded)
     return HttpResponse(response, mimetype='application/json')
