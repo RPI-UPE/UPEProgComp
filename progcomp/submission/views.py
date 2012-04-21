@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.db import transaction
 from django.conf import settings
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 
 from progcomp.submission.forms import SubmissionForm
 from progcomp.submission.models import Submission, Attempt
@@ -113,3 +113,17 @@ def refresh(request, problem_id='-1', template='submission/submission_form.html'
         pass
 
     return HttpResponseRedirect(reverse('submit', args=[problem_id]))
+
+def json(request, template = 'submission/download_page.html'):
+    import json
+    from django.template.defaultfilters import capfirst
+    # The submission ids that we are looking for are sent via GET
+    try:
+        ids = map(lambda x: int(x), request.GET.get('submissions', '').split(','))
+        graded = Submission.user_summary(request.user).filter(pk__in=ids).exclude(result=None)
+        graded = dict([(sub.id, sub.result.diff and reverse('diff', args=[sub.id]) or capfirst(sub.result.status)) for sub in graded])
+    except ValueError:
+        # Invalid value for submissions, int() failed
+        graded = {}
+    response = json.dumps(graded)
+    return HttpResponse(response, mimetype='application/json')

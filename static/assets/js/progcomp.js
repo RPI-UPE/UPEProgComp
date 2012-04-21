@@ -192,3 +192,96 @@
         });
     });
 })(jQuery);
+
+/* -----------------------------------------------------------------------------
+ * Automatic update for submissions
+ * -------------------------------------------------------------------------- */
+var opts = { // Customize at http://fgnass.github.com/spin.js/
+    lines: 13, // The number of lines to draw
+    length: 0, // The length of each line
+    width: 2, // The line thickness
+    radius: 5, // The radius of the inner circle
+    rotate: 0, // The rotation offset
+    color: '#000', // #rgb or #rrggbb
+    speed: 1, // Rounds per second
+    trail: 60, // Afterglow percentage
+    shadow: false, // Whether to render a shadow
+    hwaccel: false, // Whether to use hardware acceleration
+    className: 'spinner', // The CSS class to assign to the spinner
+    zIndex: 2e9, // The z-index (defaults to 2000000000)
+    top: 'auto', // Top position relative to parent in px
+    left: 'auto' // Left position relative to parent in px
+};
+(function($){
+    var spinner, graders, last_query;
+
+    graders = $("td[data-loading]");
+    if (!graders.size())
+        return;
+
+    $.fn.spin = function(opts) {
+        this.each(function() {
+            var $this = $(this),
+                data  = $this.data();
+
+            if (data.spinner) {
+                data.spinner.stop();
+                delete data.spinner;
+            }
+            if (opts !== false) {
+                data.spinner = new Spinner($.extend({color: $this.css('color')}, opts)).spin(this);
+            }
+        });
+        return this;
+    };
+
+    // Start all spinners
+    graders.spin(opts);
+
+    // Query every second until we are out
+    var query = function(){
+        // Stop when we resolve every grader
+        if (!graders.size())
+            return;
+
+        last_query = Date.now();
+        $.get(
+            "/submit/json",
+            { submissions: graders.map(function(){ return $(this).attr('data-loading'); }).get().join(',') },
+            function success(data){
+                for (var i in data) {
+                    var attempt;
+                    attempt = graders.filter("[data-loading="+i+"]");
+                    if (attempt.length == 1) {
+                        // Found a newly graded item, remove it from the jQuery list
+                        graders = graders.not(attempt);
+                        attempt.spin(false);
+                        if (data[i].indexOf("diff") == -1) {
+                            // No diff means we display status as plain text
+                            attempt.text(data[i]);
+                        } else {
+                            // Failed and returned diff
+                            attempt.html("<a class='failed' href='" + data[i] + "'>Failed</a>");
+                        }
+                    }
+                }
+
+                // Follow up success with another timer
+                // Stop if the response took more than 2s; we don't want to put
+                // additional burden on the server
+                if (Date.now() - last_query < 2000)
+                    window.setTimeout(query, 3000);
+                else
+                    graders.spin(false);
+            },
+            'json'
+        )
+        .error(function(a,b,c){
+            // Stop all spinners to let user know that further attempts will be halted
+            graders.spin(false);
+        });
+    };
+
+    // Set initial timer
+    window.setTimeout(query, 1000);
+})(jQuery);
