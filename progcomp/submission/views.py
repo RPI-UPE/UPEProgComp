@@ -114,8 +114,6 @@ def refresh(request, problem_id='-1', template='submission/submission_form.html'
 
     return HttpResponseRedirect(reverse('submit', args=[problem_id]))
 
-@is_registered
-@during_competition
 def json(request, template = 'submission/download_page.html'):
     import json
     from django.template.defaultfilters import capfirst
