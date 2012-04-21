@@ -116,6 +116,7 @@ class Command(BaseCommand):
                                 status = 'failed'
                             else:
                                 status = 'success'
+                                cache.delete('scoreboard')
                 
                 calculated_result.status = status
                 calculated_result.save()
