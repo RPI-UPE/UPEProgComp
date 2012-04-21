@@ -213,7 +213,7 @@ var opts = { // Customize at http://fgnass.github.com/spin.js/
     left: 'auto' // Left position relative to parent in px
 };
 (function($){
-    var spinner, graders, last_query;
+    var spinner, graders, last_query, delay=1000, max_delay=10000;
 
     graders = $("td[data-loading]");
     if (!graders.size())
@@ -238,6 +238,34 @@ var opts = { // Customize at http://fgnass.github.com/spin.js/
     // Start all spinners
     graders.spin(opts);
 
+    // Update the status
+    $.fn.update_status = function(opts) {
+        this.each(function() {
+            var contents = opts.text;
+            if (opts.icon)
+                contents = "<i class='" + opts.icon + "'></i>" + contents;
+
+            var status = $("<div>").css({
+                height: '100%',
+                margin: '-8px',
+                padding: '8px',
+            });
+            if (opts.link)
+                status.append( $("<a>").attr('href', opts.link).addClass(opts.class).html(contents) );
+            else
+                status.html(contents);
+
+            $(this)
+                .html('')
+                .spin(false)
+                .append(status)
+                .find("div")
+                    .css({ backgroundColor: 'rgba(255, 192, 0, 0.6)' })
+                    .animate({ backgroundColor: 'rgba(255, 192, 0, 0.0)' }, 1500);
+        });
+        return this;
+    }
+
     // Query every second until we are out
     var query = function(){
         // Stop when we resolve every grader
@@ -255,30 +283,31 @@ var opts = { // Customize at http://fgnass.github.com/spin.js/
                     if (attempt.length == 1) {
                         // Found a newly graded item, remove it from the jQuery list
                         graders = graders.not(attempt);
-                        attempt.spin(false);
                         if (data[i].indexOf("diff") == -1) {
                             // No diff means we display status as plain text
-                            attempt.text(data[i]);
+                            attempt.update_status({ text: data[i] });
                         } else {
                             // Failed and returned diff
-                            attempt.html("<a class='failed' href='" + data[i] + "'>Failed</a>");
+                            attempt.update_status({ text: 'Failed', link: data[i], class: 'failed' });
                         }
                     }
                 }
 
-                // Follow up success with another timer
-                // Stop if the response took more than 2s; we don't want to put
+                // Follow up success with another timer, but increase the delay
+                // until it reaches a maximum
+                delay = Math.min(delay + 500, max_delay);
+                // Stop if the response took more than 5s; we don't want to put
                 // additional burden on the server
-                if (Date.now() - last_query < 2000)
-                    window.setTimeout(query, 3000);
+                if (Date.now() - last_query < 5000)
+                    window.setTimeout(query, delay);
                 else
-                    graders.spin(false);
+                    graders.update_status({ text: "<i class='icon-cog'></i> High server load" });
             },
             'json'
         )
         .error(function(a,b,c){
             // Stop all spinners to let user know that further attempts will be halted
-            graders.spin(false);
+            graders.update_status({ text: "<i class='icon-exclamation-sign'></i> Server error" });
         });
     };
 

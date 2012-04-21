@@ -131,4 +131,6 @@ def json(request, template = 'submission/download_page.html'):
         # Invalid value for submissions, int() failed
         graded = {}
     response = json.dumps(graded)
-    return HttpResponse(response, mimetype='application/json')
+    response = HttpResponse(response, mimetype='application/json')
+    response['Cache-Control'] = 'no-cache'
+    return response
