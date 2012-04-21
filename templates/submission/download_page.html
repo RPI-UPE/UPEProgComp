@@ -4,12 +4,20 @@
 {% block content %}
     {% load prettytimes_tags %}
     <h2>Problem Submission</h2>
-    <p>Please pick the problem number that you wish to attempt to solve. The competition ends {{ time_left|relative_time }}.</p>
-    <ol id="problem-list">
-        {% for id, name, completed in problems %}
-            <li><a href="{% url submit id %}">{{ name }}</a> {% if completed %}<i class="icon-ok"></i>{% endif %}</li>
-        {% endfor %}
-    </ol>
+	{% if time_now < time_start %}
+		<p>The competition will start {{ time_start|relative_time }}.</p>
+	{% else %}
+		{% if time_now > time_end %}
+			<p>The competition has ended. No further submissions will be accepted.</p>
+		{% else %}
+			<p>Please pick the problem number that you wish to attempt to solve. The competition ends <b>{{ time_end|relative_time }}.</b></p>
+			<ol id="problem-list">
+				{% for id, name, completed in problems %}
+					<li><a href="{% url submit id %}">{{ name }}</a> {% if completed %}<i class="icon-ok"></i>{% endif %}</li>
+				{% endfor %}
+			</ol>
+		{% endif %}
+	{% endif %}
 
     <h3>Submitted Solutions</h3>
     {% if submissions %}

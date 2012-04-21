@@ -1,3 +1,5 @@
+import datetime
+
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.contrib import messages
@@ -14,7 +16,6 @@ from progcomp.decorators import during_competition
 
 
 @is_registered
-@during_competition
 def download(request, template = 'submission/download_page.html'):
     if request.method == 'GET':
         problems = Problem.objects.all()
@@ -35,7 +36,9 @@ def download(request, template = 'submission/download_page.html'):
         context = {}
         context['submissions'] = submissions
         context['problems'] = problems
-        context['time_left'] = settings.END
+        context['time_start'] = settings.START
+        context['time_end'] = settings.END
+        context['time_now'] = datetime.datetime.now()
         return render_to_response( template, context,
                 context_instance=RequestContext(request))
 
@@ -102,6 +105,8 @@ def submit(request, problem_id='-1', template='submission/submission_form.html')
 
     return render_to_response(template, context, context_instance=RequestContext(request))
 
+@is_registered
+@during_competition
 def refresh(request, problem_id='-1', template='submission/submission_form.html'):
     # Check if we are under half time remaining
     try:
