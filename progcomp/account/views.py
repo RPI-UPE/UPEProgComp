@@ -32,9 +32,9 @@ def register(request, template='account/register.html'):
 
 @is_registered
 def index(request, template='account/index.html'):
-    context = {}
-    context['submissions'] = Submission.user_summary(request.user)[:5]
-    context['is_started'] = settings.START < datetime.datetime.now()
+    context = {
+        'submissions':Submission.user_summary(request.user)[:5]
+    }
     return render_to_response(template, context,
             context_instance=RequestContext(request))
 
