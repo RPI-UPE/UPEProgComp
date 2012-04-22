@@ -48,7 +48,6 @@ def download(request, template = 'submission/download_page.html'):
         pass
 
 @is_registered
-@during_competition
 @transaction.commit_on_success
 def submit(request, problem_id='-1', template='submission/submission_form.html'):
     if request.method == 'POST':

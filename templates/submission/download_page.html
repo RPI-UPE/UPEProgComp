@@ -8,15 +8,15 @@
 		<p>The competition will start {{ time_start|relative_time }}.</p>
 	{% else %}
 		{% if time_now > time_end %}
-			<p>The competition has ended. No further submissions will be accepted.</p>
+			<p>The competition has ended. No further submissions will be counted towards your final score, but you are free to continue to attempt problems.</p>
 		{% else %}
 			<p>Please pick the problem number that you wish to attempt to solve. The competition ends <b>{{ time_end|relative_time }}.</b></p>
-			<ol id="problem-list">
-				{% for id, name, completed in problems %}
-					<li><a href="{% url submit id %}">{{ name }}</a> {% if completed %}<i class="icon-ok"></i>{% endif %}</li>
-				{% endfor %}
-			</ol>
 		{% endif %}
+		<ol id="problem-list">
+			{% for id, name, completed in problems %}
+				<li><a href="{% url submit id %}">{{ name }}</a> {% if completed %}<i class="icon-ok"></i>{% endif %}</li>
+			{% endfor %}
+		</ol>
 	{% endif %}
 
     <h3>Submitted Solutions</h3>
