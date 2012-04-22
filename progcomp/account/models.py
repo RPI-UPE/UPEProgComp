@@ -32,3 +32,6 @@ class Profile(models.Model):
 is_registered = user_passes_test(lambda u:
         u.is_authenticated() and
         Profile.objects.filter(user=u.pk).count() > 0)
+
+is_staff = user_passes_test(lambda u:
+        u.is_authenticated() and u.is_staff)

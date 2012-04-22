@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block nav-scoreboard %} class="active"{% endblock %}
+
+{% block content %}
+<h2>Competition Results</h2>
+{% if scoreboard %}
+{% load prettytimes_tags %}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th><abbr title="Rank">#</abbr></th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Correct Submissions</th>
+            <th>Last Submission</th>
+            {% for problem in problems %}
+            <th>{{ problem.name }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+    {% for profile, num, dt, solns in scoreboard %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+			<td>{{ profile.first_name|escape }} {{ profile.last_name|escape }}</td>
+			<td><a href="mailto:{{ profile.email|escape }}">{{ profile.email|escape }}</a></td>
+            <td>{{ num|escape }}</td>
+            <td><abbr title='{{ dt|date:"Y-m-d H:i:s.u" }}'>{{ dt|relative_time }}</abbr></td>
+            {% for soln in solns %}
+                {% if soln %}
+                <td>{{ soln }}</td>
+                {% else %}
+                <td></td>
+                {% endif %}
+            {% endfor %}
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No submissions qualify.</p>
+{% endif %}
+{% endblock %}
