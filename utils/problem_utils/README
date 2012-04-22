@@ -1,0 +1,25 @@
+To use this utility: 
+
+1) Write a default test cases file in 
+problem_creation/defaults/${problem_name}.txt
+
+2) Write a test case generator function
+named ${problem_name} in problem_creation/generator.py
+
+3) Write a solution and place it in solutions
+it should take a filename for input
+and write to output.
+OR::: You can rewrite 
+create_output to handle your input as you wish
+
+4) From input_creation.py call 
+create_all_files(${problem_name},n,d)
+See the function to decide the values of n and d
+
+5) Also from input_creation.py call 
+create_all_output(command,input_dir,n)
+where:
+command is how to run your solution
+input_dir is the directory created by create_all_files
+n is the same as in (#4)
+
