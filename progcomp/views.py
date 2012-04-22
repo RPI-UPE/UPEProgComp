@@ -10,10 +10,5 @@ def contact(request, template='contact.html'):
     return render_to_response(template, context_instance=RequestContext(request))
 
 def notyet(request, template='notyet.html'):
-    context = {
-        'start': settings.START,
-        'end'  : settings.END,
-        'now'  : datetime.datetime.now(),
-    }
-    return render_to_response(template, context,
+    return render_to_response(template,
             context_instance=RequestContext(request))
