@@ -8,6 +8,7 @@ from django.conf import settings
 
 urlpatterns = patterns('',
     url(r'^$', 'progcomp.views.index', name='home'),
+    url(r'^contact/$', 'progcomp.views.contact', name='contact'),
     (r'^user/', include('progcomp.user.urls')),
     (r'^account/', include('progcomp.account.urls')),
     (r'^submit/', include('progcomp.submission.urls')),
@@ -26,9 +27,9 @@ if settings.PROFILER:
         (r'^stats/', include('progcomp.stats.urls')),
     )
 
-urlpatterns += patterns('',
-    # This should be handled in production by nginx
-    url(r'^static/(?P<path>.*)$','django.views.static.serve', {'document_root': settings.STATIC_ROOT,'show_indexes': True}),
-    url(r'^(?P<path>favicon.ico)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT,'show_indexes': False}),
-)
-
+if not settings.USING_NGINX:
+    urlpatterns += patterns('',
+        # This should be handled in production by nginx
+        url(r'^static/(?P<path>.*)$','django.views.static.serve', {'document_root': settings.STATIC_ROOT,'show_indexes': True}),
+        url(r'^(?P<path>favicon.ico)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT,'show_indexes': False}),
+    )
