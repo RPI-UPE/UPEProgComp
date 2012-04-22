@@ -33,12 +33,10 @@ def download(request, template = 'submission/download_page.html'):
 
         problems = [(p.id, p.name, p.slug in correct) for p in problems]
 
-        context = {}
-        context['submissions'] = submissions
-        context['problems'] = problems
-        context['time_start'] = settings.START
-        context['time_end'] = settings.END
-        context['time_now'] = datetime.datetime.now()
+        context = {
+            'submissions':submissions,
+            'problems':problems
+        }
         return render_to_response( template, context,
                 context_instance=RequestContext(request))
 
