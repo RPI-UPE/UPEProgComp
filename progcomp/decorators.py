@@ -16,6 +16,17 @@ def during_competition(func):
             return notyet(args[0])
     return decorator
 
+def past_competition_start(func):
+    def decorator(*args, **kwargs):
+        start = settings.START
+        now = datetime.datetime.now()
+        if start <= now:
+            return func(*args,**kwargs)
+        else:
+            return notyet(args[0])
+    
+    return decorator
+
 # Requires a key in settings to evaluate true or will 404
 class if_setting(object):
     def __init__(self, key):

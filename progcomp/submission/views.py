@@ -13,8 +13,10 @@ from progcomp.submission.models import Submission, Attempt
 from progcomp.problems.models import Problem
 from progcomp.account.models import is_registered
 from progcomp.decorators import during_competition
+from progcomp.decorators import past_competition_start
 
 
+@past_competition_start
 @is_registered
 def download(request, template = 'submission/download_page.html'):
     if request.method == 'GET':
@@ -45,6 +47,7 @@ def download(request, template = 'submission/download_page.html'):
         # Page should only get GET requests
         pass
 
+@past_competition_start
 @is_registered
 @transaction.commit_on_success
 def submit(request, problem_id='-1', template='submission/submission_form.html'):
@@ -102,8 +105,8 @@ def submit(request, problem_id='-1', template='submission/submission_form.html')
 
     return render_to_response(template, context, context_instance=RequestContext(request))
 
+@past_competition_start
 @is_registered
-@during_competition
 def refresh(request, problem_id='-1', template='submission/submission_form.html'):
     # Check if we are under half time remaining
     try:
