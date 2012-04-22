@@ -66,21 +66,38 @@
 		       	    {% block content %}
 	        	    {% endblock %}
 			</div>
-			<div id="sponsors" class="span4 well">
-				<h1 id = "sponsors_bar">Sponsors</h1>
-				<div class="sponsor_company">
-					<img src="{{STATIC_URL}}/logos/Microsoft.png">
+			<div class="span4">
+				<div id="timers" class="well">
+					{% load prettytimes_tags %}
+					{% if NOW > START %}
+						{% if NOW < END %}
+							<h1>Time Remaining</h1>
+							<p>Competition ends {{ END|relative_time }}.</p>
+						{% else %}
+							<h1>Competition Finished</h1>
+							<p>The competition has finished, view the results on the <a href="{% url scoreboard %}">scoreboard</a>.</p>
+						{% endif %}
+					{% else %}
+						<h1>Next Competition</h1>
+						<p>Competition starts {{ START|relative_time }}.</p>
+					{% endif %}
 				</div>
-				<div class="sponsor_company">
-					<img src="{{STATIC_URL}}/logos/Palantir.png">
+				<div id="sponsors" class="well">
+					<h1 id = "sponsors_bar">Sponsors</h1>
+					<div class="sponsor_company">
+						<img src="{{STATIC_URL}}/logos/Microsoft.png">
+					</div>
+					<div class="sponsor_company">
+						<img src="{{STATIC_URL}}/logos/Palantir.png">
+					</div>
+					<div class="sponsor_company">
+						<img src="{{STATIC_URL}}/logos/TripAdvisor.png">
+					</div>
+					<div class="sponsor_company">
+						<img src="{{STATIC_URL}}/logos/VistaPrint.png">
+					</div>
+					
 				</div>
-				<div class="sponsor_company">
-					<img src="{{STATIC_URL}}/logos/TripAdvisor.png">
-				</div>
-				<div class="sponsor_company">
-					<img src="{{STATIC_URL}}/logos/VistaPrint.png">
-				</div>
-				
 			</div>
 		</div>
 		<hr/>
