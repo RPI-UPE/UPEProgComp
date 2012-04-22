@@ -4,7 +4,7 @@
 {% block content %}
     {% load prettytimes_tags %}
     <h2>Problem Submission</h2>
-	{% if time_now < time_start %}
+	{% if NOW < START %}
 		<p>The competition will start {{ START|relative_time }}.</p>
 	{% else %}
 		{% if time_now > time_end %}
