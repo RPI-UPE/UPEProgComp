@@ -32,7 +32,7 @@ class Scoreboard:
 		# Summarize dict for sorting by rank (num_correct, latest_time, user)
 		ranks = []
 		for user, problems in users.items():
-			number_submitted = len(problems.keys())
+			number_submitted = sum(1 for t in problems.values() if t < settings.END)
 			max_time = max(problems.values())
 			ranks.append( (number_submitted, max_time, user) )
 		def comp(lhs, rhs):
