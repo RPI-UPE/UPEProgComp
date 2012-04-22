@@ -54,7 +54,7 @@ def scoreboard(request, template='scoreboard/scoreboard.html'):
     def user_solns(user):
         # Store solution as a list with incomplete being None
         solns = users[user]
-        solns = [i in solns and solns[i] or None for i in range(1, len(problem_set)+1)]
+        solns = [i in solns and solns[i] or None for i in [p.id for p in problem_set]]
         # Map to relative time
         solns = map(lambda y: y and (y - settings.START).seconds, solns)
         return map(lambda y: y and "%d:%02d:%02d" % (y/3600, (y/60)%60, y%60), solns)
