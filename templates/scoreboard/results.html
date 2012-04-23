@@ -19,11 +19,11 @@
         </tr>
     </thead>
     <tbody>
-    {% for profile, num, dt, solns in scoreboard %}
+    {% for user, num, dt, solns in scoreboard %}
         <tr>
             <td>{{ forloop.counter }}</td>
-			<td>{{ profile.first_name|escape }} {{ profile.last_name|escape }}</td>
-			<td><a href="mailto:{{ profile.email|escape }}">{{ profile.email|escape }}</a></td>
+			<td>{{ user.profile.first_name|escape }} {{ user.profile.last_name|escape }}</td>
+			<td><a href="mailto:{{ user.email|escape }}">{{ user.email|escape }}</a></td>
             <td>{{ num|escape }}</td>
             <td><abbr title='{{ dt|date:"Y-m-d H:i:s.u" }}'>{{ dt|relative_time }}</abbr></td>
             {% for soln in solns %}
