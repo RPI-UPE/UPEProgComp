@@ -1,4 +1,4 @@
-{% load prettytimes_tags %}
+{% load relative_time %}
 <table id="submissions" class="table table-striped">
     <thead>
         <tr>
@@ -10,7 +10,7 @@
     <tbody>
     {% for submission in submissions %}
         <tr>
-            <td>{{ submission.submitted|relative_time }}</td>
+            <td>{{ submission.submitted|clear_time }}</td>
             <td>{{ submission.attempt.problem|escape }}</td>
             {% if submission.result.status %}
                 <td>

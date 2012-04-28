@@ -96,7 +96,6 @@ INSTALLED_APPS = (
     'progcomp.submission',
     'progcomp.account',
     'progcomp.judge',
-    'progcomp.pretty_times',
     'progcomp',
     'progcomp.stats',
 )

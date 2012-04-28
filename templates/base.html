@@ -68,18 +68,18 @@
 			</div>
 			<div class="span4">
 				<div id="timers" class="well">
-					{% load prettytimes_tags %}
+					{% load relative_time %}
 					{% if NOW > START %}
 						{% if NOW < END %}
 							<h1>Time Remaining</h1>
-							<p>Competition ends {{ END|relative_time }}.</p>
+							<p>Competition ends in {{ END|decimal_time }}.</p>
 						{% else %}
 							<h1>Competition Finished</h1>
 							<p>The competition has finished, view the results on the <a href="{% url scoreboard %}">scoreboard</a>.</p>
 						{% endif %}
 					{% else %}
 						<h1>Next Competition</h1>
-						<p>Competition starts {{ START|relative_time }}.</p>
+						<p>Competition starts in {{ START|decimal_time }}.</p>
 					{% endif %}
 				</div>
 				<div id="sponsors" class="well">

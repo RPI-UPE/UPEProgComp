@@ -2,15 +2,15 @@
 {% block nav-download %} class="active"{% endblock %}
 
 {% block content %}
-    {% load prettytimes_tags %}
+    {% load relative_time %}
     <h2>Problem Submission</h2>
 	{% if NOW < START %}
-		<p>The competition will start {{ START|relative_time }}.</p>
+		<p>The competition will start {{ START|clear_time }}.</p>
 	{% else %}
 		{% if time_now > time_end %}
 			<p>The competition has ended. No further submissions will be counted towards your final score, but you are free to continue to attempt problems.</p>
 		{% else %}
-			<p>Please pick the problem number that you wish to attempt to solve. The competition ends <b>{{ END|relative_time }}.</b></p>
+			<p>Please pick the problem number that you wish to attempt to solve. The competition ends <b>{{ END|clear_time }}.</b></p>
 		{% endif %}
 		<ol id="problem-list">
 			{% for id, name, completed in problems %}

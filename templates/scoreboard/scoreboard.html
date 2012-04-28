@@ -4,7 +4,7 @@
 {% block content %}
 <h2>Scoreboard</h2>
 {% if scoreboard %}
-{% load prettytimes_tags %}
+{% load relative_time %}
 <table class="table table-striped">
     <thead>
         <tr>
@@ -23,7 +23,7 @@
             <td>{{ forloop.counter }}</td>
             <td>{{ u.username|escape }}</td>
             <td>{{ num|escape }}</td>
-            <td><abbr title='{{ dt|date:"Y-m-d H:i:s.u" }}'>{{ dt|relative_time }}</abbr></td>
+            <td><abbr title='{{ dt|date:"Y-m-d H:i:s.u" }}'>{{ dt|clear_time }}</abbr></td>
             {% for soln in solns %}
                 {% if soln %}
                 <td>{{ soln }}</td>

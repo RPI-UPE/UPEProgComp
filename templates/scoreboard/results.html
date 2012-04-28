@@ -4,7 +4,7 @@
 {% block content %}
 <h2>Competition Results</h2>
 {% if scoreboard %}
-{% load prettytimes_tags %}
+{% load relative_time %}
 <table class="table table-striped">
     <thead>
         <tr>
@@ -25,7 +25,7 @@
 			<td>{{ user.profile.first_name|escape }} {{ user.profile.last_name|escape }}</td>
 			<td><a href="mailto:{{ user.email|escape }}">{{ user.email|escape }}</a></td>
             <td>{{ num|escape }}</td>
-            <td><abbr title='{{ dt|date:"Y-m-d H:i:s.u" }}'>{{ dt|relative_time }}</abbr></td>
+            <td><abbr title='{{ dt|date:"Y-m-d H:i:s.u" }}'>{{ dt|clear_time }}</abbr></td>
             {% for soln in solns %}
                 {% if soln %}
                 <td>{{ soln }}</td>
