@@ -59,13 +59,18 @@
     </div>
 	<div class = "container">
 		<div class = "row">
+			{% if not template_fullwidth %}
 			<div id="bd" class="span8" style="margin-left:10px">
+			{% else %}
+			<div id="bd" class="span12" style="margin-left:10px">
+			{% endif %}
 				{% for message in messages %}
 				<div class="alert alert-{{ message.tags }}">{{ message }}</div>
 				{% endfor %}
 		       	    {% block content %}
 	        	    {% endblock %}
 			</div>
+			{% if not template_fullwidth %}
 			<div class="span4">
 				<div id="timers" class="well">
 					{% load relative_time %}
@@ -99,6 +104,7 @@
 					
 				</div>
 			</div>
+			{% endif %}
 		</div>
 		<hr/>
 	        <div id="ft" style="margin-left:10px">

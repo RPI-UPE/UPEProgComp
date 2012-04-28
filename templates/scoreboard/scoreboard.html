@@ -9,7 +9,12 @@
     <thead>
         <tr>
             <th><abbr title="Rank">#</abbr></th>
+            {% if not results %}
             <th>User</th>
+            {% else %}
+            <th>Name</th>
+            <th>Email</th>
+            {% endif %}
             <th><abbr title="Only submissions before contest end are counted towards your score.">Correct Submissions</abbr></th>
             <th>Last Submission</th>
             {% for problem in problems %}
@@ -21,7 +26,12 @@
     {% for u, num, dt, solns in scoreboard %}
         <tr{% if u == user %} class="mine"{% endif %}>
             <td>{{ forloop.counter }}</td>
+            {% if not results %}
             <td>{{ u.username|escape }}</td>
+            {% else %}
+			<td><span title="{{ u.username }}">{{ u.profile.first_name|escape }} {{ u.profile.last_name|escape }}</span></td>
+			<td><a href="mailto:{{ u.email|escape }}">{{ u.email|escape }}</a></td>
+            {% endif %}
             <td>{{ num|escape }}</td>
             <td><abbr title='{{ dt|date:"Y-m-d H:i:s.u" }}'>{{ dt|clear_time }}</abbr></td>
             {% for soln in solns %}
