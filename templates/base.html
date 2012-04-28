@@ -71,15 +71,15 @@
 					{% load relative_time %}
 					{% if NOW > START %}
 						{% if NOW < END %}
-							<h1>Time Remaining</h1>
-							<p>Competition ends in {{ END|decimal_time }}.</p>
+							<h1>Time Left: <span id="comptime">{{ END|decimal_time }}</span></h1>
+							<p>Competition ends at {{ END|time:"h:i A" }}.</p>
 						{% else %}
 							<h1>Competition Finished</h1>
 							<p>The competition has finished, view the results on the <a href="{% url scoreboard %}">scoreboard</a>.</p>
 						{% endif %}
 					{% else %}
-						<h1>Next Competition</h1>
-						<p>Competition starts in {{ START|decimal_time }}.</p>
+						<h3>Next competition {{ START|clear_time }}</h3>
+						<p>Competition starts on {{ START }}.</p>
 					{% endif %}
 				</div>
 				<div id="sponsors" class="well">
