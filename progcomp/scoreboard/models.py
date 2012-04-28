@@ -24,10 +24,13 @@ class Scoreboard:
 		problem_set = Problem.objects.all()
 
 		# Build dictionary of users mapped to problems mapped to time completed
+		best = dict([[p, None] for p in [p.id for p in problem_set]])
 		users = collections.defaultdict(dict)
 		for user, problem, dt in list(valid_submissions):
 			if problem not in users[user] or users[user][problem] > dt:
 				users[user][problem] = dt
+			if not best[problem] or best[problem] > dt:
+				best[problem] = dt
 
 		# Summarize dict for sorting by rank (num_correct, latest_time, user)
 		ranks = []
@@ -47,9 +50,8 @@ class Scoreboard:
 			# Store solution as a list with incomplete being None
 			solns = users[user]
 			solns = [i in solns and solns[i] or None for i in [p.id for p in problem_set]]
-			# Map to relative time
-			solns = map(lambda y: y and (y - settings.START).seconds, solns)
-			return map(lambda y: y and "%d:%02d:%02d" % (y/3600, (y/60)%60, y%60), solns)
+			status = map(lambda y: (y[1] and y[1] > settings.END) and "invalid" or (y[1]==y[0] and "first" or None), zip(best.values(), solns))
+			return zip(solns, status)
 
 		ranks = map(lambda y: (y[2], y[0], y[1], user_solns(y[2])), ranks)
 

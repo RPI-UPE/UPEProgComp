@@ -5,7 +5,7 @@
 <h2>Scoreboard</h2>
 {% if scoreboard %}
 {% load relative_time %}
-<table class="table table-striped">
+<table id="scoreboard" class="table table-striped">
     <thead>
         <tr>
             <th><abbr title="Rank">#</abbr></th>
@@ -34,9 +34,9 @@
             {% endif %}
             <td>{{ num|escape }}</td>
             <td><abbr title='{{ dt|date:"Y-m-d H:i:s.u" }}'>{{ dt|clear_time }}</abbr></td>
-            {% for soln in solns %}
+            {% for soln, status in solns %}
                 {% if soln %}
-                <td>{{ soln }}</td>
+				<td{% if status %} class="{{ status }}"{% endif %}>{{ soln|decimal_time:START }}</td>
                 {% else %}
                 <td></td>
                 {% endif %}
