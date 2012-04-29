@@ -46,9 +46,9 @@ table.diff small {
 #scoreboard td.soln {
     padding-left: 20px;
 }
-#scoreboard td.soln.failed { color: rgb(190, 190, 190); }
-#scoreboard td.soln.invalid { color: rgb(127, 0, 0); }
 #scoreboard td.soln.first { color: rgb(0, 127, 0); }
+#scoreboard td.soln.failed { color: rgba(127, 0, 0, 0.5); }
+#scoreboard td.soln.invalid { color: rgba(0, 0, 0, 0.3); }
 
 #scoreboard td .flag-pos {
     position: relative;
@@ -67,5 +67,5 @@ table.diff small {
 }
 #scoreboard td .success { display: none; }
 #scoreboard td .first { border-color: rgb(0, 127, 0) transparent transparent rgb(0, 127, 0); display: block; }
-#scoreboard td .invalid { border-color: rgb(127, 0, 0) transparent transparent rgb(127, 0, 0); }
-#scoreboard td .failed { border-color: rgb(190, 190, 190) transparent transparent rgb(190, 190, 190); }
+#scoreboard td .failed { border-color: rgba(127, 0, 0, 0.5) transparent transparent rgba(127, 0, 0, 0.5); }
+#scoreboard td .invalid { border-color: rgba(0, 0, 0, 0.3) transparent transparent rgba(0, 0, 0, 0.3); }
