@@ -43,12 +43,29 @@ table.diff small {
 }
 
 /* scoreboard */
-#scoreboard td.first {
-    background-color: rgba(127, 255, 127, 0.5) !important;
+#scoreboard td.soln {
+    padding-left: 20px;
 }
-#scoreboard td.invalid {
-    background-color: rgba(255, 127, 127, 0.5) !important;
+#scoreboard td.soln.failed { color: rgb(190, 190, 190); }
+#scoreboard td.soln.invalid { color: rgb(127, 0, 0); }
+#scoreboard td.soln.first { color: rgb(0, 127, 0); }
+
+#scoreboard td .flag-pos {
+    position: relative;
+    left: -18px;
+    top: -8px;
 }
-#scoreboard td.failed {
-    background-color: rgba(127, 127, 127, 0.5) !important;
+#scoreboard td .flag {
+    height: 0px;
+    width: 0px;
+    position: absolute;
+    top: 0px;
+    left: 8px;
+
+    border-width: 6px;
+    border-style: solid;
 }
+#scoreboard td .success { display: none; }
+#scoreboard td .first { border-color: rgb(0, 127, 0) transparent transparent rgb(0, 127, 0); display: block; }
+#scoreboard td .invalid { border-color: rgb(127, 0, 0) transparent transparent rgb(127, 0, 0); }
+#scoreboard td .failed { border-color: rgb(190, 190, 190) transparent transparent rgb(190, 190, 190); }

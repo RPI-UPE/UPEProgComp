@@ -34,9 +34,17 @@
             {% endif %}
             <td>{{ num|escape }}</td>
             <td><abbr title='{{ dt|date:"Y-m-d H:i:s.u" }}'>{{ dt|clear_time }}</abbr></td>
+            {% load status_text %}
             {% for soln, status in solns %}
                 {% if soln %}
-				<td{% if status %} class="{{ status }}"{% endif %}>{{ soln|decimal_time:START }}</td>
+				<td class="soln {% if status %}{{status}}{% endif %}">
+					{% if status %}
+					<div class="flag-pos">
+						<div class="flag {{ status }}" title="{{ status|status_text }}"></div>
+					</div>
+					{% endif %}
+					{{ soln|decimal_time:START }}
+				</td>
                 {% else %}
                 <td></td>
                 {% endif %}
