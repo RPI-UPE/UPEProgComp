@@ -37,10 +37,10 @@
             {% load status_text %}
             {% for soln, status in solns %}
                 {% if soln %}
-				<td class="soln {% if status %}{{status}}{% endif %}">
+                <td class="soln {% if status %}{{status}}" title="{{status|status_text}}{% endif %}">
 					{% if status %}
 					<div class="flag-pos">
-						<div class="flag {{ status }}" title="{{ status|status_text }}"></div>
+						<div class="flag {{ status }}"></div>
 					</div>
 					{% endif %}
 					{{ soln|decimal_time:START }}
