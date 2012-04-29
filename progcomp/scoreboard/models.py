@@ -19,6 +19,8 @@ class Scoreboard:
 		"""
 		# Get all submissions
 		all_submissions = Submission.objects.all() \
+				.filter(Q(result__status='success') | \
+						Q(submitted__lt=settings.END)) \
 				.values_list('registrant', 'attempt__problem', 'submitted', 'result__status') \
 				.extra(order_by=['-result__status', 'submitted'])
 
