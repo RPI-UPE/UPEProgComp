@@ -37,12 +37,12 @@
           <div class="nav-collapse">
             <ul class="nav">
               <li{% block nav-home %}{% endblock %}><a href="{% url home %}">Home</a></li>
+              <li{% block nav-contact %}{% endblock %}><a href="{% url contact %}">Contact</a></li>
 {% if user.is_authenticated %}
                 <li{% block nav-profile %}{% endblock %}><a href="{% url profile %}">Profile</a></li>
                 <li{% block nav-download %}{% endblock %}><a href="{% url download %}">Submission Page</a></li>
                 <li{% block nav-scoreboard %}{% endblock %}><a href="{% url scoreboard %}">Standings</a></li>
                 <li><a href="{% url logout %}">Logout</a></li>
-                <li{% block nav-contact %}{% endblock %}><a href="{% url contact %}">Contact</a></li>
     {% if PROFILER and DEBUG %}
                 <li{% block nav-stats %}{% endblock %}><a href="{% url stats %}">Stats</a></li>
     {% endif %}
