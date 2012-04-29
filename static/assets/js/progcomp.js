@@ -80,10 +80,12 @@
             // Append
             attempt_row.after(diff_row);
             attempt_row.find("td:first-child").attr('rowspan', '2');
+            attempt_row.find("i").removeClass().addClass('icon-chevron-down');
         } else {
             // Remove
             diff_row.remove();
             attempt_row.find("td:first-child").attr('rowspan', '1');
+            attempt_row.find("i").removeClass().addClass('icon-chevron-right');
         }
         return;
     };
