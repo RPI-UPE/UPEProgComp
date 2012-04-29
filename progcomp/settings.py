@@ -176,12 +176,16 @@ GRAD_DATES = [
 
 DEFAULT_FROM_EMAIL = 'no-reply@progcomp.upe.cs.rpi.edu'
 
+# Allows use of <User>.get_profile()
+AUTH_PROFILE_MODULE = 'account.Profile'
+
+# Required for admin css/js
+ADMIN_MEDIA_PREFIX = '/adminmedia/'
+
 # Undocumented / possibly unused
 ADMINS = ()
 MANAGERS = ADMINS
-ADMIN_MEDIA_PREFIX = '/adminmedia/'
 SITE_ID = 1
-AUTH_PROFILE_MODULE = "register.Profile"
 
 import os
 if os.path.isfile('settings_server.py'):
