@@ -7,7 +7,7 @@
 	{% if NOW < START %}
 		<p>The competition will start {{ START|clear_time }}.</p>
 	{% else %}
-		{% if time_now > time_end %}
+		{% if NOW > END %}
 			<p>The competition has ended. No further submissions will be counted towards your final score, but you are free to continue to attempt problems.</p>
 		{% else %}
 			<p>Please pick the problem number that you wish to attempt to solve. The competition ends <b>{{ END|clear_time }}.</b></p>
