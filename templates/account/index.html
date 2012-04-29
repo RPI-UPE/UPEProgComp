@@ -2,20 +2,22 @@
 {% block nav-profile %} class="active"{% endblock %}
 
 {% block content %}
-<h2>Contest Home</h2>
+<h2>Your Profile</h2>
 
-<p>This is your contest homepage.  From here you can see the status of all
-submissions you have made.  Additionally, you can upload a new copy of your
-resume, and submit solutions to the contest</p>
+<p>This is your account overview page. From here you can change your password,
+upload a new copy of your resume, or change your date of graduation.
+Additionally, you can see the status of recent submissions you have made.</p>
 
-<h3>Your Profile</h3>
-<p>Your stated graduation date is {{ user.profile.grad|date:"F, Y" }}.
-
-{% if user.profile.resume %}The resume you uploaded is
-<a href="{{ user.profile.resume_url }}" target="_blank">here</a>.{% else %}You have not uploaded
-a resume.{% endif %}</p>
-
-<p>You can edit your profile <a href="{% url editprofile %}">here</a>.</p>
+<h3>Profile Actions</h3>
+<ul>
+	<li><a href="{% url editprofile %}">Edit profile</a></li>
+	<li><a href="{% url pw_change %}">Change password</a></li>
+	{% if user.profile.resume %}
+	<li><a href="{{ user.profile.resume_url }}" target="_blank">View uploaded resume</a></li>
+	{% else %}
+	<li>You have not uploaded a resume.</li>
+	{% endif %}
+</ul>
 
 <h3>Submit Solutions</h3>
 <p>Go to <a href="{% url download %}">the submission page</a> to submit solutions

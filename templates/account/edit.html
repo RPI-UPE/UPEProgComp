@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% block nav-profile %} class="active"{% endblock %}
 
 {% block content %}
 <form class="form-horizontal" action="{% url editprofile %}" enctype="multipart/form-data" method="post"> {% csrf_token %}
