@@ -49,3 +49,6 @@ table.diff small {
 #scoreboard td.invalid {
     background-color: rgba(255, 127, 127, 0.5) !important;
 }
+#scoreboard td.failed {
+    background-color: rgba(127, 127, 127, 0.5) !important;
+}
