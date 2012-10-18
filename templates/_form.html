@@ -1,3 +1,6 @@
+{% for error in form.non_field_errors %}
+<div class="alert alert-error">{{error|escape}}</div>
+{% endfor %}
 {% for field in form %}
 <div class="control-group">
     <label class="control-label">{{ field.label_tag }}</label>
@@ -8,7 +11,4 @@
         {% endif %}
     </div>
 </div>
-{% endfor %}
-{% for error in form.non_field_errors %}
-<div>{{error|escape}}</div>
 {% endfor %}

@@ -38,8 +38,10 @@ class ProfileForm(forms.ModelForm):
         if resume and type(resume) != type(self.instance.resume):
             # MIME type error checking
             if mimetypes.guess_extension(resume.content_type) is None:
+                cleaned_data['resume'] = None
                 raise forms.ValidationError('Unknown mimetype for resume; try PDF or TXT')
             if resume.content_type not in settings.RESUME_TYPES:
+                cleaned_data['resume'] = None
                 raise forms.ValidationError('Invalid mimetype for resume; try %s' %
                     (' or '.join(settings.RESUME_TYPES)))
 
