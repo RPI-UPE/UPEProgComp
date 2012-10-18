@@ -6,3 +6,4 @@ grader/*
 *.swp
 error_log.txt
 progcomp/settings_server.py
+env
