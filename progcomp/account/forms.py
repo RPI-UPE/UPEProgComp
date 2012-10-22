@@ -81,6 +81,20 @@ class RegistrationForm(UserCreationForm):
     def is_valid(self):
         return super(RegistrationForm, self).is_valid() and self.profile.is_valid()
 
+    def _get_errors(self):
+      if self._errors is None:
+        # This sets self._errors
+        super(RegistrationForm, self)._get_errors()
+        profile_errors = self.profile.errors
+        # Form.errors returns are a dict of field|__all__ => list(), so we have to merge them
+        for k, v in profile_errors.iteritems():
+          if k in self._errors:
+            self._errors[k] += v
+          else:
+            self._errors[k] = list(v)
+      return self._errors
+    errors = property(_get_errors)
+
     def save(self, commit=True):
         if not commit:
             raise ValueError("Must commit the registration form")
