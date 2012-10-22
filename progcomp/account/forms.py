@@ -30,8 +30,6 @@ class ProfileForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super(ProfileForm, self).clean()
         
-        first_name = cleaned_data['first_name']
-        last_name = cleaned_data['last_name']
         resume = cleaned_data['resume']
 
         # Validate if a new resume was uploaded (InMemoryFile vs FieldFile)
