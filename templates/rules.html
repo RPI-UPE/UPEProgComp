@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block nav-rules %} class="active"{% endblock %}
+
+{% block content %}
+
+<h2> General </h2>
+The programming competition will last 2 hours, an will consist of four
+problems. All problems can be viewed when the competition begins, and
+there is no enforced ordering in which submissions must be submitted
+in.
+
+<h2> Submissions </h2>
+
+An unlimited number of submissions may be made for each problem, and
+the number of submissions does not affect your standing in the
+scoreboard.
+
+Each submission consists of downloading a test input file from our
+server, running it through your program, and then uploading the output
+of your program to the server.
+
+If your output matches our expected output then your program is
+considered to have solved the problem. If it doesn't match up we'll
+show you a small diff that can help you find what went wrong.
+
+Each time you request an input file a timer will be started, you will
+need to upload the output of your before the solution before the timer
+runs out for your solution to considered acceptable.
+
+<h2> Winners </h2>
+Winners will be decided based on first the number of problems
+successfully completed, and in case of a tie it shall be broken by the
+amount of time it takes to sucessully complete the problems.
+
+{% endblock %}

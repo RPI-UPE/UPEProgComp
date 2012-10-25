@@ -8,13 +8,14 @@ from django.conf import settings
 
 urlpatterns = patterns('',
     url(r'^$', 'progcomp.views.index', name='home'),
+    url(r'^rules$', 'progcomp.views.rules', name='rules'),
     url(r'^contact/$', 'progcomp.views.contact', name='contact'),
     (r'^user/', include('progcomp.user.urls')),
     (r'^account/', include('progcomp.account.urls')),
     (r'^submit/', include('progcomp.submission.urls')),
     (r'^scoreboard/', include('progcomp.scoreboard.urls')),
 
-    # Uncomment the admin/doc line below and add 'django.contrib.admindocs' 
+    # Uncomment the admin/doc line below and add 'django.contrib.admindocs'
     # to INSTALLED_APPS to enable admin documentation:
     # (r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
