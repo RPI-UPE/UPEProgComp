@@ -3,33 +3,62 @@
 
 {% block content %}
 
-<h2> General </h2>
-The programming competition will last 2 hours, an will consist of four
-problems. All problems can be viewed when the competition begins, and
-there is no enforced ordering in which submissions must be submitted
-in.
+<h2>General</h2>
+
+<p>The programming competition will last 2 hours and will consist of four
+problems. Please remember our simple rules:</p>
+
+<ol>
+  <li>All submitted source code must be your own.</li>
+  <li>You <b>are not</b> allowed to communicate with/ask questions of any other person.</li>
+  <li>You <b>are</b> allowed to use the internet as a reference.</li>
+</ol>
+
+<p>Any attempt to tamper with the competition server is considered dishonesty
+with respect to the contest. Please remember you are always subject to RPI's
+COMEC policy.</p>
+
+
+<h2>Problems</h2>
+
+<p>All problems can be viewed when the competition begins, and there is no
+particular order in which the problems must be attempted. Each problem has a
+description, detailed input and output format, and a sample input and the
+respective expected output.</p>
+
+<p>Please note that with regard to every input file, the first line will always
+contain the number of individual input cases that will be read from the file.
+Each input case follows the format specified in the problem description.</p>
+
 
 <h2> Submissions </h2>
 
-An unlimited number of submissions may be made for each problem, and
-the number of submissions does not affect your standing in the
-scoreboard.
+<p>Each submission consists of downloading a randomized test input file from our
+server, running it through your program, and then uploading the output of your
+program to the server. When you request an input file a two minute timer will be
+started. You will need to upload the output from your solution before the timer
+runs out for your solution to be accepted. If time does run out, then you will
+be given a new input file to use. A single source code file is also required so
+that the contest administrators may see the contents of your program for
+validation purposes only. Your source code will not impact your final standing.
+</p>
 
-Each submission consists of downloading a test input file from our
-server, running it through your program, and then uploading the output
-of your program to the server.
+<p class="rule-img"><img src="/static/assets/img/rules/submission.png"></p>
 
-If your output matches our expected output then your program is
-considered to have solved the problem. If it doesn't match up we'll
-show you a small diff that can help you find what went wrong.
+<p>If your output matches our expected output then your program is considered to
+have solved the problem. If it doesn't match up, we'll show you a small diff
+that can help you find what went wrong.  An unlimited number of submissions may
+be made for each problem, and the number of submissions will not affect your
+standing in the scoreboard.</p>
 
-Each time you request an input file a timer will be started, you will
-need to upload the output of your before the solution before the timer
-runs out for your solution to considered acceptable.
+<p class="rule-img"><img src="/static/assets/img/rules/graded.png"></p>
+
 
 <h2> Winners </h2>
-Winners will be decided based on first the number of problems
-successfully completed, and in case of a tie it shall be broken by the
-amount of time it takes to sucessully complete the problems.
+
+<p>Winners will be decided based on first the number of problems successfully
+completed, and in case of a tie the winner will be whoever completed their
+problems first. The ranking for each contestant can be seen on the <a
+  href="/scoreboard">scoreboard page</a> once the contest is underway.</p>
 
 {% endblock %}

@@ -1,3 +1,11 @@
+.rule-img {
+  text-align: center;
+}
+.rule-img img {
+  max-width: 500px;
+  border: 1px solid #999;
+}
+
 .sponsor_company {
 	padding-top: 10px;
 	padding-bottom: 10px;
