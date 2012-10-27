@@ -21,7 +21,7 @@ serve: venv
 	${VENV} ${CD} python ${MANAGE} runserver
 
 grade: venv
-	${VENV} ${CD} python ${MANAGE} runserver
+	${VENV} ${CD} python ${MANAGE} grade_submissions
 
 test: venv
 	${VENV} ${CD} python ${MANAGE} test
