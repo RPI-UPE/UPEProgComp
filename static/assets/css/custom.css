@@ -1,6 +1,11 @@
 .sponsor_company {
 	padding-top: 10px;
 	padding-bottom: 10px;
+  text-align: center;
+}
+.sponsor_company img {
+  max-width: 300px;
+  max-height: 60px;
 }
 
 abbr {
