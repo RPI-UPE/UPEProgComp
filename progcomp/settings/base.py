@@ -1,47 +1,41 @@
-# Django settings for progcomp project.
-# These values should be satisfactory for a local testing environment
-# See settings_server.py.example for additional documentation
+# Django base settings for progcomp project.
 import re
 import datetime
 
-DEBUG = True
-TEMPLATE_DEBUG = DEBUG
-USING_NGINX = False
+# Path configuration
+# Note that many of these will work for production and devel but can be
+# overridden as needed.
 
-PROFILER = True
-PROFILER_FILTERS = (
-    re.compile(r'.*stats$'),
-    re.compile(r'^django\.views\.static\.serve'),
-    re.compile(r'^debug_toolbar.*'),
-)
-
-DATABASES = {
-    'default': {
-        'ENGINE':   'django.db.backends.sqlite3',
-        'NAME':     '../database/progcomp.db',
-        'USER':     '',
-        'PASSWORD': '',
-        'HOST':     '',
-        'PORT':     '',
-    },
-}
-
-
+# MEDIA_ROOT sets the directory where uploaded files will be stored
+# MEDIA_URL is not used for direct access, but instead for passing paths to
+# nginx so that it can serve files from there
 MEDIA_ROOT = '../media/'
-MEDIA_URL  =  '/media/'   # This is necessary for nginx to forward from
+MEDIA_URL  =  '/media/'
 
+# USERS_ROOT contains folders for each user created and stores diffs and input
+# sets for their use. USERS_URL is the relative or absolute URI that Django will
+# use to read the users directory (see progcomp/urls.py). THIS IS NOT THE
+# DIRECTORY ITSELF.
 USERS_ROOT = MEDIA_ROOT+'users/'
-USERS_URL = '/user/' # Django will handle user requests through this URI
+USERS_URL = '/user/'
 
+# STATIC_ROOT and STATIC_URL describe where the static files (css, js, images,
+# etc.) are stored and how they should be accessed via the browser,
+# respectively. Check progcomp/urls.py for forwarding information regarding the
+# latter.
 STATIC_ROOT = '../static/'
 STATIC_URL = '/static'
 
+# Path on server to the directory containing templates. Make sure that the below
+# is in tuple form, i.e., TEMPLATE_DIRS = ('path',)
 TEMPLATE_DIRS = ('../templates',)
 
+# URL redirects for user class
 LOGIN_REDIRECT_URL = '/account/'
 LOGIN_URL = '/account/login/'
 LOGOUT_URL = '/account/logout/'
 
+# Location of inputs and outputs
 GRADE_DIR = '../grader/'
 
 # Local time zone for this installation. Choices can be found here:
@@ -102,6 +96,9 @@ INSTALLED_APPS = (
 
 INTERNAL_IPS = ()
 
+# File to log all server errors and 404 errors to; when LOG_FILE_MAX_SIZE is
+# reached (in bytes), it is moved to a backup as <name>.1 and a new file is
+# created. Only two files will exist at any given time.
 LOG_FILE = "../error_log.txt"
 LOG_FILE_MAXSIZE = 2**30 # 1 GB
 LOGGING = {
@@ -129,13 +126,6 @@ LOGGING = {
     },
 }
 
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-        'TIMEOUT': 60,
-    },
-}
-
 IGNORABLE_404_URLS = (
     re.compile(r'^/apple-touch-icon.*\.png$'),
     re.compile(r'^/favicon\.ico$'),
@@ -147,34 +137,10 @@ RESUME_TYPES = ['text/plain', 'application/pdf']
 # Amount of time a person has to upload the result of attempt, in seconds.
 ATTEMPT_DURATION = 120
 
-# Competition time window; you should use datetime.datetime(...) in production
-START = datetime.datetime.now() - datetime.timedelta(hours=1)
-END   = datetime.datetime.now() + datetime.timedelta(hours=1)
-
-# Dates for graduation drop down
-GRAD_DATES = [
-    datetime.date(2011, 12, 1),
-    datetime.date(2012, 5, 1),
-    datetime.date(2012, 8, 1),
-    datetime.date(2012, 12, 1),
-    datetime.date(2013, 5, 1),
-    datetime.date(2013, 8, 1),
-    datetime.date(2013, 12, 1),
-    datetime.date(2014, 5, 1),
-    datetime.date(2014, 8, 1),
-    datetime.date(2014, 12, 1),
-    datetime.date(2015, 5, 1),
-    datetime.date(2015, 8, 1),
-    datetime.date(2015, 12, 1),
-    datetime.date(2016, 5, 1),
-    datetime.date(2016, 8, 1),
-    datetime.date(2016, 12, 1),
-    datetime.date(2017, 5, 1),
-    datetime.date(2017, 8, 1),
-    datetime.date(2017, 12, 1),
-]
-
-DEFAULT_FROM_EMAIL = 'no-reply@progcomp.upe.cs.rpi.edu'
+# Dates for graduation drop down -- May, August, and December are all valid months
+today = datetime.date.today()
+GRAD_DATES = filter(lambda x: x > today,
+    [datetime.date(y, m, 1) for y in xrange(today.year, today.year+6) for m in [5, 8, 12]])
 
 # Allows use of <User>.get_profile()
 AUTH_PROFILE_MODULE = 'account.Profile'
@@ -186,18 +152,3 @@ ADMIN_MEDIA_PREFIX = '/adminmedia/'
 ADMINS = ()
 MANAGERS = ADMINS
 SITE_ID = 1
-
-import os
-if os.path.isfile('settings_server.py'):
-  from settings_server import *
-
-# Post-import commands
-# Include debug_toolbar if debug mode is enabled
-if DEBUG:
-    INSTALLED_APPS += ('progcomp.debug_toolbar',)
-    MIDDLEWARE_CLASSES += ('debug_toolbar.middleware.DebugToolbarMiddleware',)
-    INTERNAL_IPS += ('127.0.0.1',)
-
-if PROFILER:
-    MIDDLEWARE_CLASSES += ('progcomp.stats.middleware.ProfilingMiddleware',)
-

@@ -1,0 +1,2 @@
+START = datetime.datetime(year=2013, month=3, day=31, hour=12, minute=10)
+END   = START + datetime.timedelta(hours=2)
