@@ -9,7 +9,7 @@ class Attempt(models.Model):
     person = models.ForeignKey(Profile)
     problem = models.ForeignKey(Problem)
     startTime = models.DateTimeField(auto_now_add=True)
-    inputCases = models.IntegerField()
+    input_id = models.IntegerField()
 
     def __str__(self):
         return "%s %s %s"%(str(self.person),str(self.problem),str(self.startTime))
@@ -20,7 +20,7 @@ class Attempt(models.Model):
                        startTime = datetime.datetime.now())
         try:
             new.problem = Problem.objects.get(pk=problem_id)
-            new.inputCases = new.create_input()
+            new.input_id = new.create_input()
         except Problem.DoesNotExist:
             raise Exception("Invalid problem id")
 
@@ -31,10 +31,9 @@ class Attempt(models.Model):
         return (timediff.microseconds + (timediff.seconds + timediff.days * 24 * 3600) * 10**6) / 10**6
 
     def create_input(self):
-        # TODO refactor number_in_problem
         problem_path = os.path.join(settings.GRADE_DIR, self.problem.slug)
 
-        selected_number = random.randint(0, self.problem.number_in_problem-1)
+        selected_number = random.randint(0, self.problem.available_inputs - 1)
         target_symlink = os.path.join(self.person.user_directory('input'), self.problem.slug+'.in')
 
         link_name = os.path.join(self.problem.path, str(selected_number)+'.in')
@@ -50,7 +49,7 @@ class Attempt(models.Model):
 
     @property
     def output_path(self):
-        return os.path.join(self.problem.path, '/%d.out' % self.inputCases)
+        return os.path.join(self.problem.path, '/%d.out' % self.input_id)
         
 class Submission(models.Model):
     registrant = models.ForeignKey(Profile)
