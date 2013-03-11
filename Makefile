@@ -1,4 +1,3 @@
-CD=cd progcomp;
 MANAGE=manage.py
 VENV=. env/bin/activate;
 
@@ -9,7 +8,7 @@ env/bin/activate: requirements.txt
 	touch env/bin/activate
 
 init: venv
-	${VENV} ${CD} python ${MANAGE} syncdb
+	${VENV} python ${MANAGE} syncdb
 
 update: venv
 	${VENV} pip install -U -r requirements.txt
@@ -18,10 +17,10 @@ freeze: venv
 	${VENV} pip freeze -r requirements.txt > requirements.txt
 
 serve: venv
-	${VENV} ${CD} python ${MANAGE} runserver
+	${VENV} python ${MANAGE} runserver
 
 grade: venv
-	${VENV} ${CD} python ${MANAGE} grade_submissions
+	${VENV} python ${MANAGE} grade_submissions
 
 test: venv
-	${VENV} ${CD} python ${MANAGE} test
+	${VENV} python ${MANAGE} test

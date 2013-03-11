@@ -1,7 +1,7 @@
 # Django settings for progcomp production server
 # Any values set in here will override default values found in base.py
 import datetime
-from app.settings.base import *
+from progcomp.settings.base import *
 
 # Make this unique, and don't share it with anybody. Stored in the environment.
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
@@ -42,8 +42,6 @@ CACHES = {
 # Emails sent from the server come from here
 DEFAULT_FROM_EMAIL = 'UPE Progcomp <no-reply@progcomp.upe.cs.rpi.edu>'
 
-# Start and end times of competition
-# Note that this is 24 hour clock
 try:
   from progcomp.settings.competition import START, END
 except e:

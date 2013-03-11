@@ -1,6 +1,6 @@
 # Django settings for progcomp development server
 # Any values set in here will override default values found in base.py
-from app.settings.base import *
+from progcomp.settings.base import *
 
 # DEBUG should always be False in a production environment
 # This controls whether detailed error messages are output to the user, which

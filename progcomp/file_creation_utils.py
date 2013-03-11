@@ -2,12 +2,9 @@ import binascii
 import random
 import os.path
 
-from settings import GRADE_DIR
-from settings import MEDIA_ROOT
-from settings import USERS_ROOT
-from settings import USERS_URL
-
 import logging
+
+from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
@@ -25,11 +22,11 @@ def chose(k):
     return random.randint(0,k-1)
 
 def create_test_input(problem_name='test',username='test',number_in_problem=100):
-    if(os.path.exists(GRADE_DIR+problem_name)):
+    if(os.path.exists(settings.GRADE_DIR+problem_name)):
         selected_number = chose(number_in_problem)
-        target_symlink = os.path.join(MEDIA_ROOT, user_directory(username, 'input'), problem_name+'.in')
+        target_symlink = os.path.join(settings.MEDIA_ROOT, user_directory(username, 'input'), problem_name+'.in')
         
-        link_name = os.path.join(GRADE_DIR, problem_name, str(selected_number)+'.in')
+        link_name = os.path.join(settings.GRADE_DIR, problem_name, str(selected_number)+'.in')
         
         logging.info('%s --> %s'%(link_name, target_symlink))
         
@@ -43,8 +40,8 @@ def create_test_input(problem_name='test',username='test',number_in_problem=100)
         raise Exception('Invalid Problem Name')
 
 def create_compiled_output(problem_name, selected):
-    if os.path.exists(GRADE_DIR+problem_name):
-        return GRADE_DIR+problem_name+'/%d'%selected+'.out'
+    if os.path.exists(settings.GRADE_DIR+problem_name):
+        return settings.GRADE_DIR+problem_name+'/%d'%selected+'.out'
     else:
         raise Exception('Invalid Problem Name')
 
@@ -54,7 +51,7 @@ def user_directory(username, subdir=''):
     path = os.path.join('users', username, subdir)
 
     # Make sure directory is accessible
-    fs_path = os.path.join(MEDIA_ROOT, path)
+    fs_path = os.path.join(settings.MEDIA_ROOT, path)
     if not os.path.exists(fs_path):
         os.makedirs(fs_path)
 
