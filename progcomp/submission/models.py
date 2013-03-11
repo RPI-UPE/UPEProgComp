@@ -20,7 +20,7 @@ class Attempt(models.Model):
                        startTime = datetime.datetime.now())
         try:
             new.problem = Problem.objects.get(pk=problem_id)
-            new.inputCases = create_test_input(new.problem.slug, user.profile, new.problem.number_in_problem)
+            new.inputCases = new.create_input()
         except Problem.DoesNotExist:
             raise Exception("Invalid problem id")
 
@@ -29,6 +29,26 @@ class Attempt(models.Model):
     def time_since(self):
         timediff = datetime.datetime.now() - self.startTime
         return (timediff.microseconds + (timediff.seconds + timediff.days * 24 * 3600) * 10**6) / 10**6
+
+    def create_input(self):
+        # TODO refactor number_in_problem
+        problem_path = os.path.join(settings.GRADE_DIR, self.problem.slug)
+        if(os.path.exists(problem_path)):
+            selected_number = random.randint(0, self.problem.number_in_problem-1)
+            target_symlink = os.path.join(self.person.user_directory('input'), self.problem.slug+'.in')
+
+            link_name = os.path.join(problem_path, str(selected_number)+'.in')
+
+            logging.info('%s --> %s'%(link_name, target_symlink))
+
+            if (os.path.lexists(target_symlink)):
+                os.unlink(target_symlink)
+
+            os.link(link_name, target_symlink)
+
+            return selected_number
+        else:
+            raise Exception('Invalid Problem Name')
         
 class Submission(models.Model):
     registrant = models.ForeignKey(Profile)

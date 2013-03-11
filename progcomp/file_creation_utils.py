@@ -21,25 +21,6 @@ def decode(message,k=key):
 def chose(k):
     return random.randint(0,k-1)
 
-# submission/models.py
-def create_test_input(problem_name='test', profile=None, number_in_problem=100):
-    if(os.path.exists(settings.GRADE_DIR+problem_name)):
-        selected_number = chose(number_in_problem)
-        target_symlink = os.path.join(settings.MEDIA_ROOT, profile.user_directory('input'), problem_name+'.in')
-        
-        link_name = os.path.join(settings.GRADE_DIR, problem_name, str(selected_number)+'.in')
-        
-        logging.info('%s --> %s'%(link_name, target_symlink))
-        
-        if (os.path.lexists(target_symlink)):
-            os.unlink(target_symlink)
-        
-        os.link(link_name, target_symlink)
-        
-        return selected_number
-    else:
-        raise Exception('Invalid Problem Name')
-
 def create_compiled_output(problem_name, selected):
     if os.path.exists(settings.GRADE_DIR+problem_name):
         return settings.GRADE_DIR+problem_name+'/%d'%selected+'.out'
