@@ -21,10 +21,11 @@ def decode(message,k=key):
 def chose(k):
     return random.randint(0,k-1)
 
-def create_test_input(problem_name='test',username='test',number_in_problem=100):
+# submission/models.py
+def create_test_input(problem_name='test', profile=None, number_in_problem=100):
     if(os.path.exists(settings.GRADE_DIR+problem_name)):
         selected_number = chose(number_in_problem)
-        target_symlink = os.path.join(settings.MEDIA_ROOT, user_directory(username, 'input'), problem_name+'.in')
+        target_symlink = os.path.join(settings.MEDIA_ROOT, profile.user_directory('input'), problem_name+'.in')
         
         link_name = os.path.join(settings.GRADE_DIR, problem_name, str(selected_number)+'.in')
         
@@ -44,18 +45,6 @@ def create_compiled_output(problem_name, selected):
         return settings.GRADE_DIR+problem_name+'/%d'%selected+'.out'
     else:
         raise Exception('Invalid Problem Name')
-
-def user_directory(username, subdir=''):
-    if username == '':
-        raise Exception('Invalid user directory')
-    path = os.path.join('users', username, subdir)
-
-    # Make sure directory is accessible
-    fs_path = os.path.join(settings.MEDIA_ROOT, path)
-    if not os.path.exists(fs_path):
-        os.makedirs(fs_path)
-
-    return path
 
 if __name__ == '__main__':
     print(decode(encode('hello world')))

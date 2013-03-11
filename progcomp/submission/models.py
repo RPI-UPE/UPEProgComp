@@ -4,7 +4,6 @@ from django.db import models
 
 from progcomp.account.models import Profile
 from progcomp.problems.models import Problem
-from progcomp.file_creation_utils import create_test_input
 
 class Attempt(models.Model):
     person = models.ForeignKey(Profile)
@@ -21,7 +20,7 @@ class Attempt(models.Model):
                        startTime = datetime.datetime.now())
         try:
             new.problem = Problem.objects.get(pk=problem_id)
-            new.inputCases = create_test_input(new.problem.slug, user.username, new.problem.number_in_problem)
+            new.inputCases = create_test_input(new.problem.slug, user.profile, new.problem.number_in_problem)
         except Problem.DoesNotExist:
             raise Exception("Invalid problem id")
 

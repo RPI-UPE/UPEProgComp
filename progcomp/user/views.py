@@ -9,12 +9,11 @@ from django.conf import settings
 
 from progcomp.account.models import is_registered
 from progcomp.utils import serve_file
-from progcomp.file_creation_utils import user_directory
 
 @is_registered
 def diff(request, diffid, tiny=False, template='judge/diff.html'):
     # Get user dir
-    userdir = user_directory(request.user.username, 'diff')
+    userdir = request.user.profile.user_directory('diff')
 
     # Check to make sure path is clean and exists
     path = os.path.join(userdir, diffid)     # Path with media/ as implied root
@@ -36,7 +35,7 @@ def diff(request, diffid, tiny=False, template='judge/diff.html'):
 @is_registered
 def input(request, slug, direct=False):
     # Get user dir
-    userdir = user_directory(request.user.username, 'input')
+    userdir = request.user.profile.user_directory('input')
 
     # Check to make sure path is clean and exists
     path = os.path.join(userdir, slug + '.in') # Path with media/ as implied root

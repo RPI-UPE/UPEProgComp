@@ -4,7 +4,6 @@ import mimetypes
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import user_passes_test
-
 from django.conf import settings
 
 # Passed to FileField() to dynamically set resume filenames
@@ -24,10 +23,24 @@ class Profile(models.Model):
     def __str__(self):
         return str(self.user)
 
-    def _get_resume_path(self):
+    @property
+    def resume_url(self):
         return settings.USERS_URL + os.path.basename(self.resume.name)
-    resume_url = property(_get_resume_path)
 
+    @property
+    def full_name(self):
+        return '%s %s' % (self.first_name, self.last_name)
+
+    @property
+    def token(self):
+        return '%s_%d' % (self.full_name.replace(' ', ''), self.pk)
+
+    @property
+    def user_directory(self, subdir=''):
+        path = os.path.join(setting.USERS_ROOT, self.token)
+        if not os.path.exists(path):
+            os.makedirs(path)
+        return path
 
 is_registered = user_passes_test(lambda u:
         u.is_authenticated() and
