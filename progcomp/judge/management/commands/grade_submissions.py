@@ -12,7 +12,6 @@ from django.template import loader
 from progcomp.stats.models import Report
 from progcomp.judge.models import Result
 from progcomp.submission.models import Submission
-from progcomp.file_creation_utils import create_compiled_output
 
 class Command(BaseCommand):
     can_import_settings = True
@@ -90,7 +89,7 @@ class Command(BaseCommand):
                 calculated_result = Result()
                 calculated_result.submission = current_submission
 
-                with open(create_compiled_output(attempt.problem.slug, attempt.inputCases)) as expected_file:
+                with open(attempt.output_path) as expected_file:
                     with open(os.path.join(settings.MEDIA_ROOT, current_submission.output_file.name)) as output_file:
                         # Read the output into an array
                         expected_output = [x.strip() for x in expected_file if x.strip() != '']
