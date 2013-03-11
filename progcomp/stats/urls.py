@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import *
+from django.conf.urls import *
 
 urlpatterns = patterns('progcomp.stats.views',
     url(r'^reset/$', 'reset', name='reset-stats'),

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block nav-download %} class="active"{% endblock %}
+
+{% block content %}
+
+<form class="form-horizontal" action="{% url submit problem_id %}" enctype="multipart/form-data" method="post">
+    <fieldset>
+        <legend>{{ problem_name }}</legend>
+        <p>Upload the output from running your program on the input found below. You have
+        {{ max_time_display }} to complete the upload before you must try again.</p>
+        <div id="timer" data-time-elapsed="{{ elapsed_time }}" data-time-max="{{ max_time }}">{{ remaining_time }} seconds remaining</div>
+        <p>
+            <a class="btn btn-primary" href="{{ input_path }}">Download Input File</a>
+            <a class="btn" target="_blank" href="{{ input_path_view }}">View Input File</a>
+            <a class="btn{% if elapsed_time < refresh_time %} disabled{% endif %}" id="refresh" href="{% url refresh problem_id %}">Request New Input</a>
+        </p>
+    </fieldset>
+    <fieldset>
+        <legend>Submission</legend>
+        {% include "_form.html" %}
+        <div class="form-actions"><input class="btn btn-primary" type="submit" value="Submit" /></div>
+    </fieldset>
+</form>
+
+{% endblock %}

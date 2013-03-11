@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block nav-register %} class="active"{% endblock %}
+
+{% block content %}
+<form class="form-horizontal" action="{% url "register" %}" enctype="multipart/form-data" method="post"> {% csrf_token %}
+    <fieldset>
+        <legend>Register</legend>
+        <p>By signing up for this contest you agree that UPE can include your
+        name and username in a contest result released to our competition
+        sponsors.</p>
+        <p>By uploading a resume you give UPE the rights to provide the resume
+        to our competition sponsors.  You can chose not to upload a resume if
+        you wish.</p>
+
+{% include "_form.html" %}
+        <div class="form-actions"><input class="btn btn-primary" type="submit" value="Register" /></div>
+    </fieldset>
+</form>
+{% endblock %}

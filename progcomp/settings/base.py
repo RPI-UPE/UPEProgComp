@@ -9,7 +9,7 @@ import datetime
 # MEDIA_ROOT sets the directory where uploaded files will be stored
 # MEDIA_URL is not used for direct access, but instead for passing paths to
 # nginx so that it can serve files from there
-MEDIA_ROOT = '../media/'
+MEDIA_ROOT = 'media/'
 MEDIA_URL  =  '/media/'
 
 # USERS_ROOT contains folders for each user created and stores diffs and input
@@ -23,12 +23,12 @@ USERS_URL = '/user/'
 # etc.) are stored and how they should be accessed via the browser,
 # respectively. Check progcomp/urls.py for forwarding information regarding the
 # latter.
-STATIC_ROOT = '../static/'
-STATIC_URL = '/static'
+STATIC_ROOT = 'progcomp/static/'
+STATIC_URL = '/static/'
 
 # Path on server to the directory containing templates. Make sure that the below
 # is in tuple form, i.e., TEMPLATE_DIRS = ('path',)
-TEMPLATE_DIRS = ('../templates',)
+TEMPLATE_DIRS = ('progcomp/templates',)
 
 # URL redirects for user class
 LOGIN_REDIRECT_URL = '/account/'
@@ -36,7 +36,7 @@ LOGIN_URL = '/account/login/'
 LOGOUT_URL = '/account/logout/'
 
 # Location of inputs and outputs
-GRADE_DIR = '../grader/'
+GRADE_DIR = 'grader/'
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name

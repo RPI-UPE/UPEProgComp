@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block nav-stats %} class="active"{% endblock %}
+
+{% block content %}
+<h2>Profiler Stats</h2>
+
+<table class="table table-striped sortable">
+    <thead>
+        <tr>
+            <th>View Name</th>
+            <th>Method</th>
+            <th>Accesses</th>
+            <th>Time(s)</th>
+            <th data-sort="desc">Time(%)</i></th>
+            <th>Avg Time</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in stats %}
+        <tr>
+            <td>{{ r.view }}</td>
+            <td>{{ r.method }}</td>
+            <td>{{ r.calls }}</td>
+            <td>{{ r.time|floatformat:3 }}s</td>
+            <td>{{ r.perc|floatformat:1 }}%</td>
+            <td>{{ r.avg|floatformat:3 }}s</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a class="btn" href="{% url "reset-stats" %}">Reset All</a>
+{% endblock %}

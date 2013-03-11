@@ -1,7 +1,6 @@
-from django.conf.urls.defaults import *
+from django.conf.urls import *
 
-
-urlpatterns = patterns('account.views',
+urlpatterns = patterns('progcomp.account.views',
     url(r'register/$', 'register', name='register'),
     url(r'^edit/$', 'edit_profile', name='editprofile'),
     url(r'^$', 'index', name='profile'),

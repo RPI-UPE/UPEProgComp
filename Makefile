@@ -17,7 +17,7 @@ freeze: venv
 	${VENV} pip freeze -r requirements.txt > requirements.txt
 
 serve: venv
-	${VENV} python ${MANAGE} runserver
+	${VENV} python ${MANAGE} runserver 0.0.0.0:8000
 
 grade: venv
 	${VENV} python ${MANAGE} grade_submissions

@@ -8,7 +8,7 @@ from progcomp.settings.base import *
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 # For debugging
-INSTALLED_APPS += ('progcomp.debug_toolbar',)
+INSTALLED_APPS += ('debug_toolbar',)
 MIDDLEWARE_CLASSES += ('debug_toolbar.middleware.DebugToolbarMiddleware',)
 INTERNAL_IPS += ('127.0.0.1',)
 
@@ -32,7 +32,7 @@ MIDDLEWARE_CLASSES += ('progcomp.stats.middleware.ProfilingMiddleware',)
 DATABASES = {
     'default': {
         'ENGINE':   'django.db.backends.sqlite3',
-        'NAME':     '../database/progcomp.db',
+        'NAME':     'database/progcomp.db',
         # The following are not used with sqlite3
         'USER':     '',
         'PASSWORD': '',
