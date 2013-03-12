@@ -16,6 +16,11 @@
     if (!$("#timer").size())
         return;
 
+    // Ignore clicks on disabled refresh
+    $(document).on('click', '#refresh.disabled', function(e){
+        e.preventDefault();
+    });
+
     // Update bar and time
     var recalc = function(){
         var passed = Math.round((Date.now() - now + elapsed_time*1000) / 1000),
