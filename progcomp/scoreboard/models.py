@@ -11,14 +11,9 @@ from progcomp.submission.models import Submission
 from progcomp.problems.models import Problem
 
 class ScoreboardAccess(models.Model):
-    code = models.CharField(max_length=10, primary_key=True)
+    code = models.CharField(max_length=10, primary_key=True, default=lambda: binascii.b2a_hex(os.urandom(5)))
     purpose = models.CharField(max_length=30, blank=True)
-    visits = models.IntegerField()
-
-    def __init__(self, purpose=None):
-        self.code = binascii.b2a_hex(os.urandom(5))
-        self.purpose = None
-        self.visits = 0
+    visits = models.IntegerField(default=0)
 
     @staticmethod
     def valid(code, increment=False):
