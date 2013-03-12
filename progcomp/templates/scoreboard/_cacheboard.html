@@ -1,0 +1,55 @@
+<h2>Scoreboard</h2>
+{% if scoreboard %}
+{% load relative_time %}
+<table id="scoreboard" class="table table-striped">
+    <thead>
+        <tr>
+            <th><abbr title="Rank">#</abbr></th>
+            <th>Name</th>
+            {% if results %}
+            <th>Email</th>
+            {% endif %}
+            <th><abbr title="Only submissions before contest end are counted towards your score.">Correct Submissions</abbr></th>
+            <th>Last Submission</th>
+            {% for problem in problems %}
+            <th>{{ problem.name }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+    {% for u, num, dt, solns in scoreboard %}
+        <tr{% if u == user %} class="mine"{% endif %}>
+            <td>{{ forloop.counter }}</td>
+            <td>
+                {{ u.profile.full_name|escape }}
+                {% if results and u.profile.resume %}
+                <a class="resume" href="{% url "resume" u.pk access_code %}" title="View resume" target="_blank"></a>
+                {% endif %}
+            </td>
+            {% if results %}
+			<td><a href="mailto:{{ u.email|escape }}">{{ u.email|escape }}</a></td>
+            {% endif %}
+            <td>{{ num|escape }}</td>
+            <td><abbr title='{{ dt|date:"Y-m-d H:i:s.u" }}'>{{ dt|clear_time }}</abbr></td>
+            {% load status_text %}
+            {% for soln, status in solns %}
+                {% if soln %}
+                <td class="soln {% if status %}{{status}}" title="{{status|status_text}}{% endif %}">
+					{% if status %}
+					<div class="flag-pos">
+						<div class="flag {{ status }}"></div>
+					</div>
+					{% endif %}
+					{{ soln|decimal_time:START }}
+				</td>
+                {% else %}
+                <td></td>
+                {% endif %}
+            {% endfor %}
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No submissions qualify.</p>
+{% endif %}

@@ -2,6 +2,5 @@ from django.conf.urls import *
 
 
 urlpatterns = patterns('progcomp.scoreboard.views',
-    url(r'^$', 'scoreboard', name='scoreboard'),
-    url(r'^results/$', 'results'),
+    url(r'^([0-9A-Fa-f]{10})?$', 'scoreboard', name='scoreboard'),
 )

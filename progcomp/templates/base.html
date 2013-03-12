@@ -39,19 +39,20 @@
               <li{% block nav-home %}{% endblock %}><a href="{% url "home" %}">Home</a></li>
               <li{% block nav-rules %}{% endblock %}><a href="{% url "rules" %}">Rules</a></li>
               <li{% block nav-contact %}{% endblock %}><a href="{% url "contact" %}">Contact</a></li>
-{% if user.is_authenticated %}
+              {% if user.is_authenticated %}
                 <li{% block nav-profile %}{% endblock %}><a href="{% url "profile" %}">Profile</a></li>
                 <li{% block nav-download %}{% endblock %}><a href="{% url "download" %}">Submission Page</a></li>
-                <li{% block nav-scoreboard %}{% endblock %}><a href="{% url "scoreboard" %}">Standings</a></li>
+              {% endif %}
+              <li{% block nav-scoreboard %}{% endblock %}><a href="{% url "scoreboard" %}">Standings</a></li>
+              {% if user.is_authenticated %}
                 <li><a href="{% url "logout" %}">Logout</a></li>
-    {% if PROFILER and DEBUG %}
-                <li{% block nav-stats %}{% endblock %}><a href="{% url "stats" %}">Stats</a></li>
-    {% endif %}
-{% else %}
+                {% if PROFILER and DEBUG %}
+                  <li{% block nav-stats %}{% endblock %}><a href="{% url "stats" %}">Stats</a></li>
+                {% endif %}
+              {% else %}
                 <li{% block nav-register %}{% endblock %}><a href="{% url "register" %}">Register</a></li>
                 <li{% block nav-login %}{% endblock %}><a href="{% url "login" %}">Login</a></li>
-                <li{% block nav-reset_pw %}{% endblock %}><a href="{% url "pw_reset" %}">Reset Password</a></li>
-{% endif %}
+              {% endif %}
             </ul>
           </div><!--/.nav-collapse -->
         </div>

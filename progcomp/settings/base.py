@@ -89,6 +89,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.staticfiles',
     'progcomp.problems',
+    'progcomp.scoreboard',
     'progcomp.submission',
     'progcomp.account',
     'progcomp.judge',

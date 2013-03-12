@@ -1,11 +1,38 @@
 import collections
+import binascii
+import os
 
 from django.conf import settings
+from django.db import models
 from django.db.models import Min
 from django.db.models import Q
 
 from progcomp.submission.models import Submission
 from progcomp.problems.models import Problem
+
+class ScoreboardAccess(models.Model):
+    code = models.CharField(max_length=10, primary_key=True)
+    purpose = models.CharField(max_length=30, blank=True)
+    visits = models.IntegerField()
+
+    def __init__(self, purpose=None):
+        self.code = binascii.b2a_hex(os.urandom(5))
+        self.purpose = None
+        self.visits = 0
+
+    @staticmethod
+    def valid(code, increment=False):
+        if not code:
+            return False
+
+        try:
+            access = ScoreboardAccess.objects.get(code=code)
+            if increment:
+                access.visits += 1
+                access.save()
+            return True
+        except ScoreboardAccess.DoesNotExist:
+            return False
 
 # This is not a real relation in the database, it is just used as an accessor
 class Scoreboard:
