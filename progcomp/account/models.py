@@ -33,7 +33,9 @@ class Profile(models.Model):
 
     @property
     def token(self):
-        return '%s_%d' % (self.full_name.replace(' ', ''), self.pk)
+        # Remove all spaces, periods, and slashes
+        name = reduce(lambda acc, i: acc.replace(i, ''), [' ', '.', '/'], self.full_name)
+        return '%s_%d' % (name, self.pk)
 
     @property
     def user_directory(self, subdir=''):

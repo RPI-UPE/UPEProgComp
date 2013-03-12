@@ -15,10 +15,9 @@ def diff(request, diffid, tiny=False, template='judge/diff.html'):
     # Get user dir
     userdir = request.user.profile.user_directory('diff')
 
-    # Check to make sure path is clean and exists
-    path = os.path.join(userdir, diffid)     # Path with media/ as implied root
-    fs_path = os.path.join(settings.MEDIA_ROOT, path) # Path via filesystem
-    if not path.startswith(userdir) or not os.path.exists(fs_path):
+    # Check to make sure path exists
+    path = os.path.join(userdir, diffid)
+    if not os.path.exists(path):
         raise Http404
 
     # If we are using the tiny flag, we can just return the file directly
@@ -26,7 +25,7 @@ def diff(request, diffid, tiny=False, template='judge/diff.html'):
         return serve_file(request, path)
 
     # Read file to string and embed in template
-    with open(fs_path) as fh:
+    with open(path) as fh:
         diff_content = mark_safe(fh.read())
 
     return render_to_response(template, {'diff_content': diff_content},
@@ -37,22 +36,18 @@ def input(request, slug, direct=False):
     # Get user dir
     userdir = request.user.profile.user_directory('input')
 
-    # Check to make sure path is clean and exists
-    path = os.path.join(userdir, slug + '.in') # Path with media/ as implied root
-    fs_path = os.path.join(settings.MEDIA_ROOT, path)   # Path via filesystem
-    if not path.startswith(userdir) or not os.path.lexists(fs_path):
+    # Check to make sure path exists
+    path = os.path.join(userdir, slug + '.in')
+    if not os.path.lexists(path):
         raise Http404
 
     return serve_file(request, path, force_download=direct)
 
 @is_registered
-def resume(request, filename):
-    basepath = 'resumes/'
-    # Check to make sure path is clean and exists
-    path = os.path.join(basepath, filename)
-    fs_path = os.path.join(settings.MEDIA_ROOT, path)
-    if not path.startswith(basepath) or basepath.count('/') != path.count('/') or not os.path.exists(fs_path):
+def resume(request):
+    if not request.user.profile.resume:
         raise Http404
 
+    path = request.user.profile.resume.path
     resume_type = mimetypes.guess_type(path)[0] or 'application/force-download'
-    return serve_file(request, path, force_download=False, content_type=resume_type)
+    return serve_file(request, path,  force_download=False, content_type=resume_type)
