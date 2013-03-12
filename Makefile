@@ -20,7 +20,8 @@ serve: venv
 	${VENV} python ${MANAGE} runserver 0.0.0.0:8000
 
 grade: venv
-	${VENV} python ${MANAGE} grade_submissions
+	${VENV} python ${MANAGE} grade_submissions --traceback
+grader: grade
 
 test: venv
 	${VENV} python ${MANAGE} test
