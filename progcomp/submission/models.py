@@ -7,7 +7,6 @@ from django.conf import settings
 
 from progcomp.account.models import Profile
 from progcomp.problems.models import Problem
-from progcomp.utils import user_upload
 
 class Attempt(models.Model):
     person = models.ForeignKey(Profile)
@@ -45,6 +44,7 @@ class Attempt(models.Model):
         if (os.path.lexists(target_symlink)):
             os.unlink(target_symlink)
 
+        print link_name, target_symlink
         os.link(link_name, target_symlink)
 
         return selected_number
@@ -57,8 +57,10 @@ class Submission(models.Model):
     registrant = models.ForeignKey(Profile)
     attempt = models.ForeignKey(Attempt)
     submitted  = models.DateTimeField(auto_now_add=True)
-    sourcecode = models.FileField(upload_to=user_upload('source'))
-    output_file = models.FileField(upload_to=user_upload('output'))
+    sourcecode = models.FileField(upload_to=lambda i,f: \
+                    os.path.join(i.registrant.user_directory('source'), f))
+    output_file = models.FileField(upload_to=lambda i,f: \
+                    os.path.join(i.registrant.user_directory('output'), f))
 
     def __str__(self):
         return '%s:%s' % (str(self.registrant), str(self.attempt.problem))

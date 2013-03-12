@@ -31,15 +31,3 @@ def serve_file(request, fs_path, force_download=False, content_type='text/plain'
 
     response['Cache-Control'] = 'no-cache'
     return response
-
-def user_upload(subdir, dest_name=None):
-    def handle_upload(instance, filename=None):
-        # File will be stored in user_directory
-        path = instance.user.profile.user_directory(subdir)
-        # The name of the file will be the first filename if provided
-        if isinstance(dest_name, type(lambda:None)):
-            filename = dest_name(instance)
-        elif dest_name != None:
-            filename = dest_name
-        return os.path.join(path, filename)
-    return handle_upload
