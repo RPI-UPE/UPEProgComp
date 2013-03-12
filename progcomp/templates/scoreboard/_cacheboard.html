@@ -22,8 +22,12 @@
             <td>{{ forloop.counter }}</td>
             <td>
                 {{ u.profile.full_name|escape }}
-                {% if results and u.profile.resume %}
-                <a class="resume" href="{% url "resume" u.pk access_code %}" title="View resume" target="_blank"></a>
+                {% if results %}
+                    {% if u.profile.resume %}
+                    <a class="resume" href="{% url "resume" u.pk access_code %}" title="View resume" target="_blank"></a>
+                    {% else %}
+                    <div class="resume missing" title="Resume not provided"></a>
+                    {% endif %}
                 {% endif %}
             </td>
             {% if results %}
