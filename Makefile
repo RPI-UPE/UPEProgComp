@@ -16,6 +16,9 @@ update: venv
 freeze: venv
 	${VENV} pip freeze -r requirements.txt > requirements.txt
 
+shell: venv
+	${VENV} python ${MANAGE} shell
+
 serve: venv
 	${VENV} python ${MANAGE} runserver 0.0.0.0:8000
 
