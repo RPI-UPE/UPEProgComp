@@ -13,7 +13,7 @@ Additionally, you can see the status of recent submissions you have made.</p>
 	<li><a href="{% url "editprofile" %}">Edit profile</a></li>
 	<li><a href="{% url "pw_change" %}">Change password</a></li>
 	{% if user.profile.resume %}
-	<li><a href="{{ user.profile.resume_url }}" target="_blank">View uploaded resume</a></li>
+	<li><a href="{% url "resume" %}" target="_blank">View uploaded resume</a></li>
 	{% else %}
 	<li>You have not uploaded a resume.</li>
 	{% endif %}

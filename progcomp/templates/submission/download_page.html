@@ -14,7 +14,7 @@
 		{% endif %}
 		<ol id="problem-list">
 			{% for id, name, completed in problems %}
-				<li><a href="{% url submit id %}">{{ name }}</a> {% if completed %}<i class="icon-ok"></i>{% endif %}</li>
+				<li><a href="{% url "submit" id %}">{{ name }}</a> {% if completed %}<i class="icon-ok"></i>{% endif %}</li>
 			{% endfor %}
 		</ol>
 	{% endif %}

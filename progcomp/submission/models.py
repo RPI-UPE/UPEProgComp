@@ -1,9 +1,13 @@
 import datetime
+import os
+import random
 
 from django.db import models
+from django.conf import settings
 
 from progcomp.account.models import Profile
 from progcomp.problems.models import Problem
+from progcomp.utils import user_upload
 
 class Attempt(models.Model):
     person = models.ForeignKey(Profile)
@@ -31,14 +35,12 @@ class Attempt(models.Model):
         return (timediff.microseconds + (timediff.seconds + timediff.days * 24 * 3600) * 10**6) / 10**6
 
     def create_input(self):
-        problem_path = os.path.join(settings.GRADE_DIR, self.problem.slug)
-
         selected_number = random.randint(0, self.problem.available_inputs - 1)
-        target_symlink = os.path.join(self.person.user_directory('input'), self.problem.slug+'.in')
+        target_symlink = os.path.join(settings.MEDIA_ROOT,
+                                      self.person.user_directory('input'),
+                                      self.problem.slug+'.in')
 
-        link_name = os.path.join(self.problem.path, str(selected_number)+'.in')
-
-        logging.info('%s --> %s'%(link_name, target_symlink))
+        link_name = os.path.join(self.problem.path, '%d.in' % selected_number)
 
         if (os.path.lexists(target_symlink)):
             os.unlink(target_symlink)
@@ -49,14 +51,14 @@ class Attempt(models.Model):
 
     @property
     def output_path(self):
-        return os.path.join(self.problem.path, '/%d.out' % self.input_id)
+        return os.path.join(self.problem.path, '%d.out' % self.input_id)
         
 class Submission(models.Model):
     registrant = models.ForeignKey(Profile)
     attempt = models.ForeignKey(Attempt)
     submitted  = models.DateTimeField(auto_now_add=True)
-    sourcecode = models.FileField(upload_to='sources/')
-    output_file = models.FileField(upload_to='output_file/')
+    sourcecode = models.FileField(upload_to=user_upload('source'))
+    output_file = models.FileField(upload_to=user_upload('output'))
 
     def __str__(self):
         return '%s:%s' % (str(self.registrant), str(self.attempt.problem))

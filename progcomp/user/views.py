@@ -16,7 +16,7 @@ def diff(request, diffid, tiny=False, template='judge/diff.html'):
     userdir = request.user.profile.user_directory('diff')
 
     # Check to make sure path exists
-    path = os.path.join(userdir, diffid)
+    path = os.path.join(settings.MEDIA_ROOT, userdir, diffid)
     if not os.path.exists(path):
         raise Http404
 
@@ -37,7 +37,7 @@ def input(request, slug, direct=False):
     userdir = request.user.profile.user_directory('input')
 
     # Check to make sure path exists
-    path = os.path.join(userdir, slug + '.in')
+    path = os.path.join(settings.MEDIA_ROOT, userdir, slug + '.in')
     if not os.path.lexists(path):
         raise Http404
 
