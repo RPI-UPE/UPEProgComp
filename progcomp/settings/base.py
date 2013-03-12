@@ -23,8 +23,9 @@ USERS_URL = '/user/'
 # etc.) are stored and how they should be accessed via the browser,
 # respectively. Check progcomp/urls.py for forwarding information regarding the
 # latter.
-STATIC_ROOT = 'progcomp/static/'
+STATIC_ROOT = 'static'
 STATIC_URL = '/static/'
+STATICFILES_DIRS = ('app/static',)
 
 # Path on server to the directory containing templates. Make sure that the below
 # is in tuple form, i.e., TEMPLATE_DIRS = ('path',)
@@ -86,6 +87,7 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.admin',
+    'django.contrib.staticfiles',
     'progcomp.problems',
     'progcomp.submission',
     'progcomp.account',
