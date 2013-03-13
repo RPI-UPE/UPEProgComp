@@ -1,9 +1,11 @@
 *.pyc
 *.db
-media/*
-grader/*
 *~
 *.swp
+
+env/*
+media/*
+grader/*
+
 error_log.txt
-progcomp/settings_server.py
-env
+progcomp/settings/competition.py
