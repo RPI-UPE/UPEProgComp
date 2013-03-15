@@ -22,7 +22,6 @@
             <ul class="nav">
               <li{% block nav-home %}{% endblock %}><a href="{% url "home" %}">Home</a></li>
               <li{% block nav-rules %}{% endblock %}><a href="{% url "rules" %}">Rules</a></li>
-              <li{% block nav-contact %}{% endblock %}><a href="{% url "contact" %}">Contact</a></li>
               {% if user.is_authenticated %}
                 <li{% block nav-profile %}{% endblock %}><a href="{% url "profile" %}">Profile</a></li>
                 <li{% block nav-download %}{% endblock %}><a href="{% url "download" %}">Submission Page</a></li>
@@ -80,8 +79,8 @@
         </div>
         <hr/>
             <div id="ft" style="margin-left:10px">
-                <p>Copyright &copy; 2009-2011 &middot; Upsilon Pi Epsion, Rensselaer
-                Polytechnic Institute</p>
+                <p>Copyright &copy; 2009-2013 &middot; Upsilon Pi Epsion, Rensselaer
+                Polytechnic Institute &middot; <a href="http://www.github.com/RPI-UPE/UPEProgComp/">Contact us on GitHub</a></p>
                 <p>Attempting to tamper with this site in any way is considered
                 dishonesty with respect to the contest.  It will also be treated as
                 a violation of RPI's COMEC policy.</p>

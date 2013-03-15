@@ -9,7 +9,6 @@ from django.conf import settings
 urlpatterns = patterns('',
     url(r'^$', 'progcomp.views.index', name='home'),
     url(r'^rules/$', 'progcomp.views.rules', name='rules'),
-    url(r'^contact/$', 'progcomp.views.contact', name='contact'),
     (r'^user/', include('progcomp.user.urls')),
     (r'^account/', include('progcomp.account.urls')),
     (r'^submit/', include('progcomp.submission.urls')),
