@@ -44,7 +44,6 @@ class Attempt(models.Model):
         if (os.path.lexists(target_symlink)):
             os.unlink(target_symlink)
 
-        print link_name, target_symlink
         os.link(link_name, target_symlink)
 
         return selected_number
