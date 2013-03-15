@@ -12,7 +12,7 @@ def relative_time(dt, reftime=None, format='lang', resolution='', convert=1):
 # Short times in decimal display, such as how long it took to complete a problem, etc.
 @register.filter
 def decimal_time(dt, reftime=None):
-    return formatter(dt, reftime, format='decimal')
+    return formatter(dt, reftime, format='decimal', resolution=':day')
 
 # Relative times with more unit resolution
 @register.filter
