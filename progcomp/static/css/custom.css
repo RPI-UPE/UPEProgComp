@@ -4,6 +4,11 @@
     margin-top: 5px;
 }
 
+.nav li.highlight a {
+    background-color: rgba(255, 0, 0, 0.4) !important;
+    color: #e0e0e0;
+}
+
 .rule-img {
   text-align: center;
 }

@@ -24,6 +24,9 @@
               <li{% block nav-rules %}{% endblock %}><a href="{% url "rules" %}">Rules</a></li>
               <li class="divider-vertical"></li>
               {% if user.is_authenticated %}
+                {% if NOW > START %}
+                <li{% if NOW < END %} class="highlight"{% endif %}><a href="{% url "problemset" %}" target="_blank">Problem Set</a></li>
+                {% endif %}
                 <li{% block nav-download %}{% endblock %}><a href="{% url "download" %}">Submission Page</a></li>
               {% endif %}
               <li{% block nav-scoreboard %}{% endblock %}><a href="{% url "scoreboard" %}">Standings</a></li>
