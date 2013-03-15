@@ -22,14 +22,17 @@
             <ul class="nav">
               <li{% block nav-home %}{% endblock %}><a href="{% url "home" %}">Home</a></li>
               <li{% block nav-rules %}{% endblock %}><a href="{% url "rules" %}">Rules</a></li>
+              <li class="divider-vertical"></li>
               {% if user.is_authenticated %}
-                <li{% block nav-profile %}{% endblock %}><a href="{% url "profile" %}">Profile</a></li>
                 <li{% block nav-download %}{% endblock %}><a href="{% url "download" %}">Submission Page</a></li>
               {% endif %}
               <li{% block nav-scoreboard %}{% endblock %}><a href="{% url "scoreboard" %}">Standings</a></li>
+              <li class="divider-vertical"></li>
               {% if user.is_authenticated %}
+                <li{% block nav-profile %}{% endblock %}><a href="{% url "profile" %}">Profile</a></li>
                 <li><a href="{% url "logout" %}">Logout</a></li>
                 {% if PROFILER and DEBUG %}
+                  <li class="divider-vertical"></li>
                   <li{% block nav-stats %}{% endblock %}><a href="{% url "stats" %}">Stats</a></li>
                 {% endif %}
               {% else %}
