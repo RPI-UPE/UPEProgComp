@@ -76,7 +76,7 @@ class Scoreboard:
 			number_submitted = sum(1 for t, st in problems.values() if st.startswith('success'))
 			# Use try/except in case they have no successful attempts
 			try:
-				max_time = max(t for t, st in problems.values() if st.startswith('success'))
+				max_time = max(t for t, st in problems.values() if st.startswith('success') and 'invalid' not in st)
 			except:
 				# This is more or less arbitrary to maintain order amongst those who solved 0
 				max_time = max(t for t, st in problems.values())

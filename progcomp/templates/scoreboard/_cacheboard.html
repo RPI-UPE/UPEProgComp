@@ -34,7 +34,11 @@
 			<td><a href="mailto:{{ u.email|escape }}">{{ u.email|escape }}</a></td>
             {% endif %}
             <td>{{ num|escape }}</td>
+            {% if NOW > START and NOW < END %}
             <td><abbr title='{{ dt|date:"Y-m-d H:i:s.u" }}'>{{ dt|clear_time }}</abbr></td>
+            {% else %}
+            <td><abbr title='{{ dt|date:"Y-m-d H:i:s.u" }}'>{{ dt|decimal_time:START }}</abbr></td>
+            {% endif %}
             {% load status_text %}
             {% for soln, status in solns %}
                 {% if soln %}
