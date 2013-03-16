@@ -17,3 +17,7 @@ def rules(request, template='rules.html'):
 def problemset(request):
     path = os.path.join(settings.MEDIA_ROOT, 'problem_set.pdf')
     return serve_file(request, path, force_download=False, content_type='application/pdf')
+
+def problemsets(request, semester):
+    path = os.path.join(settings.MEDIA_ROOT, 'problem_sets', semester + '.pdf')
+    return serve_file(request, path, force_download=False, content_type='application/pdf')
