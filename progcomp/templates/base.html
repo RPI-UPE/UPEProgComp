@@ -24,22 +24,20 @@
               <li{% block nav-rules %}{% endblock %}><a href="{% url "rules" %}">Rules</a></li>
               <li class="divider-vertical"></li>
               {% if user.is_authenticated %}
-                {% if NOW > START %}
-                  {% if NOW < END %}
-                    <li class="highlight"><a href="{% url "problemset" %}" target="_blank">Problem Set</a></li>
-                  {% else %}
-                    <li class="dropdown">
-                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        Problem Sets
-                        <b class="caret"></b>
-                      </a>
-                      <ul class="dropdown-menu">
-                        <li><a href="/problem_set/Fall2012.pdf">Fall 2012</a></li>
-                        <li><a href="/problem_set/Spring2012.pdf">Spring 2012</a></li>
-                        <li><a href="/problem_set/Fall2011.pdf">Fall 2011</a></li>
-                      </ul>
-                    </li>
-                  {% endif %}
+                {% if NOW > START and NOW < END %}
+                  <li class="highlight"><a href="{% url "problemset" %}" target="_blank">Problem Set</a></li>
+                {% else %}
+                  <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                      Problem Sets
+                      <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                      <li><a href="/problem_set/Fall2012.pdf">Fall 2012</a></li>
+                      <li><a href="/problem_set/Spring2012.pdf">Spring 2012</a></li>
+                      <li><a href="/problem_set/Fall2011.pdf">Fall 2011</a></li>
+                    </ul>
+                  </li>
                 {% endif %}
                 <li{% block nav-download %}{% endblock %}><a href="{% url "download" %}">Submission Page</a></li>
               {% endif %}
