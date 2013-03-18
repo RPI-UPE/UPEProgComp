@@ -17,14 +17,21 @@
   border: 1px solid #999;
 }
 
+#sponsors { text-align: center; }
+#sponsors h1 { text-align: left; }
 .sponsor_company {
 	padding-top: 10px;
 	padding-bottom: 10px;
-  text-align: center;
+    text-align: center;
 }
 .sponsor_company img {
-  max-width: 300px;
-  max-height: 60px;
+    max-height: 60px;
+}
+.sponsor_company.major { max-width: 100%; }
+.sponsor_company.minor {
+    max-width: 40%;
+    margin-right: 20px;
+    display: inline-block;
 }
 
 abbr {
