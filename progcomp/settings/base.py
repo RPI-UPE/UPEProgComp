@@ -148,6 +148,9 @@ GRAD_DATES = filter(lambda x: x > today,
 # Allows use of <User>.get_profile()
 AUTH_PROFILE_MODULE = 'account.Profile'
 
+# Login with email
+AUTHENTICATION_BACKENDS = ('progcomp.backends.EmailAuthBackend',)
+
 # Required for admin css/js
 ADMIN_MEDIA_PREFIX = '/adminmedia/'
 

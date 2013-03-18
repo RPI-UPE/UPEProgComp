@@ -22,7 +22,7 @@ def register(request, template='account/register.html'):
         if form.is_valid():
             user = form.save()
             messages.success(request, "Account created successfully. You are now logged in.")
-            new_user = authenticate(username=request.POST['username'], password=request.POST['password1'])
+            new_user = authenticate(username=request.POST['email'], password=request.POST['password1'])
             login(request, new_user)
             return HttpResponseRedirect(reverse('profile'))
     else:

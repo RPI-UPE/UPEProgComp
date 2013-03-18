@@ -5,7 +5,26 @@
 <form class="form-horizontal" action="{% url "login" %}" method="post"> {% csrf_token %}
     <fieldset>
         <legend>Login</legend>
-{% include "_form.html" %}
+        {% for error in form.non_field_errors %}
+        <div class="alert alert-error">{{error|escape}}</div>
+        {% endfor %}
+        {% for field in form %}
+        <div class="control-group">
+            <label class="control-label">
+                {% if field.name == "username" %}
+                Email
+                {% else %}
+                {{ field.label_tag }}
+                {% endif %}
+            </label>
+            <div class="controls">
+                {{ field }}
+                {% if field.errors %}
+                <p class="help-block">{{ field.errors }}</p>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
         <div class="form-actions">
             <input class="btn btn-primary" type="submit" value="Login" />
             <a class="btn" href="{% url "pw_reset" %}">Reset Password</a>

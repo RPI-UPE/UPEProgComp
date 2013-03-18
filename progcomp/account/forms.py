@@ -6,6 +6,7 @@ import itertools
 from django import forms
 from django.forms.widgets import FileInput
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 from django.conf import settings
 
 from progcomp.account.models import Profile
@@ -61,12 +62,26 @@ class ProfileForm(forms.ModelForm):
 # Registration form inherits from Django base user form and keeps track of its
 # own ProfileForm internally at the same time
 class RegistrationForm(UserCreationForm):
-    email  = forms.EmailField(required = True)
+    class Meta:
+        model = User
+        fields =  ('email',)
+
+    # Email unique-ness check
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        try:
+            user = User.objects.get(email=email)
+            raise forms.ValidationError("This email address already exists. Did you forget your password?")
+        except User.DoesNotExist:
+            return email
 
     # Setup our instance of profile to be made using all the same POST/FILE params
     def __init__(self, *args, **kwargs):
         self.profile = ProfileForm(*args, **kwargs)
         super(RegistrationForm, self).__init__(*args, **kwargs)
+
+        # Remove username field
+        self.fields.pop('username', None)
 
     # We want the form to show fields from both forms, so chain the iterators
     # together for the templater
@@ -98,7 +113,7 @@ class RegistrationForm(UserCreationForm):
             raise ValueError("Must commit the registration form")
 
         # First commit the user
-        self.instance.email = self.cleaned_data['email']
+        self.instance.username = self.cleaned_data['email']
         user = super(RegistrationForm, self).save(commit=True)
         # Link the user to the profile and commit that
         self.profile.instance.user = user
