@@ -29,7 +29,7 @@ class Profile(models.Model):
     def token(self):
         # Remove all spaces, periods, and slashes
         name = reduce(lambda acc, i: acc.replace(i, ''), [' ', '.', '/'], self.full_name)
-        return '%s_%d' % (name, self.pk)
+        return '%s_%s' % (name, self.user.date_joined.strftime('%s'))
 
     def user_directory(self, subdir=''):
         path = os.path.join(settings.USERS_ROOT, self.token, subdir)
