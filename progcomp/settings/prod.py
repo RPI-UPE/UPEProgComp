@@ -1,7 +1,11 @@
 # Django settings for progcomp production server
 # Any values set in here will override default values found in base.py
+import os
 import datetime
+import dj_database_url
 from progcomp.settings.base import *
+
+ALLOWED_HOSTS = [os.getenv('DJANGO_DNS_HOST')]
 
 # Make this unique, and don't share it with anybody. Stored in the environment.
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
@@ -44,6 +48,6 @@ DEFAULT_FROM_EMAIL = 'UPE Progcomp <no-reply@progcomp.upe.cs.rpi.edu>'
 
 try:
   from progcomp.settings.competition import START, END
-except e:
+except Exception as e:
   print "Could not import competition times. Make sure you have created a progcomp/settings/competition.py file containing START and END dates"
   raise e
