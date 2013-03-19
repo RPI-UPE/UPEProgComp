@@ -30,8 +30,10 @@
 .sponsor_company.major { max-width: 100%; }
 .sponsor_company.minor {
     max-width: 40%;
-    margin-right: 20px;
     display: inline-block;
+}
+.sponsor_company.minor:nth-child(even) {
+    margin-right: 10%;
 }
 
 abbr {
