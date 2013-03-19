@@ -1,6 +1,7 @@
 import datetime
 import os
 import random
+from contextlib import contextmanager
 
 from django.db import models
 from django.conf import settings
@@ -49,8 +50,10 @@ class Attempt(models.Model):
         return selected_number
 
     @property
-    def output_path(self):
-        return os.path.join(self.problem.path, '%d.out' % self.input_id)
+    @contextmanager
+    def expected_output_file(self):
+        with open(os.path.join(self.problem.path, '%d.out' % self.input_id)) as f:
+            yield f
         
 class Submission(models.Model):
     registrant = models.ForeignKey(Profile)
@@ -70,3 +73,9 @@ class Submission(models.Model):
                     .select_related('attempt', 'attempt__problem', 'result') \
                     .filter(registrant__user=user) \
                     .order_by('submitted').reverse()
+
+    @property
+    @contextmanager
+    def user_output_file(self):
+        with open(self.output_file.path) as f:
+            yield f
