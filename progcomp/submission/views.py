@@ -19,33 +19,27 @@ from progcomp.decorators import past_competition_start
 @past_competition_start
 @is_registered
 def download(request, template = 'submission/download_page.html'):
-    if request.method == 'GET':
-        problems = Problem.objects.all()
-        submissions = Submission.user_summary(request.user)
+    problems = Problem.objects.all()
+    submissions = Submission.user_summary(request.user)
 
-        correct = set()
-        for sub in submissions:
-            # Because we don't know if there is a result yet, and it is not a
-            # member of the Submission model, we need to use a try-except block
-            try:
-                if sub.result.status == 'success':
-                    correct.add(sub.attempt.problem.slug)
-            except:
-                pass
+    correct = set()
+    for sub in submissions:
+        # Because we don't know if there is a result yet, and it is not a
+        # member of the Submission model, we need to use a try-except block
+        try:
+            if sub.result.status == 'success':
+                correct.add(sub.attempt.problem.slug)
+        except:
+            pass
 
-        problems = [(p.id, p.name, p.slug in correct) for p in problems]
+    problems = [(p.id, p.name, p.slug in correct) for p in problems]
 
-        context = {
-            'submissions':submissions,
-            'problems':problems
-        }
-        return render_to_response( template, context,
-                context_instance=RequestContext(request))
-
-    else:
-        # This shouldn't happen.
-        # Page should only get GET requests
-        pass
+    context = {
+        'submissions':submissions,
+        'problems':problems
+    }
+    return render_to_response( template, context,
+            context_instance=RequestContext(request))
 
 @past_competition_start
 @is_registered
