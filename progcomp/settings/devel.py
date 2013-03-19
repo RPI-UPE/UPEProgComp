@@ -53,5 +53,5 @@ CACHES = {
 DEFAULT_FROM_EMAIL = 'Progcomp Devel <no-reply@localhost>'
 
 # Competition time window; you should use datetime.datetime(...) in production
-START = datetime.datetime.now() - datetime.timedelta(hours=1)
+START = datetime.datetime.now() - datetime.timedelta(hours=-1)
 END   = datetime.datetime.now() + datetime.timedelta(hours=1)

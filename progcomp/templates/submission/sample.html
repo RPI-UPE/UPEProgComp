@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block nav-sample %} class="active"{% endblock %}
+
+{% block content %}
+    {% load relative_time %}
+    {{ diff|safe }}
+    <form class="form-horizontal" action="{% url "sample" %}" enctype="multipart/form-data" method="post">
+        <fieldset>
+            <legend>Sample Problem</legend>
+            <p>This is a sample problem designed to help you understand how the
+            competition will work. The problem is simple. Write a program that
+            reads integers, adds them up, and then prints the result. The first
+            line of input will tell you how many test cases there are, and each
+            test case will begin with an integer describing the number of lines
+            in the test case.</p>
+
+            <p>Upload the output from running your program on the input found
+            below. You have 2:00 to complete the upload before you must try
+            again.</p>
+            <div id="timer" data-time-elapsed="0" data-time-max="120">120 seconds remaining</div>
+            <p>
+              <a class="btn btn-primary" href="{% url "sample_input_direct" %}">Download Input File</a>
+              <a class="btn" target="_blank" href="{% url "sample_input" %}">View Input File</a>
+              <a class="btn disabled" id="refresh" href="{% url "sample" %}">Request New Input</a>
+            </p>
+        </fieldset>
+        <fieldset>
+            <legend>Submission</legend>
+            {% include "_form.html" %}
+            <input type="hidden" name="start_time" value="{{ start }}">
+            <div class="form-actions"><input class="btn btn-primary" type="submit" value="Submit" /></div>
+        </fieldset>
+    </form>
+{% endblock %}

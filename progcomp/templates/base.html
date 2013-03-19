@@ -39,9 +39,15 @@
                     </ul>
                   </li>
                 {% endif %}
-                <li{% block nav-download %}{% endblock %}><a href="{% url "download" %}">Submission Page</a></li>
+                {% if NOW > START %}
+                  <li{% block nav-download %}{% endblock %}><a href="{% url "download" %}">Submission Page</a></li>
+                {% else %}
+                  <li{% block nav-sample %}{% endblock %}><a href="{% url "sample" %}">Sample Problem</a></li>
+                {% endif %}
               {% endif %}
-              <li{% block nav-scoreboard %}{% endblock %}><a href="{% url "scoreboard" %}">Standings</a></li>
+              {% if NOW > START %}
+                <li{% block nav-scoreboard %}{% endblock %}><a href="{% url "scoreboard" %}">Standings</a></li>
+              {% endif %}
               <li class="divider-vertical"></li>
               {% if user.is_authenticated %}
                 <li{% block nav-profile %}{% endblock %}><a href="{% url "profile" %}">Profile</a></li>

@@ -12,6 +12,10 @@ from progcomp.account.models import is_registered
 from progcomp.utils import serve_file
 from progcomp.scoreboard.models import ScoreboardAccess
 
+def sample_input(request, direct=False):
+    path = os.path.join(settings.MEDIA_ROOT, 'sample.in')
+    return serve_file(request, path, force_download=direct)
+
 @is_registered
 def diff(request, diffid, tiny=False, template='judge/diff.html'):
     # Get user dir

@@ -52,7 +52,7 @@ class Attempt(models.Model):
     @property
     @contextmanager
     def expected_output_file(self):
-        with open(os.path.join(self.problem.path, '%d.out' % self.input_id)) as f:
+        with self.problem.exepected_output_file(self.input_id) as f:
             yield f
         
 class Submission(models.Model):

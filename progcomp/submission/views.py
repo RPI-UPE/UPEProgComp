@@ -14,7 +14,38 @@ from progcomp.problems.models import Problem
 from progcomp.account.models import is_registered
 from progcomp.decorators import during_competition
 from progcomp.decorators import past_competition_start
+from progcomp.judge.models import SampleResult
 
+def sample(request, template='submission/sample.html'):
+    context = {
+        'input_path': reverse('input_direct', args=('sample',)),
+        'input_path_view': reverse('input', args=('sample',)),
+        'form': SubmissionForm(),
+        'start': datetime.datetime.now().strftime('%s'),
+    }
+    if request.method == 'GET':
+        return render_to_response(template, context, context_instance=RequestContext(request))
+    else:
+        # Check our start time
+        print request.POST
+        if 'start_time' not in request.POST or datetime.datetime.fromtimestamp(int(request.POST['start_time'])) + datetime.timedelta(minutes=2) < datetime.datetime.now():
+            messages.error(request, "Time limit exceeded. Please download a new input file and submit your new output.")
+            return HttpResponseRedirect(reverse('sample'))
+
+        # We can ignore source code. We just need to read output file to a
+        # string and diff it with the solution
+        if 'output_file' not in request.FILES or request.FILES['output_file'] == None:
+            messages.error(request, "Error submitting files. Please make sure you are uploading an output file and that it is not empty.")
+            return HttpResponseRedirect(reverse('sample'))
+
+        sample_result = SampleResult(temp_input = request.FILES['output_file'], user = request.user.profile)
+        if sample_result.grade(save=False):
+            messages.success(request, "Submission was correct!")
+            return HttpResponseRedirect(reverse('sample'))
+        else:
+            messages.error(request, "Your submission was incorrect. A diff of the errors is shown below.")
+            context['diff'] = sample_result.diff.read()
+            return render_to_response(template, context, context_instance=RequestContext(request))
 
 @past_competition_start
 @is_registered

@@ -1,4 +1,5 @@
 import os
+from contextlib import contextmanager
 
 from django.db import models
 from django.conf import settings
@@ -18,3 +19,8 @@ class Problem(models.Model):
         if os.path.exists(path):
             return path
         raise Exception('Problem directory does not exist')
+
+    @contextmanager
+    def expected_output_file(self, input_id):
+        with open(os.path.join(self.path, '%d.out' % input_id)) as f:
+            yield f

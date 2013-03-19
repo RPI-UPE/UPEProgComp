@@ -1,5 +1,6 @@
 import os
 from collections import deque
+from contextlib import contextmanager
 
 from django.db import models
 from django.conf import settings
@@ -15,9 +16,21 @@ class Result(models.Model):
     diff        = models.FileField(blank=True, upload_to=lambda i,f=None: \
                     os.path.join(i.submission.registrant.user_directory('diff'), str(i.submission.id)))
 
+    @property
+    @contextmanager
+    def expected_output_file(self):
+        with self.submission.attempt.expected_output_file as f:
+            yield f
+
+    @property
+    @contextmanager
+    def user_output_file(self):
+        with self.submission.user_output_file as f:
+            yield f
+
     def grade(self, save=True):
-        with self.submission.attempt.expected_output_file as expected_file:
-            with self.submission.user_output_file as user_file:
+        with self.expected_output_file as expected_file:
+            with self.user_output_file as user_file:
                 # Read the output into an array
                 expected_output = [x.strip() for x in expected_file if x.strip() != '']
                 try:
@@ -44,15 +57,12 @@ class Result(models.Model):
 
         # Remove diff file if one was created from a previous grading
         try:
-            os.remove(self.diff.path)
-        except ValueError:
-            # Just accessing self.diff.path will throw a ValueError if there is no file
-            pass
+            path = os.path.join(settings.MEDIA_ROOT, self.diff.field.generate_filename(self))
+            os.remove(path)
         except OSError:
-            # No such file; shouldn't usually happen but not a problem
             pass
 
-        self.diff.save('', myfile)
+        self.diff.save('', myfile, save=False)
 
     # compute_diff() takes two arrays and returns an array with errors in matching
     # returns: - list of tuples for relevant lines in the form (line_no, expected, given)
@@ -82,3 +92,24 @@ class Result(models.Model):
                 diff.append((n+1, line, given[n]))
 
         return diff, err_ct - sum(1 for e in diff if e[1] != e[2])
+
+class SampleResult(Result):
+    temp_input = None
+    submission = Submission(id=0)
+
+    @property
+    @contextmanager
+    def expected_output_file(self):
+        with open(os.path.join(settings.MEDIA_ROOT, 'sample.out')) as f:
+            yield f
+
+    @property
+    @contextmanager
+    def user_output_file(self):
+        with self.temp_input as f:
+            yield f
+
+    def __init__(self, temp_input, user, *args, **kwargs):
+        self.temp_input = temp_input
+        self.submission.registrant = user
+        super(SampleResult, self).__init__(*args, **kwargs)
