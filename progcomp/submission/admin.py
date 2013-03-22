@@ -12,7 +12,7 @@ class SubmissionAdmin(admin.ModelAdmin):
 
 class AttemptAdmin(admin.ModelAdmin):
     
-    list_display = ('person', 'problem', 'startTime', 'input_id')
+    list_display = ('person', 'problem', 'startTime', 'input_id', 'ip_address')
 
 
 admin.site.register(Submission, SubmissionAdmin)

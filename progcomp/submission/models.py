@@ -14,14 +14,16 @@ class Attempt(models.Model):
     problem = models.ForeignKey(Problem)
     startTime = models.DateTimeField(auto_now_add=True)
     input_id = models.IntegerField()
+    ip_address = models.IPAddressField()
 
     def __str__(self):
         return "%s %s %s"%(str(self.person),str(self.problem),str(self.startTime))
 
     @staticmethod
-    def create(user, problem_id):
-        new = Attempt( person = user.profile,
-                       startTime = datetime.datetime.now())
+    def create(request, problem_id):
+        new = Attempt( person = request.user.profile,
+                       startTime = datetime.datetime.now(),
+                       ip_address = request.META['REMOTE_ADDR'])
         try:
             new.problem = Problem.objects.get(pk=problem_id)
             new.input_id = new.create_input()

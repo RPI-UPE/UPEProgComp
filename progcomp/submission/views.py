@@ -114,7 +114,7 @@ def submit(request, problem_id='-1', template='submission/submission_form.html')
         else:
             # Create new attempt
             total_seconds = 0
-            current_attempt = Attempt.create(request.user, problem_id)
+            current_attempt = Attempt.create(request, problem_id)
             current_attempt.save()
 
         context['input_path'] = reverse('input_direct', args=(request.user.pk,current_attempt.problem.slug))
@@ -138,7 +138,7 @@ def refresh(request, problem_id='-1', template='submission/submission_form.html'
         recent_attempt = Attempt.objects.filter(person=request.user.profile, problem__id=problem_id, submission=None).latest('startTime')
         if recent_attempt.time_since() >= settings.ATTEMPT_DURATION / 2:
             # Force-create a most-recent problem
-            Attempt.create(request.user, problem_id).save()
+            Attempt.create(request, problem_id).save()
     except:
         pass
 
