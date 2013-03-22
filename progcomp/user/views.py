@@ -37,10 +37,16 @@ def diff(request, diffid, tiny=False, template='judge/diff.html'):
     return render_to_response(template, {'diff_content': diff_content},
             context_instance=RequestContext(request))
 
-@is_registered
-def input(request, slug, direct=False):
+def input(request, slug, user_id=0, direct=False):
     # Get user dir
-    userdir = request.user.profile.user_directory('input')
+    if user_id <= 0:
+        user = request.user
+    else:
+        try:
+            user = User.objects.get(pk=user_id)
+        except:
+            raise Http404
+    userdir = user.profile.user_directory('input')
 
     # Check to make sure path exists
     path = os.path.join(settings.MEDIA_ROOT, userdir, slug + '.in')

@@ -18,8 +18,8 @@ from progcomp.judge.models import SampleResult
 
 def sample(request, template='submission/sample.html'):
     context = {
-        'input_path': reverse('input_direct', args=('sample',)),
-        'input_path_view': reverse('input', args=('sample',)),
+        'input_path': reverse('sample_input_direct'),
+        'input_path_view': reverse('sample_input'),
         'form': SubmissionForm(),
         'start': datetime.datetime.now().strftime('%s'),
     }
@@ -117,7 +117,7 @@ def submit(request, problem_id='-1', template='submission/submission_form.html')
             current_attempt = Attempt.create(request.user, problem_id)
             current_attempt.save()
 
-        context['input_path'] = reverse('input_direct', args=(current_attempt.problem.slug,))
+        context['input_path'] = reverse('input_direct', args=(request.user.pk,current_attempt.problem.slug))
         context['input_path_view'] = reverse('input', args=(current_attempt.problem.slug,))
         context['form'] = SubmissionForm()
         context['problem_name'] = current_attempt.problem.name
