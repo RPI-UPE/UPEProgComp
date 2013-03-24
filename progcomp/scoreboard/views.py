@@ -14,7 +14,7 @@ from progcomp.scoreboard.models import Scoreboard, ScoreboardAccess
 from progcomp.account.models import is_staff
 
 def render_cached(cached, request):
-    return render_to_response('scoreboard/scoreboard.html', {'cache':cached},
+    return render_to_response('scoreboard/scoreboard.html', {'cache':cached, 'template_fullwidth':True},
             context_instance=RequestContext(request))
 
 def scoreboard(request, access_code=None, template='scoreboard/_cacheboard.html'):
