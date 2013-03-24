@@ -1,3 +1,4 @@
+import datetime
 import os
 from collections import deque
 from contextlib import contextmanager
@@ -27,6 +28,11 @@ class Result(models.Model):
     def user_output_file(self):
         with self.submission.user_output_file as f:
             yield f
+
+    @property
+    def log_string(self):
+        now = datetime.datetime.now().strftime("%d/%b/%Y %H:%M:%S")
+        return "[%s] Graded %s by %s: %s" % (now, self.submission.attempt.problem.slug, self.submission.attempt.person, self.status)
 
     def grade(self, save=True):
         with self.expected_output_file as expected_file:
@@ -63,6 +69,15 @@ class Result(models.Model):
             pass
 
         self.diff.save('', myfile, save=False)
+
+        # Append the diff to the diff log
+        try:
+            terminal_content = loader.render_to_string('_diff_terminal_stub.html', {'diffs': diffs, 'err_left': err_left})
+            linebreak =  '-' * 80
+            with open("diff_log.txt", "a") as difflog:
+                difflog.write("\n".join([linebreak, self.log_string, linebreak, terminal_content, "\n"]))
+        except:
+            pass
 
     # compute_diff() takes two arrays and returns an array with errors in matching
     # returns: - list of tuples for relevant lines in the form (line_no, expected, given)

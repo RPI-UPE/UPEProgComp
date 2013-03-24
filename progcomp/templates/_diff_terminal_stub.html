@@ -1,0 +1,2 @@
+{% for n, expected, given in diffs %} {% if expected != given %}-{% endif %}	{{ n }}	{% if expected == None %} EOF {% else %} {{ expected }} {% endif %}	{% if given == None %} EOF {% else %} {{ given }} {% endif %}
+{% endfor %} {% if err_left > 0 %} {{ err_left }} additional errors not shown. {% endif %}

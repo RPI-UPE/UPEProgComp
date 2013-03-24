@@ -8,4 +8,5 @@ media/*
 grader/*
 
 error_log.txt
+diff_log.txt
 progcomp/settings/competition.py

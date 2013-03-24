@@ -56,8 +56,7 @@ class Command(BaseCommand):
                 if calculated_result.grade():
                     cache.delete('scoreboard')
                 
-                print log[calculated_result.status] % ("[%s] Graded %s by %s: %s" % (datetime.datetime.now().strftime("%d/%b/%Y %H:%M:%S"),
-                        attempt.problem.slug, attempt.person, calculated_result.status))
+                print log[calculated_result.status] % calculated_result.log_string
 
                 # Increment profiler each iteration
                 stats.end()

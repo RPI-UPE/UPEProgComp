@@ -54,7 +54,7 @@ class Attempt(models.Model):
     @property
     @contextmanager
     def expected_output_file(self):
-        with self.problem.exepected_output_file(self.input_id) as f:
+        with self.problem.expected_output_file(self.input_id) as f:
             yield f
         
 class Submission(models.Model):
