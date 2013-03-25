@@ -25,7 +25,7 @@ USERS_URL = '/user/'
 # latter.
 STATIC_ROOT = 'static'
 STATIC_URL = '/static/'
-STATICFILES_DIRS = ('app/static',)
+STATICFILES_DIRS = ('progcomp/static',)
 
 # Path on server to the directory containing templates. Make sure that the below
 # is in tuple form, i.e., TEMPLATE_DIRS = ('path',)

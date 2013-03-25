@@ -6,6 +6,7 @@
 env/*
 media/*
 grader/*
+static/*
 
 error_log.txt
 diff_log.txt

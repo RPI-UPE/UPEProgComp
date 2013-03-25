@@ -28,3 +28,6 @@ grader: grade
 
 test: venv
 	${VENV} python ${MANAGE} test
+
+static: venv
+	${VENV} python ${MANAGE} collectstatic --noinput
