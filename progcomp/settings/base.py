@@ -102,7 +102,7 @@ INTERNAL_IPS = ()
 # File to log all server errors and 404 errors to; when LOG_FILE_MAX_SIZE is
 # reached (in bytes), it is moved to a backup as <name>.1 and a new file is
 # created. Only two files will exist at any given time.
-LOG_FILE = "../error_log.txt"
+LOG_FILE = "error_log.txt"
 LOG_FILE_MAXSIZE = 2**30 # 1 GB
 LOGGING = {
     'version': 1,
