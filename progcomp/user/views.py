@@ -55,13 +55,15 @@ def input(request, slug, user_id=0, direct=False):
 
     return serve_file(request, path, force_download=direct)
 
-@is_registered
 def resume(request, user_id=None, access_code=None):
     user = request.user
-    if user_id and (request.user.is_staff or ScoreboardAccess.valid(access_code)):
-        try:
-            user = User.objects.select_related('profile').get(pk=user_id)
-        except ScoreboardAccess.DoesNotExist:
+    if user_id:
+        if request.user.is_staff or ScoreboardAccess.valid(access_code):
+            try:
+                user = User.objects.select_related('profile').get(pk=user_id)
+            except ScoreboardAccess.DoesNotExist:
+                raise Http404
+        else:
             raise Http404
 
     if not user.profile.resume:
