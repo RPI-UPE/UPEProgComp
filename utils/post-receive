@@ -1,0 +1,11 @@
+#!/bin/sh                                                                       
+
+# On production, place in ~/repo.git/hooks/post-receive and chmod +x
+PROJECT_ROOT=/srv/www/progcomp/UPEProgComp
+
+# Checkout, build statics, and restart server
+GIT_WORK_TREE=$PROJECT_ROOT git checkout -f master
+cd $PROJECT_ROOT && make static
+sudo restart uwsgi
+sudo service nginx restart
+
