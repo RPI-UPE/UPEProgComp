@@ -1,4 +1,4 @@
-Django==1.5
+Django==1.5.1
 python-memcached==1.48
 psycopg2==2.4.5
 wsgiref==0.1.2
