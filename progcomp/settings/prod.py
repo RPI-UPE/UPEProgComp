@@ -5,7 +5,7 @@ import datetime
 import dj_database_url
 from progcomp.settings.base import *
 
-ALLOWED_HOSTS = [os.getenv('DJANGO_DNS_HOST')]
+ALLOWED_HOSTS = os.getenv('DJANGO_DNS_HOSTS').split(' ')
 
 # Make this unique, and don't share it with anybody. Stored in the environment.
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
